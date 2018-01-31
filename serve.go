@@ -11,6 +11,23 @@ import (
 	"github.com/russross/blackfriday"
 )
 
+const styleHeader = `
+<style>
+body {
+	background-color: grey;
+}
+
+#body-inner {
+	background-color: white;
+	padding: 1rem;
+	height: -webkit-fill-available;
+    width: -webkit-fill-available;
+    border-radius: 0.1rem;
+    box-shadow: 0px 1px 3px black;
+}
+</style>
+`
+
 func Serve(args []string) error {
 	fs := flag.NewFlagSet("serve", flag.ExitOnError)
 	if err := fs.Parse(args); err != nil {
@@ -27,7 +44,9 @@ func Serve(args []string) error {
 	}
 
 	var documents []blackfriday.Node
-	node := blackfriday.New().Parse(content)
+	node := blackfriday.New(
+		blackfriday.WithExtensions(blackfriday.CommonExtensions),
+	).Parse(content)
 	currentNode := node.FirstChild
 
 	var currentDoc *blackfriday.Node
@@ -72,13 +91,18 @@ func Serve(args []string) error {
 
 		doc := documents[sn]
 		log.Printf("Rendering doc %d: %v", sn, doc)
-		rndr := blackfriday.NewHTMLRenderer(blackfriday.HTMLRendererParameters{
+		rndr := blackfriday.Renderer(blackfriday.NewHTMLRenderer(blackfriday.HTMLRendererParameters{
 			Flags: blackfriday.CompletePage,
-		})
+		}))
+		rndr = &CustomHTMLRenderer{Renderer: rndr}
+
 		rndr.RenderHeader(rw, nil)
+		rw.Write([]byte(styleHeader))
+		rw.Write([]byte(`<div id="body-inner">`))
 		doc.Walk(func(node *blackfriday.Node, entering bool) blackfriday.WalkStatus {
 			return rndr.RenderNode(rw, node, entering)
 		})
+		rw.Write([]byte(`</div>`))
 		rndr.RenderFooter(rw, nil)
 	})
 	if err := http.ListenAndServe(":8080", nil); err != nil {
