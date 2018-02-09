@@ -25,15 +25,15 @@ func (r *CustomHTMLRenderer) RenderNode(w io.Writer, node *blackfriday.Node, ent
 		node.FirstChild.Type == blackfriday.Paragraph &&
 		node.FirstChild.FirstChild != nil &&
 		node.FirstChild.FirstChild.Type == blackfriday.Text {
-		if strings.HasPrefix(string(node.FirstChild.FirstChild.Literal), "[ ] ") {
-			node.FirstChild.FirstChild.Literal = node.FirstChild.FirstChild.Literal[4:]
+		if strings.HasPrefix(string(node.FirstChild.FirstChild.Literal), "[ ]") {
+			node.FirstChild.FirstChild.Literal = node.FirstChild.FirstChild.Literal[3:]
 			nn := blackfriday.NewNode(blackfriday.HTMLSpan)
 			nn.Literal = []byte(`<input type="checkbox" disabled="">`)
 			nn.Next = node.FirstChild
 			node.FirstChild.Prev = nn
 			node.FirstChild = nn
-		} else if strings.HasPrefix(string(node.FirstChild.FirstChild.Literal), "[x] ") {
-			node.FirstChild.FirstChild.Literal = node.FirstChild.FirstChild.Literal[4:]
+		} else if strings.HasPrefix(string(node.FirstChild.FirstChild.Literal), "[x]") {
+			node.FirstChild.FirstChild.Literal = node.FirstChild.FirstChild.Literal[3:]
 			nn := blackfriday.NewNode(blackfriday.HTMLSpan)
 			nn.Literal = []byte(`<input type="checkbox" disabled="" checked>`)
 			nn.Next = node.FirstChild

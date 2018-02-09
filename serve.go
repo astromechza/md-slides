@@ -4,7 +4,6 @@ import (
 	"flag"
 	"fmt"
 	"io/ioutil"
-	"log"
 	"net/http"
 	"strconv"
 
@@ -30,17 +29,38 @@ document.onkeydown = function(evt) {
 
 const styleHeader = `
 <style>
+html {
+	height: 100%;
+	font-size: 20px;
+}
+
 body {
+	height: 100%;
+    display: flex;
+    flex-flow: column;
 	background-color: grey;
+	justify-content: center;
 }
 
 #body-inner {
+	display: flex;
+	flex-flow: column;
+	align-self: center;
+
 	background-color: white;
+	margin: 0.5rem;
 	padding: 1rem;
-	height: -webkit-fill-available;
-    width: -webkit-fill-available;
     border-radius: 0.1rem;
-    box-shadow: 0px 1px 3px black;
+	box-shadow: 0px 0.1rem 0.3rem black;
+	padding-left: 2.5rem;
+    padding-right: 2.5rem;
+
+	width: 800px;
+    height: 600px;
+}
+
+#body-inner.centered {
+	justify-content: center;
 }
 </style>
 `
@@ -70,7 +90,6 @@ func Serve(args []string) error {
 
 	for currentNode != nil {
 		nextNode := currentNode.Next
-		log.Printf("Doing node %s (next=%s)", currentNode.Type.String(), nextNode)
 		if currentNode.Type == blackfriday.HorizontalRule {
 			if currentDoc != nil {
 				documents = append(documents, *currentDoc)
@@ -114,7 +133,6 @@ func Serve(args []string) error {
 		}
 
 		doc := documents[sn]
-		log.Printf("Rendering doc %d: %v", sn, doc)
 		rndr := blackfriday.Renderer(blackfriday.NewHTMLRenderer(blackfriday.HTMLRendererParameters{
 			Flags: blackfriday.CompletePage,
 		}))
@@ -122,11 +140,15 @@ func Serve(args []string) error {
 
 		rndr.RenderHeader(rw, nil)
 		rw.Write([]byte(fmt.Sprintf(scriptHeader, prevSlide, nextSlide)))
+		rw.Write([]byte(normalizeCSS))
 		rw.Write([]byte(styleHeader))
+		rw.Write([]byte(markdownCSS))
 		rw.Write([]byte(`<div id="body-inner">`))
+		rw.Write([]byte(`<div class="markdown-body">`))
 		doc.Walk(func(node *blackfriday.Node, entering bool) blackfriday.WalkStatus {
 			return rndr.RenderNode(rw, node, entering)
 		})
+		rw.Write([]byte(`</div>`))
 		rw.Write([]byte(`</div>`))
 		rndr.RenderFooter(rw, nil)
 	})
