@@ -27,28 +27,19 @@ document.onkeydown = function(evt) {
 
 
 window.onresize = function(event) {
-	var wi = 16.0;
-	var hi = 9.0;
-	var ri = wi / hi;
-
-	var ws = window.innerWidth-70.0;
-	var hs = window.innerHeight-40.0;
-	var rs = ws / hs;
-
-	console.log(wi, hi, ri, ws, hs, rs,  window.innerWidth, window.innerHeight);
-
-	var slidewidth = wi * hs / hi;
-	var slideheight = hs;
-	if (rs <= ri) {
-		console.log(ws, hi * ws/wi);
-		slidewidth = ws;
-		slideheight = hi * ws/wi;
-	}
-
 	var el = document.getElementById("body-inner");
-	el.style.width = slidewidth + "px";
-	el.style.height = slideheight + "px";
+	var wi = 1600 + 70;
+	var hi = 900 + 40;
+
+	var ws = window.innerWidth / wi;
+	var hs = window.innerHeight / hi;
+	var ss = Math.min(ws, hs);
+	el.style.transform = "scale(" + ss + ")";
 };
+
+document.addEventListener("DOMContentLoaded", function(event) {
+    window.onresize(null);
+});
 
 </script>
 `
@@ -74,15 +65,15 @@ body {
 	align-self: center;
 
 	background-color: white;
-	margin: 10px;
 	padding: 10px;
     border-radius: 0.1rem;
 	box-shadow: 0px 0.2rem 0.6rem black;
 	padding-left: 25px;
     padding-right: 25px;
+	position: absolute;
 
-	width: 800px;
-    height: 600px;
+	width: 1600px;
+    height: 900px;
 }
 
 #body-inner.centered {

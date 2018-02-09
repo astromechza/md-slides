@@ -35,6 +35,9 @@ default:
 
 - [x] customise html renderer to add todo list functionality
 - [x] a bunch of css fixes and styling
-- [ ] work out some css style for aspect ratio controlled slides
-- [ ] serve static images/videos from relative paths
-- [ ] remember to secure against absolute paths or ../ references
+- [x] work out some css style for aspect ratio controlled slides
+- [ ] **feature**: find a nice way to control aspect ratio/zoom px values via golang
+- [ ] **feature**: serve static images/videos from relative paths
+- [ ] **security**: remember to secure against absolute paths or ../ references
+- [ ] **feature**: `{embed-command: ./my-command --help}`
+- [ ] **feature**: allow slides to declare a zoom value
