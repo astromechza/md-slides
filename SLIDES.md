@@ -34,7 +34,7 @@ default:
 # TODO
 
 - [x] customise html renderer to add todo list functionality
+- [x] a bunch of css fixes and styling
 - [ ] work out some css style for aspect ratio controlled slides
-- [ ] switch to go-bindata for pulling in some static css/html
 - [ ] serve static images/videos from relative paths
 - [ ] remember to secure against absolute paths or ../ references

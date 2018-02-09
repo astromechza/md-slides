@@ -24,6 +24,32 @@ document.onkeydown = function(evt) {
 		window.location = prevSlide;
 	}
 }
+
+
+window.onresize = function(event) {
+	var wi = 16.0;
+	var hi = 9.0;
+	var ri = wi / hi;
+
+	var ws = window.innerWidth-70.0;
+	var hs = window.innerHeight-40.0;
+	var rs = ws / hs;
+
+	console.log(wi, hi, ri, ws, hs, rs,  window.innerWidth, window.innerHeight);
+
+	var slidewidth = wi * hs / hi;
+	var slideheight = hs;
+	if (rs <= ri) {
+		console.log(ws, hi * ws/wi);
+		slidewidth = ws;
+		slideheight = hi * ws/wi;
+	}
+
+	var el = document.getElementById("body-inner");
+	el.style.width = slidewidth + "px";
+	el.style.height = slideheight + "px";
+};
+
 </script>
 `
 
@@ -48,12 +74,12 @@ body {
 	align-self: center;
 
 	background-color: white;
-	margin: 0.5rem;
-	padding: 1rem;
+	margin: 10px;
+	padding: 10px;
     border-radius: 0.1rem;
-	box-shadow: 0px 0.1rem 0.3rem black;
-	padding-left: 2.5rem;
-    padding-right: 2.5rem;
+	box-shadow: 0px 0.2rem 0.6rem black;
+	padding-left: 25px;
+    padding-right: 25px;
 
 	width: 800px;
     height: 600px;
@@ -152,7 +178,7 @@ func Serve(args []string) error {
 		rw.Write([]byte(`</div>`))
 		rndr.RenderFooter(rw, nil)
 	})
-	if err := http.ListenAndServe(":8080", nil); err != nil {
+	if err := http.ListenAndServe("localhost:8080", nil); err != nil {
 		return err
 	}
 
