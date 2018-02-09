@@ -11,6 +11,23 @@ import (
 	"github.com/russross/blackfriday"
 )
 
+const scriptHeader = `
+<script>
+var prevSlide = "/slides/%d";
+var nextSlide = "/slides/%d";
+
+document.onkeydown = function(evt) {
+	evt = evt || window.event
+	if (evt.keyCode == 39) {
+		window.location = nextSlide;
+	}
+	if (evt.keyCode == 37) {
+		window.location = prevSlide;
+	}
+}
+</script>
+`
+
 const styleHeader = `
 <style>
 body {
@@ -88,6 +105,13 @@ func Serve(args []string) error {
 			rw.Write([]byte(http.StatusText(http.StatusNotFound)))
 			return
 		}
+		nextSlide, prevSlide := sn, sn
+		if sn > 0 {
+			prevSlide--
+		}
+		if nextSlide < int64(len(documents))-1 {
+			nextSlide++
+		}
 
 		doc := documents[sn]
 		log.Printf("Rendering doc %d: %v", sn, doc)
@@ -97,6 +121,7 @@ func Serve(args []string) error {
 		rndr = &CustomHTMLRenderer{Renderer: rndr}
 
 		rndr.RenderHeader(rw, nil)
+		rw.Write([]byte(fmt.Sprintf(scriptHeader, prevSlide, nextSlide)))
 		rw.Write([]byte(styleHeader))
 		rw.Write([]byte(`<div id="body-inner">`))
 		doc.Walk(func(node *blackfriday.Node, entering bool) blackfriday.WalkStatus {

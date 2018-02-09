@@ -11,19 +11,34 @@ type CustomHTMLRenderer struct {
 	blackfriday.Renderer
 }
 
+/*
+- Item
+	- Paragraph
+		- Text
+unfortunatley have to take the approach of
+*/
+
 func (r *CustomHTMLRenderer) RenderNode(w io.Writer, node *blackfriday.Node, entering bool) blackfriday.WalkStatus {
-	if entering && node.Type == blackfriday.Text {
-		if node.Parent != nil &&
-			node.Parent.Type == blackfriday.Paragraph &&
-			node.Parent.Parent != nil &&
-			node.Parent.Parent.Type == blackfriday.Item {
-			if strings.HasPrefix(string(node.Literal), "[ ] ") {
-				w.Write([]byte(`<input type="checkbox" disabled="">`))
-				node.Literal = node.Literal[4:]
-			} else if strings.HasPrefix(string(node.Literal), "[x] ") || strings.HasSuffix(string(node.Literal), "[X] ") {
-				w.Write([]byte(`<input type="checkbox" checked disabled="">`))
-				node.Literal = node.Literal[4:]
-			}
+
+	if node.Type == blackfriday.Item &&
+		node.FirstChild != nil &&
+		node.FirstChild.Type == blackfriday.Paragraph &&
+		node.FirstChild.FirstChild != nil &&
+		node.FirstChild.FirstChild.Type == blackfriday.Text {
+		if strings.HasPrefix(string(node.FirstChild.FirstChild.Literal), "[ ] ") {
+			node.FirstChild.FirstChild.Literal = node.FirstChild.FirstChild.Literal[4:]
+			nn := blackfriday.NewNode(blackfriday.HTMLSpan)
+			nn.Literal = []byte(`<input type="checkbox" disabled="">`)
+			nn.Next = node.FirstChild
+			node.FirstChild.Prev = nn
+			node.FirstChild = nn
+		} else if strings.HasPrefix(string(node.FirstChild.FirstChild.Literal), "[x] ") {
+			node.FirstChild.FirstChild.Literal = node.FirstChild.FirstChild.Literal[4:]
+			nn := blackfriday.NewNode(blackfriday.HTMLSpan)
+			nn.Literal = []byte(`<input type="checkbox" disabled="" checked>`)
+			nn.Next = node.FirstChild
+			node.FirstChild.Prev = nn
+			node.FirstChild = nn
 		}
 	}
 	return r.Renderer.RenderNode(w, node, entering)
