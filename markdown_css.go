@@ -13,25 +13,31 @@ const markdownCSS = `
 	counter-reset: sidenote-counter;
 }
 
-h1 { font-weight: 400;
-     margin-top: 1rem;
-     margin-bottom: 1.5rem;
-     font-size: 3.2rem;
-     line-height: 1; }
+h1, h2, h3, h4, h5 {
+    margin-top: 1rem;
+    line-height: 1;
+    font-weight: 400;
+}
 
-h2 { font-style: italic;
-     font-weight: 400;
-     margin-top: 1rem;
-     margin-bottom: 0;
-     font-size: 2.2rem;
-     line-height: 1; }
+h1 {
+    margin-bottom: 1.5rem;
+    font-size: 4.2rem;
+}
 
-h3 { font-style: italic;
-     font-weight: 400;
-     font-size: 1.7rem;
-     margin-top: 1rem;
-     margin-bottom: 0;
-     line-height: 1; }
+h2 {
+    margin-bottom: 0;
+    font-size: 3.2rem;
+}
+
+h3 {
+    font-size: 2.2rem;
+    margin-bottom: 0;
+}
+
+h4 {
+    font-size: 1.7rem;
+    margin-bottom: 0;
+}
 
 hr { display: block;
      height: 1px;
