@@ -3,15 +3,18 @@ package main
 import (
 	"flag"
 	"fmt"
+	"log"
 	"net/http"
+	"net/url"
+	"path/filepath"
 	"strconv"
 	"strings"
 )
 
 const scriptHeader = `
 <script>
-var prevSlide = "/slides/%d";
-var nextSlide = "/slides/%d";
+var prevSlide = "/_slides?page=%d";
+var nextSlide = "/_slides?page=%d";
 
 document.onkeydown = function(evt) {
 	evt = evt || window.event
@@ -45,7 +48,7 @@ const styleHeader = `
 <style>
 html {
 	height: 100%;
-	font-size: 20px;
+	font-size: 22px;
 }
 
 body {
@@ -57,13 +60,12 @@ body {
 }
 
 #body-inner {
-	display: flex;
-	flex-flow: column;
 	align-self: center;
+	display: grid;
 	box-sizing: border-box;
 	background-color: #fffff8;
 	padding: 1rem;
-    border-radius: 0.1rem;
+    border-radius: 0.3rem;
 	box-shadow: 0px 0.2rem 0.6rem black;
 	padding-left: 3rem;
     padding-right: 3rem;
@@ -71,9 +73,15 @@ body {
 	overflow: hidden;
 }
 
-#body-inner.centered {
-	justify-content: center;
-}
+.body-inner-halign-left {justify-items: start;}
+.body-inner-halign-center {justify-items: center;}
+.body-inner-halign-right {justify-items: end;}
+.body-inner-valign-top {align-items: start;}
+.body-inner-valign-center {align-items: center;}
+.body-inner-valign-bottom {align-items: end;}
+.body-inner-talign-left {text-align: left;}
+.body-inner-talign-center {text-align: center;}
+.body-inner-talign-right {text-align: right;}
 </style>
 `
 
@@ -100,10 +108,21 @@ func parseResString(i string) (int, int, error) {
 	return int(xres), int(yres), nil
 }
 
+const slidesPath = "/_slides"
+
+func redirectToFirstSlide(rw http.ResponseWriter) {
+	q := url.Values{}
+	q.Set("page", "0")
+	rw.Header().Set("location", slidesPath+"?"+q.Encode())
+	rw.WriteHeader(http.StatusTemporaryRedirect)
+	return
+}
+
 func Serve(args []string) error {
 	fs := flag.NewFlagSet("serve", flag.ExitOnError)
 	hotFlag := fs.Bool("hot", false, "reload, reparse, and regenerate slides on each refresh")
 	resFlag := fs.String("res", "1600x900", "set render aspect ratio and zoom for rendering")
+	listenFlag := fs.String("listen", ":8080", "interface:port to listen on (default :8080)")
 
 	if err := fs.Parse(args); err != nil {
 		return err
@@ -117,16 +136,16 @@ func Serve(args []string) error {
 	if err != nil {
 		return fmt.Errorf("bad res string: %s", err)
 	}
+	mux := http.NewServeMux()
 
 	sr := SlideRenderer{Filename: filename, Hot: *hotFlag, XRes: xres, YRes: yres}
-	http.HandleFunc("/slides/", func(rw http.ResponseWriter, req *http.Request) {
-		snRaw := req.URL.Path[len("/slides/"):]
+	mux.HandleFunc(slidesPath, func(rw http.ResponseWriter, req *http.Request) {
+		snRaw := req.URL.Query().Get("page")
 		if snRaw == "" {
-			rw.Header().Set("location", "/slides/0")
-			rw.WriteHeader(http.StatusTemporaryRedirect)
+			redirectToFirstSlide(rw)
 			return
 		}
-		sn, err := strconv.ParseInt(snRaw, 10, 64)
+		sn, err := strconv.Atoi(snRaw)
 		if err != nil {
 			rw.WriteHeader(http.StatusBadRequest)
 			rw.Write([]byte(http.StatusText(http.StatusBadRequest)))
@@ -135,9 +154,18 @@ func Serve(args []string) error {
 		sr.Serve(int(sn), rw, req)
 	})
 
-	if err := http.ListenAndServe("localhost:8080", nil); err != nil {
+	statics := http.FileServer(CustomDirFS{Directory: filepath.Dir(filename)})
+	mux.HandleFunc("/", func(rw http.ResponseWriter, req *http.Request) {
+		if req.URL.Path == "/" {
+			redirectToFirstSlide(rw)
+			return
+		}
+		statics.ServeHTTP(rw, req)
+	})
+
+	log.Printf("Ready to serve on http://%s", *listenFlag)
+	if err := http.ListenAndServe(*listenFlag, mux); err != nil {
 		return err
 	}
-
 	return nil
 }

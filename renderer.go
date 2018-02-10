@@ -1,18 +1,23 @@
 package main
 
 import (
+	"bytes"
 	"fmt"
 	"io/ioutil"
 	"log"
 	"net/http"
+	"net/url"
 	"path/filepath"
+	"strings"
 
 	"github.com/russross/blackfriday"
+	"golang.org/x/net/html"
+	"golang.org/x/net/html/atom"
 )
 
 type SlideRenderer struct {
 	Filename     string
-	CachedSlides []*blackfriday.Node
+	CachedSlides []*DocumentNode
 	Hot          bool
 	XRes         int
 	YRes         int
@@ -22,29 +27,65 @@ func (sr *SlideRenderer) ShouldRecache() bool {
 	return sr.CachedSlides == nil || sr.Hot
 }
 
-func breakIntoDocumentNodes(node *blackfriday.Node) []*blackfriday.Node {
-	var documents []*blackfriday.Node
-	var currentDoc *blackfriday.Node
+type DocumentNode struct {
+	blackfriday.Node
+	Settings url.Values
+}
+
+func breakIntoDocumentNodes(node *blackfriday.Node) []*DocumentNode {
+	var documents []*DocumentNode
+	var currentDoc *DocumentNode
 	currentNode := node.FirstChild
 	for currentNode != nil {
 		nextNode := currentNode.Next
 		if currentNode.Type == blackfriday.HorizontalRule {
 			if currentDoc != nil {
+				fillDocumentSettings(currentDoc)
 				documents = append(documents, currentDoc)
 				currentDoc = nil
 			}
 		} else {
 			if currentDoc == nil {
-				currentDoc = &blackfriday.Node{Type: blackfriday.Document}
+				currentDoc = &DocumentNode{
+					Node: blackfriday.Node{Type: blackfriday.Document},
+				}
 			}
 			currentDoc.AppendChild(currentNode)
 		}
 		currentNode = nextNode
 	}
 	if currentDoc != nil {
+		fillDocumentSettings(currentDoc)
 		documents = append(documents, currentDoc)
 	}
 	return documents
+}
+
+func fillDocumentSettings(node *DocumentNode) {
+	node.Settings = url.Values{}
+	c := node.FirstChild
+	for c != nil {
+		if c.Type == blackfriday.Paragraph {
+			fc := c.FirstChild
+			for fc != nil {
+				if fc.Type == blackfriday.HTMLSpan {
+					htmlNodes, _ := html.ParseFragment(bytes.NewReader(fc.Literal),
+						&html.Node{Type: html.ElementNode, Data: "body", DataAtom: atom.Body},
+					)
+					for _, n := range htmlNodes {
+						if n.Data != "meta" {
+							continue
+						}
+						for _, a := range n.Attr {
+							node.Settings.Set(a.Key, a.Val)
+						}
+					}
+				}
+				fc = fc.Next
+			}
+		}
+		c = c.Next
+	}
 }
 
 func (sr *SlideRenderer) RecacheSlides() error {
@@ -56,7 +97,7 @@ func (sr *SlideRenderer) RecacheSlides() error {
 	log.Printf("Parsing Markdown")
 	node := blackfriday.New(
 		blackfriday.WithExtensions(
-			blackfriday.CommonExtensions | blackfriday.NoEmptyLineBeforeBlock,
+			blackfriday.CommonExtensions | blackfriday.Footnotes | blackfriday.NoEmptyLineBeforeBlock,
 		),
 	).Parse(content)
 	log.Printf("Breaking into slides")
@@ -80,6 +121,7 @@ func (sr *SlideRenderer) Serve(i int, rw http.ResponseWriter, req *http.Request)
 		rw.WriteHeader(http.StatusTemporaryRedirect)
 		return
 	}
+	log.Printf("Serving slide %d/%d", i+1, len(sr.CachedSlides))
 
 	nextSlide, prevSlide := i, i
 	if prevSlide > 0 {
@@ -101,7 +143,20 @@ func (sr *SlideRenderer) Serve(i int, rw http.ResponseWriter, req *http.Request)
 	rw.Write([]byte(normalizeCSS))
 	rw.Write([]byte(styleHeader))
 	rw.Write([]byte(markdownCSS))
-	rw.Write([]byte(fmt.Sprintf(`<div id="body-inner" style="width: %dpx; height: %dpx;">`, sr.XRes, sr.YRes)))
+	var bodyClasses []string
+	if doc.Settings.Get("halign") != "" {
+		bodyClasses = append(bodyClasses, "body-inner-halign-"+doc.Settings.Get("halign"))
+	}
+	if doc.Settings.Get("valign") != "" {
+		bodyClasses = append(bodyClasses, "body-inner-valign-"+doc.Settings.Get("valign"))
+	}
+	if doc.Settings.Get("talign") != "" {
+		bodyClasses = append(bodyClasses, "body-inner-talign-"+doc.Settings.Get("talign"))
+	}
+	rw.Write([]byte(fmt.Sprintf(
+		`<div id="body-inner" class="%s" style="width: %dpx; height: %dpx;">`,
+		strings.Join(bodyClasses, " "), sr.XRes, sr.YRes,
+	)))
 	rw.Write([]byte(`<div class="markdown-body">`))
 	doc.Walk(func(node *blackfriday.Node, entering bool) blackfriday.WalkStatus {
 		return rndr.RenderNode(rw, node, entering)
