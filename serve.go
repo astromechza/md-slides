@@ -25,12 +25,11 @@ document.onkeydown = function(evt) {
 	}
 }
 
-
 window.onresize = function(event) {
 	var el = document.getElementById("body-inner");
-	var wi = 1600 + 70;
-	var hi = 900 + 40;
-
+	var m = 50;
+	var wi = el.clientWidth + m;
+	var hi = el.clientHeight + m;
 	var ws = window.innerWidth / wi;
 	var hs = window.innerHeight / hi;
 	var ss = Math.min(ws, hs);
@@ -63,18 +62,15 @@ body {
 	display: flex;
 	flex-flow: column;
 	align-self: center;
-
+	box-sizing: border-box;
 	background-color: #fffff8;
-	padding: 10px;
+	padding: 1rem;
     border-radius: 0.1rem;
 	box-shadow: 0px 0.2rem 0.6rem black;
-	padding-left: 25px;
-    padding-right: 25px;
+	padding-left: 3rem;
+    padding-right: 3rem;
 	position: absolute;
 	overflow: hidden;
-
-	width: 1600px;
-    height: 900px;
 }
 
 #body-inner.centered {
@@ -161,7 +157,7 @@ func Serve(args []string) error {
 		rw.Write([]byte(normalizeCSS))
 		rw.Write([]byte(styleHeader))
 		rw.Write([]byte(markdownCSS))
-		rw.Write([]byte(`<div id="body-inner">`))
+		rw.Write([]byte(`<div id="body-inner" style="width: 1600px; height: 900px;">`))
 		rw.Write([]byte(`<div class="markdown-body">`))
 		doc.Walk(func(node *blackfriday.Node, entering bool) blackfriday.WalkStatus {
 			return rndr.RenderNode(rw, node, entering)

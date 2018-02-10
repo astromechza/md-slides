@@ -218,33 +218,5 @@ label.margin-toggle:not(.sidenote-number) { display: none; }
                          left: 0;
                          width: 100%;
                          height: 100%; }
-
-@media (max-width: 760px) { body { width: 84%;
-                                   padding-left: 8%;
-                                   padding-right: 8%; }
-                            section > p, section > footer, section > table { width: 100%; }
-                            pre.code { width: 97%; }
-                            section > ol { width: 90%; }
-                            section > ul { width: 90%; }
-                            figure { max-width: 90%; }
-                            figcaption, figure.fullwidth figcaption { margin-right: 0%;
-                                                                      max-width: none; }
-                            blockquote { margin-left: 1.5em;
-                                         margin-right: 0em; }
-                            blockquote p, blockquote footer { width: 100%; }
-                            label.margin-toggle:not(.sidenote-number) { display: inline; }
-                            .sidenote, .marginnote { display: none; }
-                            .margin-toggle:checked + .sidenote,
-                            .margin-toggle:checked + .marginnote { display: block;
-                                                                   float: left;
-                                                                   left: 1rem;
-                                                                   clear: both;
-                                                                   width: 95%;
-                                                                   margin: 1rem 2.5%;
-                                                                   vertical-align: baseline;
-                                                                   position: relative; }
-                            label { cursor: pointer; }
-                            div.table-wrapper, table { width: 85%; }
-                            img { width: 100%; } }
 </style>
 `

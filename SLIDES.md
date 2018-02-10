@@ -31,6 +31,14 @@ default:
 
 ---
 
+blah
+
+![testimage](http://via.placeholder.com/450x350)
+
+blah
+
+---
+
 # TODO
 
 - [x] customise html renderer to add todo list functionality
