@@ -3,11 +3,9 @@ package main
 import (
 	"flag"
 	"fmt"
-	"io/ioutil"
 	"net/http"
 	"strconv"
-
-	"github.com/russross/blackfriday"
+	"strings"
 )
 
 const scriptHeader = `
@@ -79,53 +77,54 @@ body {
 </style>
 `
 
+func parseResString(i string) (int, int, error) {
+	i = strings.TrimSpace(strings.ToLower(i))
+	parts := strings.Split(i, "x")
+	if len(parts) != 2 {
+		return 0, 0, fmt.Errorf("res string '%s' did not contain one 'x'", i)
+	}
+	xres, err := strconv.Atoi(parts[0])
+	if err != nil {
+		return 0, 0, fmt.Errorf("failed to parse x value of res string '%s': %s", i, err)
+	}
+	yres, err := strconv.Atoi(parts[1])
+	if err != nil {
+		return 0, 0, fmt.Errorf("failed to parse y value of res string '%s': %s", i, err)
+	}
+	if xres <= 0 {
+		return 0, 0, fmt.Errorf("x value of rest string '%s' should be > 0", i)
+	}
+	if yres <= 0 {
+		return 0, 0, fmt.Errorf("y value of rest string '%s' should be > 0", i)
+	}
+	return int(xres), int(yres), nil
+}
+
 func Serve(args []string) error {
 	fs := flag.NewFlagSet("serve", flag.ExitOnError)
+	hotFlag := fs.Bool("hot", false, "reload, reparse, and regenerate slides on each refresh")
+	resFlag := fs.String("res", "1600x900", "set render aspect ratio and zoom for rendering")
+
 	if err := fs.Parse(args); err != nil {
 		return err
 	}
-
 	if fs.NArg() != 1 {
 		return fmt.Errorf("expected a single source file as argument")
 	}
+	filename := fs.Arg(0)
 
-	content, err := ioutil.ReadFile(fs.Arg(0))
+	xres, yres, err := parseResString(*resFlag)
 	if err != nil {
-		return fmt.Errorf("failed to read '%s': %s", fs.Arg(0), err)
+		return fmt.Errorf("bad res string: %s", err)
 	}
 
-	var documents []blackfriday.Node
-	node := blackfriday.New(
-		blackfriday.WithExtensions(blackfriday.CommonExtensions),
-	).Parse(content)
-	currentNode := node.FirstChild
-
-	var currentDoc *blackfriday.Node
-
-	for currentNode != nil {
-		nextNode := currentNode.Next
-		if currentNode.Type == blackfriday.HorizontalRule {
-			if currentDoc != nil {
-				documents = append(documents, *currentDoc)
-				currentDoc = nil
-			}
-		} else {
-			if currentDoc == nil {
-				currentDoc = &blackfriday.Node{Type: blackfriday.Document}
-			}
-			currentDoc.AppendChild(currentNode)
-		}
-		currentNode = nextNode
-	}
-	if currentDoc != nil {
-		documents = append(documents, *currentDoc)
-	}
-
-	fmt.Printf("num slides %d\n", len(documents))
+	sr := SlideRenderer{Filename: filename, Hot: *hotFlag, XRes: xres, YRes: yres}
 	http.HandleFunc("/slides/", func(rw http.ResponseWriter, req *http.Request) {
 		snRaw := req.URL.Path[len("/slides/"):]
 		if snRaw == "" {
-			snRaw = "0"
+			rw.Header().Set("location", "/slides/0")
+			rw.WriteHeader(http.StatusTemporaryRedirect)
+			return
 		}
 		sn, err := strconv.ParseInt(snRaw, 10, 64)
 		if err != nil {
@@ -133,39 +132,9 @@ func Serve(args []string) error {
 			rw.Write([]byte(http.StatusText(http.StatusBadRequest)))
 			return
 		}
-		if sn < 0 || sn >= int64(len(documents)) {
-			rw.WriteHeader(http.StatusNotFound)
-			rw.Write([]byte(http.StatusText(http.StatusNotFound)))
-			return
-		}
-		nextSlide, prevSlide := sn, sn
-		if sn > 0 {
-			prevSlide--
-		}
-		if nextSlide < int64(len(documents))-1 {
-			nextSlide++
-		}
-
-		doc := documents[sn]
-		rndr := blackfriday.Renderer(blackfriday.NewHTMLRenderer(blackfriday.HTMLRendererParameters{
-			Flags: blackfriday.CompletePage,
-		}))
-		rndr = &CustomHTMLRenderer{Renderer: rndr}
-
-		rndr.RenderHeader(rw, nil)
-		rw.Write([]byte(fmt.Sprintf(scriptHeader, prevSlide, nextSlide)))
-		rw.Write([]byte(normalizeCSS))
-		rw.Write([]byte(styleHeader))
-		rw.Write([]byte(markdownCSS))
-		rw.Write([]byte(`<div id="body-inner" style="width: 1600px; height: 900px;">`))
-		rw.Write([]byte(`<div class="markdown-body">`))
-		doc.Walk(func(node *blackfriday.Node, entering bool) blackfriday.WalkStatus {
-			return rndr.RenderNode(rw, node, entering)
-		})
-		rw.Write([]byte(`</div>`))
-		rw.Write([]byte(`</div>`))
-		rndr.RenderFooter(rw, nil)
+		sr.Serve(int(sn), rw, req)
 	})
+
 	if err := http.ListenAndServe("localhost:8080", nil); err != nil {
 		return err
 	}

@@ -79,12 +79,20 @@ div.epigraph > blockquote > footer { font-style: normal; }
 div.epigraph > blockquote > footer > cite { font-style: italic; }
 /* end chapter epigraphs styles */
 
-blockquote { font-size: 1.4rem; }
+blockquote {
+	margin: 0;
+	margin-right: 1em;
+	font-size: 1.4rem;
+	font-style: italic;
+	padding-left: 1em;
+	border-left: 0.25em solid #111;
+}
 
-blockquote p { width: 55%;
-               margin-right: 40px; }
+blockquote p {
+	margin-right: 40px;
+}
 
-blockquote footer { width: 55%;
+blockquote footer {
                     font-size: 1.1rem;
                     text-align: right; }
 
