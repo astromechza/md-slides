@@ -64,13 +64,14 @@ body {
 	flex-flow: column;
 	align-self: center;
 
-	background-color: white;
+	background-color: #fffff8;
 	padding: 10px;
     border-radius: 0.1rem;
 	box-shadow: 0px 0.2rem 0.6rem black;
 	padding-left: 25px;
     padding-right: 25px;
 	position: absolute;
+	overflow: hidden;
 
 	width: 1600px;
     height: 900px;

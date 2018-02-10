@@ -9,7 +9,6 @@ const markdownCSS = `
 
 .markdown-body {
 	font-family: Palatino, "Palatino Linotype", "Palatino LT STD", "Book Antiqua", Georgia, serif;
-	background-color: #fffff8;
 	color: #111;
 	counter-reset: sidenote-counter;
 }
