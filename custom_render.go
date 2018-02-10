@@ -1,7 +1,11 @@
 package main
 
 import (
+	"encoding/json"
 	"io"
+	"log"
+	"os/exec"
+	"regexp"
 	"strings"
 
 	"github.com/russross/blackfriday"
@@ -9,6 +13,7 @@ import (
 
 type CustomHTMLRenderer struct {
 	blackfriday.Renderer
+	CWD string
 }
 
 /*
@@ -44,5 +49,25 @@ func (r *CustomHTMLRenderer) RenderNode(w io.Writer, node *blackfriday.Node, ent
 			node.FirstChild = nn
 		}
 	}
+
+	if node.Type == blackfriday.Text || node.Type == blackfriday.CodeBlock {
+		re := regexp.MustCompile(`\{embedcommand: (.*?)\}`)
+		matches := re.FindAllStringSubmatch(string(node.Literal), -1)
+		for _, match := range matches {
+			var cmd []string
+			if err := json.Unmarshal([]byte(match[1]), &cmd); err != nil {
+				panic(err)
+			}
+			log.Printf("Attempting to execute '%v'", cmd)
+			c := exec.Command(cmd[0], cmd[1:]...)
+			c.Dir = r.CWD
+			cmdOut, err := c.CombinedOutput()
+			if err != nil {
+				panic(err)
+			}
+			node.Literal = []byte(strings.Replace(string(node.Literal), match[0], string(cmdOut), 1))
+		}
+	}
+
 	return r.Renderer.RenderNode(w, node, entering)
 }

@@ -55,7 +55,7 @@ body {
 	height: 100%;
     display: flex;
     flex-flow: column;
-	background-color: grey;
+	background-color: #444;
 	justify-content: center;
 }
 

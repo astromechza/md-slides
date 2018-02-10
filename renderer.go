@@ -136,8 +136,7 @@ func (sr *SlideRenderer) Serve(i int, rw http.ResponseWriter, req *http.Request)
 		Title: filepath.Base(sr.Filename),
 		Flags: blackfriday.CompletePage | blackfriday.HrefTargetBlank,
 	}))
-	rndr = &CustomHTMLRenderer{Renderer: rndr}
-
+	rndr = &CustomHTMLRenderer{Renderer: rndr, CWD: filepath.Dir(sr.Filename)}
 	rndr.RenderHeader(rw, nil)
 	rw.Write([]byte(fmt.Sprintf(scriptHeader, prevSlide, nextSlide)))
 	rw.Write([]byte(normalizeCSS))

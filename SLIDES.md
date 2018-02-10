@@ -3,7 +3,7 @@
 # `md-slides`
 
 > Ben Meier 2018
-> \- Oracle Cape Town
+> \- Cape Town
 
 ---
 
@@ -63,7 +63,6 @@ blah
 
 # TODO
 
-- [ ] **feature**: `{embed-command: ./my-command --help}`
 - [ ] **spike**: explore rendering to html/pdf
 - [ ] **spike**: explore theming support (some kind of optional named css dropin)
 - [ ] **security**: disable file serving if necessary or by default
@@ -78,13 +77,11 @@ blah
 # A
 # A
 # A
-# A
-# A
-# A
-# A
-# A
-# A
-# A
-# A
-# A
-# A
+
+---
+
+## Example of command output
+
+```
+{embedcommand: ["bash", "-c", "./md-slides --help || true"]}
+```
