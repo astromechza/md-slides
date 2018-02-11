@@ -44,9 +44,7 @@ default:
 
 Better directory structure
 
-- `/_keynotes` could in future render keynotes in time with the slide transitions (so it can keep them in sync :))
-- `/_perf` might drop http perf stats (not that its really necessary :P)
-- `/_slides?page=0` defines the slide
+- `/_slides/N` serves the slide html
 - `/<filename>` defines a relative image to load and serve
 
 ---

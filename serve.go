@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"os"
 	"path/filepath"
 	"strconv"
 	"strings"
@@ -119,13 +120,15 @@ func Serve(args []string) error {
 	fs := flag.NewFlagSet("serve", flag.ExitOnError)
 	hotFlag := fs.Bool("hot", false, "reload, reparse, and regenerate slides on each refresh")
 	resFlag := fs.String("res", "1600x900", "set render aspect ratio and zoom for rendering")
-	listenFlag := fs.String("listen", ":8080", "interface:port to listen on (default :8080)")
-	backgroundCSS := fs.String("css-background", "#fffff8", "slide background css (default: '#fffff8')")
+	listenFlag := fs.String("listen", ":8080", "interface:port to listen on")
+	backgroundCSS := fs.String("css-background", "#fffff8", "slide background css")
 
 	if err := fs.Parse(args); err != nil {
 		return err
 	}
 	if fs.NArg() != 1 {
+		fs.Usage()
+		fmt.Fprintf(os.Stderr, "\n")
 		return fmt.Errorf("expected a single source file as argument")
 	}
 	filename := fs.Arg(0)

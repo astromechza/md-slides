@@ -6,15 +6,25 @@ import (
 	"os"
 )
 
+const mainUsage = `md-slides is a html slide server based on slides defined in a markdown formatted file.
+
+Usage:
+	md-slides [subcommand] [options...]
+
+Subcommands:
+	serve - serve the slides as html
+`
+
 func mainInner() error {
+	flag.Usage = func() {
+		fmt.Fprintf(os.Stderr, mainUsage)
+		flag.PrintDefaults()
+	}
 	flag.Parse()
 
-	flag.Usage = func() {
-		flag.PrintDefaults()
-		fmt.Println()
-	}
-
 	if flag.NArg() == 0 {
+		flag.Usage()
+		fmt.Fprintf(os.Stderr, "\n")
 		return fmt.Errorf("expected subcommand as first argument")
 	}
 
