@@ -68,7 +68,7 @@ blah
 - [ ] **security**: blacklist some file patterns from serving
 - [ ] **feature**: page numbers
 - [ ] **feature**: file path can be a url :D
-- [ ] **feature**: other keys for advancing backing up
+- [x] **feature**: other keys for advancing slides (space, enter)
 
 ---
 

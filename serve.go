@@ -18,10 +18,10 @@ var nextSlide = "/_slides?page=%d";
 
 document.onkeydown = function(evt) {
 	evt = evt || window.event
-	if (evt.keyCode == 39) {
+	if ([13, 32, 39, 40].indexOf(evt.keyCode) >= 0) {
 		window.location = nextSlide;
 	}
-	if (evt.keyCode == 37) {
+	if ([8, 37, 38].indexOf(evt.keyCode) >= 0 ) {
 		window.location = prevSlide;
 	}
 }
