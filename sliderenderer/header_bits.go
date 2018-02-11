@@ -48,7 +48,7 @@ body {
 	justify-content: center;
 }
 
-#body-inner {
+.body-inner {
 	align-self: center;
 	display: grid;
 	box-sizing: border-box;
@@ -60,6 +60,8 @@ body {
     padding-right: 3rem;
 	position: absolute;
 	overflow: hidden;
+	grid-auto-columns: 1fr;
+	grid-auto-rows: 1fr;
 }
 
 .body-inner-halign-left {justify-items: start;}
@@ -71,5 +73,37 @@ body {
 .body-inner-talign-left {text-align: left;}
 .body-inner-talign-center {text-align: center;}
 .body-inner-talign-right {text-align: right;}
+</style>
+`
+
+const styleMultiHeader = `
+<style>
+body {
+	justify-content: start;
+	position: relative;
+}
+
+.body-inner {
+	margin-top: 1.5rem;
+	margin-bottom: 1.5rem;
+	position: relative;
+	page-break-after: always;
+	page-break-inside: avoid;
+}
+</style>
+
+<style type="text/css" media="print">
+body {
+	justify-content: start;
+	position: relative;
+}
+
+.body-inner {
+	margin-top: 1.5rem;
+	margin-bottom: 1.5rem;
+	position: relative;
+	page-break-after: always;
+	page-break-inside: avoid;
+}
 </style>
 `

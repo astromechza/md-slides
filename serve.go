@@ -68,6 +68,7 @@ func Serve(args []string) error {
 		return nil
 	}
 	sr.InstallHandler(mux)
+	sr.InstallMultiSlideHandler(mux)
 
 	statics := http.FileServer(CustomDirFS{Directory: filepath.Dir(filename)})
 	mux.HandleFunc("/", func(rw http.ResponseWriter, req *http.Request) {

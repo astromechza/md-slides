@@ -143,7 +143,7 @@ func (sr *SlideRenderer) Serve(i int, rw http.ResponseWriter, req *http.Request)
 	rw.Write([]byte(normalizeCSS))
 	rw.Write([]byte(fmt.Sprintf(styleHeader, sr.BGCSS)))
 	rw.Write([]byte(markdownCSS))
-	var bodyClasses []string
+	bodyClasses := []string{"body-inner"}
 	if doc.Settings.Get("halign") != "" {
 		bodyClasses = append(bodyClasses, "body-inner-halign-"+doc.Settings.Get("halign"))
 	}
@@ -154,7 +154,7 @@ func (sr *SlideRenderer) Serve(i int, rw http.ResponseWriter, req *http.Request)
 		bodyClasses = append(bodyClasses, "body-inner-talign-"+doc.Settings.Get("talign"))
 	}
 	rw.Write([]byte(fmt.Sprintf(
-		`<div id="body-inner" class="%s" style="width: %dpx; height: %dpx;">`,
+		`<div id="body-inner" class="%s" style="width: %dpx; height: %dpx">`,
 		strings.Join(bodyClasses, " "), sr.XRes, sr.YRes,
 	)))
 	rw.Write([]byte(`<div class="markdown-body">`))

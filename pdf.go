@@ -40,7 +40,7 @@ func PDF(args []string) error {
 	if err = sr.CheckSlides(); err != nil {
 		return fmt.Errorf("check failed: %s", err)
 	}
-	sr.InstallHandler(mux)
+	sr.InstallMultiSlideHandler(mux)
 	server := &http.Server{Addr: *listenFlag, Handler: mux}
 	go func() {
 		server.ListenAndServe()
@@ -69,7 +69,7 @@ func PDF(args []string) error {
 	defer domContent.Close()
 
 	log.Printf("navigating to thing")
-	_, err = chromeClient.Page.Navigate(context.Background(), page.NewNavigateArgs("http://127.0.0.1:8080/_slides/0"))
+	_, err = chromeClient.Page.Navigate(context.Background(), page.NewNavigateArgs("http://127.0.0.1:8080/_multislide/"))
 	if err != nil {
 		return err
 	}
@@ -79,11 +79,8 @@ func PDF(args []string) error {
 		return err
 	}
 
-	pdfArgs := page.NewPrintToPDFArgs().SetDisplayHeaderFooter(false).SetPrintBackground(true)
+	pdfArgs := page.NewPrintToPDFArgs().SetDisplayHeaderFooter(false).SetLandscape(true).SetPrintBackground(true)
 	pdfArgs = pdfArgs.SetMarginBottom(0).SetMarginLeft(0).SetMarginRight(0).SetMarginTop(0)
-	pdfArgs = pdfArgs.SetPaperWidth(float64(9)).SetPaperHeight(float64(6))
-	pdfArgs = pdfArgs.SetPreferCSSPageSize(true)
-	pdfArgs = pdfArgs.SetPageRanges("1")
 	repl, err := chromeClient.Page.PrintToPDF(context.Background(), pdfArgs)
 	if err != nil {
 		return err
