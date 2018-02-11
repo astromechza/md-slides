@@ -39,6 +39,7 @@ func parseResString(i string) (int, int, error) {
 func Serve(args []string) error {
 	fs := flag.NewFlagSet("serve", flag.ExitOnError)
 	hotFlag := fs.Bool("hot", false, "reload, reparse, and regenerate slides on each refresh")
+	checkOnlyFlag := fs.Bool("check-only", false, "stop after checking slides")
 	resFlag := fs.String("res", "1600x900", "set render aspect ratio and zoom for rendering")
 	listenFlag := fs.String("listen", ":8080", "interface:port to listen on")
 	backgroundCSS := fs.String("css-background", "#fffff8", "slide background css")
@@ -60,6 +61,12 @@ func Serve(args []string) error {
 	mux := http.NewServeMux()
 
 	sr := sliderenderer.SlideRenderer{Filename: filename, Hot: *hotFlag, XRes: xres, YRes: yres, BGCSS: *backgroundCSS}
+	if err = sr.CheckSlides(); err != nil {
+		return fmt.Errorf("check failed: %s", err)
+	}
+	if *checkOnlyFlag {
+		return nil
+	}
 	sr.InstallHandler(mux)
 
 	statics := http.FileServer(CustomDirFS{Directory: filepath.Dir(filename)})
