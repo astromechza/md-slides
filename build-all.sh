@@ -4,8 +4,8 @@ set -eu
 mkdir -p dist/
 OSS="linux windows darwin"
 ARCHS="amd64 386"
-for OS in "${OSS[@]}"; do
-  for ARCH in "${ARCHS[@]}"; do
+for OS in ${OSS[@]}; do
+  for ARCH in ${ARCHS[@]}; do
     NAME="md-slides.${OS}.${ARCH}"
     if [[ "${OS}" == "windows" ]]; then
       NAME="${NAME}.exe"
