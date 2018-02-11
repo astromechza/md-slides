@@ -2,4 +2,4 @@ language: go
 go:
 - 1.9
 script:
-- sh ./build-all.sh
+- bash ./build-all.sh
