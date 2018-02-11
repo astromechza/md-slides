@@ -41,6 +41,7 @@ func mainInner() error {
 		fmt.Printf("Version: %s", gitVersion)
 		fmt.Printf("Hash:    %s", commitHash)
 		fmt.Printf("Date:    %s", buildDate)
+		return nil
 	default:
 		return fmt.Errorf("unknown subcommand '%s'", subcommand)
 	}
