@@ -63,10 +63,12 @@ blah
 
 # TODO
 
-- [ ] **spike**: explore rendering to html/pdf
+- [ ] **feature**: pdf rendering
 - [ ] **security**: disable file serving if necessary or by default
 - [ ] **security**: blacklist some file patterns from serving
 - [ ] **feature**: page numbers
+- [ ] **feature**: file path can be a url :D
+- [ ] **feature**: other keys for advancing backing up
 
 ---
 
@@ -84,3 +86,19 @@ blah
 ```
 {embedcommand: ["bash", "-c", "./md-slides --help || true"]}
 ```
+
+---
+
+## Rendering to html / pdf
+
+- `wkhtmltopdf` exists but doesn't support css flexbox / grid
+- Headless Google Chrome CLI can take very nice `--screenshot` but the `--print-to-pdf` rendering is a bit lacking
+- Programatic solution using the Chrome Debug Port https://github.com/mafredri/cdp
+- Follow what is done in https://github.com/Szpadel/chrome-headless-render-pdf/blob/master/index.js (NodeJS)
+
+Many advantages:
+
+- First-class page layout and feature support
+- Can be embedded in a docker container if necessary
+- Cross-platform
+- Dependency is small enough to fit in `md-slides` binary
