@@ -10,6 +10,7 @@ for OS in ${OSS[@]}; do
     if [[ "${OS}" == "windows" ]]; then
       NAME="${NAME}.exe"
     fi
+    echo "Building ${OS} ${ARCH}"
     GOARCH=${ARCH} GOOS=${OS} CGO_ENABLED=0 go build -o "dist/${NAME}" .
   done
 done

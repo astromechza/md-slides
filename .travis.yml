@@ -4,7 +4,9 @@ go:
 script:
 - go build .
 - bash ./build-all.sh
+- ls -l dist/
 - cd dist && sha256sum md-slides.* > SHA256SUMS
+- cat SHA256SUMS
 deploy:
   provider: releases
   api_key:
@@ -14,6 +16,6 @@ deploy:
     - dist/md-slides.*
     - dist/SHA256SUMS
   on:
-    repo: AstromechZA/spoon
+    repo: AstromechZA/md-slides
     tags: true
     all_branches: true
