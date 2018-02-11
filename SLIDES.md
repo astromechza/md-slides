@@ -64,7 +64,6 @@ blah
 # TODO
 
 - [ ] **spike**: explore rendering to html/pdf
-- [ ] **spike**: explore theming support (some kind of optional named css dropin)
 - [ ] **security**: disable file serving if necessary or by default
 - [ ] **security**: blacklist some file patterns from serving
 - [ ] **feature**: page numbers

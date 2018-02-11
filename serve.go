@@ -47,12 +47,12 @@ document.addEventListener("DOMContentLoaded", function(event) {
 const styleHeader = `
 <style>
 html {
-	height: 100%;
+	height: 100%%;
 	font-size: 22px;
 }
 
 body {
-	height: 100%;
+	height: 100%%;
     display: flex;
     flex-flow: column;
 	background-color: #444;
@@ -63,7 +63,7 @@ body {
 	align-self: center;
 	display: grid;
 	box-sizing: border-box;
-	background-color: #fffff8;
+	background: %s;
 	padding: 1rem;
     border-radius: 0.3rem;
 	box-shadow: 0px 0.2rem 0.6rem black;
@@ -123,6 +123,7 @@ func Serve(args []string) error {
 	hotFlag := fs.Bool("hot", false, "reload, reparse, and regenerate slides on each refresh")
 	resFlag := fs.String("res", "1600x900", "set render aspect ratio and zoom for rendering")
 	listenFlag := fs.String("listen", ":8080", "interface:port to listen on (default :8080)")
+	backgroundCSS := fs.String("css-background", "#fffff8", "slide background css (default: '#fffff8')")
 
 	if err := fs.Parse(args); err != nil {
 		return err
@@ -138,7 +139,7 @@ func Serve(args []string) error {
 	}
 	mux := http.NewServeMux()
 
-	sr := SlideRenderer{Filename: filename, Hot: *hotFlag, XRes: xres, YRes: yres}
+	sr := SlideRenderer{Filename: filename, Hot: *hotFlag, XRes: xres, YRes: yres, BGCSS: *backgroundCSS}
 	mux.HandleFunc(slidesPath, func(rw http.ResponseWriter, req *http.Request) {
 		snRaw := req.URL.Query().Get("page")
 		if snRaw == "" {

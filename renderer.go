@@ -21,6 +21,7 @@ type SlideRenderer struct {
 	Hot          bool
 	XRes         int
 	YRes         int
+	BGCSS        string
 }
 
 func (sr *SlideRenderer) ShouldRecache() bool {
@@ -133,14 +134,14 @@ func (sr *SlideRenderer) Serve(i int, rw http.ResponseWriter, req *http.Request)
 
 	doc := sr.CachedSlides[i]
 	rndr := blackfriday.Renderer(blackfriday.NewHTMLRenderer(blackfriday.HTMLRendererParameters{
-		Title: filepath.Base(sr.Filename),
+		Title: fmt.Sprintf("%s %d/%d", filepath.Base(sr.Filename), i+1, len(sr.CachedSlides)),
 		Flags: blackfriday.CompletePage | blackfriday.HrefTargetBlank,
 	}))
 	rndr = &CustomHTMLRenderer{Renderer: rndr, CWD: filepath.Dir(sr.Filename)}
 	rndr.RenderHeader(rw, nil)
 	rw.Write([]byte(fmt.Sprintf(scriptHeader, prevSlide, nextSlide)))
 	rw.Write([]byte(normalizeCSS))
-	rw.Write([]byte(styleHeader))
+	rw.Write([]byte(fmt.Sprintf(styleHeader, sr.BGCSS)))
 	rw.Write([]byte(markdownCSS))
 	var bodyClasses []string
 	if doc.Settings.Get("halign") != "" {
