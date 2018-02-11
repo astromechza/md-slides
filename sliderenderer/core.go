@@ -1,4 +1,4 @@
-package main
+package sliderenderer
 
 import (
 	"bytes"

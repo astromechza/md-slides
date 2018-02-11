@@ -1,4 +1,4 @@
-package main
+package sliderenderer
 
 const markdownCSS = `
 <style>
