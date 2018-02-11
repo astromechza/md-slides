@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"log"
 	"net/http"
-	"net/url"
 	"path/filepath"
 	"strconv"
 	"strings"
@@ -13,8 +12,8 @@ import (
 
 const scriptHeader = `
 <script>
-var prevSlide = "/_slides?page=%d";
-var nextSlide = "/_slides?page=%d";
+var prevSlide = "/_slides/%d";
+var nextSlide = "/_slides/%d";
 
 document.onkeydown = function(evt) {
 	evt = evt || window.event
@@ -108,12 +107,10 @@ func parseResString(i string) (int, int, error) {
 	return int(xres), int(yres), nil
 }
 
-const slidesPath = "/_slides"
+const slidesPath = "/_slides/"
 
 func redirectToFirstSlide(rw http.ResponseWriter) {
-	q := url.Values{}
-	q.Set("page", "0")
-	rw.Header().Set("location", slidesPath+"?"+q.Encode())
+	rw.Header().Set("location", fmt.Sprintf("%s0", slidesPath))
 	rw.WriteHeader(http.StatusTemporaryRedirect)
 	return
 }
@@ -141,7 +138,7 @@ func Serve(args []string) error {
 
 	sr := SlideRenderer{Filename: filename, Hot: *hotFlag, XRes: xres, YRes: yres, BGCSS: *backgroundCSS}
 	mux.HandleFunc(slidesPath, func(rw http.ResponseWriter, req *http.Request) {
-		snRaw := req.URL.Query().Get("page")
+		snRaw := req.URL.Path[len(slidesPath):]
 		if snRaw == "" {
 			redirectToFirstSlide(rw)
 			return
