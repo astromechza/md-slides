@@ -38,9 +38,10 @@ func mainInner() error {
 	case "serve":
 		return Serve(flag.Args()[1:])
 	case "version":
-		fmt.Printf("Version: %s", gitVersion)
-		fmt.Printf("Hash:    %s", commitHash)
-		fmt.Printf("Date:    %s", buildDate)
+		fmt.Printf("Version: %s\n", gitVersion)
+		fmt.Printf("Hash:    %s\n", commitHash)
+		fmt.Printf("Date:    %s\n", buildDate)
+		fmt.Printf("URL:     https://github.com/AstromechZA/md-slides\n")
 		return nil
 	default:
 		return fmt.Errorf("unknown subcommand '%s'", subcommand)
