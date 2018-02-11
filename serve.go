@@ -36,14 +36,6 @@ func parseResString(i string) (int, int, error) {
 	return int(xres), int(yres), nil
 }
 
-const slidesPath = "/_slides/"
-
-func redirectToFirstSlide(rw http.ResponseWriter) {
-	rw.Header().Set("location", fmt.Sprintf("%s0", slidesPath))
-	rw.WriteHeader(http.StatusTemporaryRedirect)
-	return
-}
-
 func Serve(args []string) error {
 	fs := flag.NewFlagSet("serve", flag.ExitOnError)
 	hotFlag := fs.Bool("hot", false, "reload, reparse, and regenerate slides on each refresh")
@@ -68,25 +60,13 @@ func Serve(args []string) error {
 	mux := http.NewServeMux()
 
 	sr := sliderenderer.SlideRenderer{Filename: filename, Hot: *hotFlag, XRes: xres, YRes: yres, BGCSS: *backgroundCSS}
-	mux.HandleFunc(slidesPath, func(rw http.ResponseWriter, req *http.Request) {
-		snRaw := req.URL.Path[len(slidesPath):]
-		if snRaw == "" {
-			redirectToFirstSlide(rw)
-			return
-		}
-		sn, err := strconv.Atoi(snRaw)
-		if err != nil {
-			rw.WriteHeader(http.StatusBadRequest)
-			rw.Write([]byte(http.StatusText(http.StatusBadRequest)))
-			return
-		}
-		sr.Serve(int(sn), rw, req)
-	})
+	sr.InstallHandler(mux)
 
 	statics := http.FileServer(CustomDirFS{Directory: filepath.Dir(filename)})
 	mux.HandleFunc("/", func(rw http.ResponseWriter, req *http.Request) {
 		if req.URL.Path == "/" {
-			redirectToFirstSlide(rw)
+			rw.Header().Set("location", sr.FirstSlidePath())
+			rw.WriteHeader(http.StatusTemporaryRedirect)
 			return
 		}
 		statics.ServeHTTP(rw, req)
