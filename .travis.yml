@@ -4,4 +4,16 @@ go:
 script:
 - go build .
 - bash ./build-all.sh
-- cd dist && sha256sum md-slides.* > build/SHA256SUMS
+- cd dist && sha256sum md-slides.* > SHA256SUMS
+deploy:
+  provider: releases
+  api_key:
+    secure: co8MXCvoxgkqC+my/WgZxnnZMfXwWTXkyhu/V4g3Z5/SUyq/kMVfHJcwWK757epMfAHleyTKMOHbqNEfG9Vwt1XV5jE7sbZid0SN7jEYSjo7ujjncJ1HDMbTFcLDjW7n2k9xE9OgpMFjqbuqSf8zZXk6KKw7xOkMIPMhNhGOO6KAVQ7W/QNF4uUwK0GIF+m5A4t6Dt7AUy0rNxb0txm6Y32OiZBxm8ER1TOUyk0AO0cIlWR6POTTUwJ69qnIWlnHuK7r1Y2C+tGU+0uoW8NlRHyNbXSAi5l482qI0VZWFaD19JVWkBtbKbK0UlQG9Fy+iiEdRsVXugprqC7jjrvpM4oTSkooDkzdYcE5AVPnQfU5j8qmNk4zb88kQP8dCeA5p5PgjBAoGu99gyQznCfkdzflND2dSo9icLYz8D4v2JvF8a8islVN8nqr1j4O1gurR2xj4a+4G5UDkCJrzTse0P94SiXvQZ/zEcpP1LHLrInOyhJij02KKaLKHmwRcdpE0PCJVliNK9dlCJVW/YfYwxbuAHK4XjsrppeJ1RdOJRhxlmHNEv1IlQ26chSbui6vrnOg2DTssxEj2NAPVAoEXy9xBrx4zOHA51vswTO5DE+S/2TJkv0iebw3s8froHyMPf38bJBtHVQYTb+S2zKQOuFjxgHJZGoukWQrXFyqo0g=
+  skip_cleanup: true
+  file:
+    - dist/md-slides.*
+    - dist/SHA256SUMS
+  on:
+    repo: AstromechZA/spoon
+    tags: true
+    all_branches: true
