@@ -13,6 +13,7 @@ Usage:
 
 Subcommands:
 	serve     serve the slides as html
+	pdf       render slides to pdf
 	version   print version information
 `
 
@@ -37,6 +38,8 @@ func mainInner() error {
 	switch subcommand {
 	case "serve":
 		return Serve(flag.Args()[1:])
+	case "pdf":
+		return PDF(flag.Args()[1:])
 	case "version":
 		fmt.Printf("Version: %s\n", gitVersion)
 		fmt.Printf("Hash:    %s\n", commitHash)
