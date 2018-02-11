@@ -2,4 +2,6 @@ language: go
 go:
 - 1.9
 script:
+- go build .
 - bash ./build-all.sh
+- cd dist && sha256sum md-slides.* > build/SHA256SUMS
