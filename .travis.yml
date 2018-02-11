@@ -7,6 +7,7 @@ script:
   - ls -l dist/
   - cd dist && sha256sum md-slides.* > SHA256SUMS
   - cat SHA256SUMS
+  - cd ..
 deploy:
   provider: releases
   api_key:
