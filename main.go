@@ -12,8 +12,13 @@ Usage:
 	md-slides [subcommand] [options...]
 
 Subcommands:
-	serve - serve the slides as html
+	serve     serve the slides as html
+	version   print version information
 `
+
+var commitHash = "unknown"
+var buildDate = "unknown"
+var gitVersion = "unknown"
 
 func mainInner() error {
 	flag.Usage = func() {
@@ -32,6 +37,10 @@ func mainInner() error {
 	switch subcommand {
 	case "serve":
 		return Serve(flag.Args()[1:])
+	case "version":
+		fmt.Printf("Version: %s", gitVersion)
+		fmt.Printf("Hash:    %s", commitHash)
+		fmt.Printf("Date:    %s", buildDate)
 	default:
 		return fmt.Errorf("unknown subcommand '%s'", subcommand)
 	}

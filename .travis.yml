@@ -5,9 +5,11 @@ script:
   - go build .
   - bash ./build-all.sh
   - ls -l dist/
-  - cd dist && sha256sum md-slides.* > SHA256SUMS
+  - cd dist
+  - sha256sum md-slides.* > SHA256SUMS
   - cat SHA256SUMS
   - cd ..
+  - dist/md-slides.linux.amd64 version
 deploy:
   provider: releases
   api_key:
