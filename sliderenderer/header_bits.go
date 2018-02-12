@@ -2,8 +2,8 @@ package sliderenderer
 
 const scriptHeader = `
 <script>
-var prevSlide = "/_slides/%d";
-var nextSlide = "/_slides/%d";
+var prevSlide = "/_slides?page=%d";
+var nextSlide = "/_slides?page=%d";
 
 document.onkeydown = function(evt) {
 	evt = evt || window.event
@@ -87,23 +87,20 @@ body {
 	margin-top: 1.5rem;
 	margin-bottom: 1.5rem;
 	position: relative;
-	page-break-after: always;
-	page-break-inside: avoid;
 }
 </style>
 
 <style type="text/css" media="print">
-body {
-	justify-content: start;
-	position: relative;
+.body-inner {
+	margin-top: 20px;
+	margin-bottom: 20px;
+	page-break-before: always;
+	page-break-inside: avoid;
+	page-break-after: always;
 }
 
-.body-inner {
-	margin-top: 1.5rem;
-	margin-bottom: 1.5rem;
-	position: relative;
-	page-break-after: always;
-	page-break-inside: avoid;
+@page {
+	size: 1640px 940px;
 }
 </style>
 `

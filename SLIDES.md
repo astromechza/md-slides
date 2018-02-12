@@ -44,7 +44,7 @@ default:
 
 Better directory structure
 
-- `/_slides/N` serves the slide html
+- `/_slides?N` serves the slide html
 - `/<filename>` defines a relative image to load and serve
 
 ---
@@ -61,6 +61,8 @@ blah
 
 # TODO
 
+- [ ] **critical**: fix statics paths (they need to be relative to the single/multi paths)
+- [ ] **bug**: remove httptest flag command (why is it there)
 - [ ] **feature**: pdf rendering
 - [ ] **security**: disable file serving if necessary or by default
 - [ ] **security**: blacklist some file patterns from serving

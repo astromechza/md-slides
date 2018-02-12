@@ -6,26 +6,28 @@ import (
 	"strconv"
 )
 
-const slidesPath = "/_slides/"
+const slidesPath = "/_slides"
 
-func (sr *SlideRenderer) InstallHandler(mux *http.ServeMux) {
-	mux.HandleFunc(slidesPath, func(rw http.ResponseWriter, req *http.Request) {
-		snRaw := req.URL.Path[len(slidesPath):]
-		if snRaw == "" {
-			rw.Header().Set("location", sr.FirstSlidePath())
-			rw.WriteHeader(http.StatusTemporaryRedirect)
-			return
-		}
-		sn, err := strconv.Atoi(snRaw)
-		if err != nil {
-			rw.WriteHeader(http.StatusBadRequest)
-			rw.Write([]byte(http.StatusText(http.StatusBadRequest)))
-			return
-		}
-		sr.Serve(int(sn), rw, req)
-	})
+func (sr *SlideRenderer) ServeHTTP(rw http.ResponseWriter, req *http.Request) {
+	snRaw := req.URL.Query().Get("page")
+	if snRaw == "" {
+		rw.Header().Set("location", sr.FirstSlidePath())
+		rw.WriteHeader(http.StatusTemporaryRedirect)
+		return
+	}
+	sn, err := strconv.Atoi(snRaw)
+	if err != nil {
+		rw.WriteHeader(http.StatusBadRequest)
+		rw.Write([]byte(http.StatusText(http.StatusBadRequest)))
+		return
+	}
+	sr.Serve(int(sn), rw, req)
+}
+
+func (sr *SlideRenderer) NthSlidePath(n int) string {
+	return fmt.Sprintf("%s?page=%d", slidesPath, n)
 }
 
 func (sr *SlideRenderer) FirstSlidePath() string {
-	return fmt.Sprintf("%s0", slidesPath)
+	return sr.NthSlidePath(0)
 }

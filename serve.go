@@ -10,6 +10,8 @@ import (
 	"strconv"
 	"strings"
 
+	"github.com/gorilla/mux"
+
 	"github.com/AstromechZA/md-slides/sliderenderer"
 )
 
@@ -58,7 +60,6 @@ func Serve(args []string) error {
 	if err != nil {
 		return fmt.Errorf("bad res string: %s", err)
 	}
-	mux := http.NewServeMux()
 
 	sr := sliderenderer.SlideRenderer{Filename: filename, Hot: *hotFlag, XRes: xres, YRes: yres, BGCSS: *backgroundCSS}
 	if err = sr.CheckSlides(); err != nil {
@@ -67,21 +68,16 @@ func Serve(args []string) error {
 	if *checkOnlyFlag {
 		return nil
 	}
-	sr.InstallHandler(mux)
-	sr.InstallMultiSlideHandler(mux)
 
-	statics := http.FileServer(CustomDirFS{Directory: filepath.Dir(filename)})
-	mux.HandleFunc("/", func(rw http.ResponseWriter, req *http.Request) {
-		if req.URL.Path == "/" {
-			rw.Header().Set("location", sr.FirstSlidePath())
-			rw.WriteHeader(http.StatusTemporaryRedirect)
-			return
-		}
-		statics.ServeHTTP(rw, req)
-	})
+	r := mux.NewRouter()
+	r.Path("/_slides/").Handler(http.RedirectHandler(sr.FirstSlidePath(), http.StatusTemporaryRedirect))
+	r.Path("/_slides").HandlerFunc(sr.ServeHTTP)
+	r.Path("/_multislide").HandlerFunc(sr.MultiServeHTTP)
+	r.Path("/{static}").Handler(http.FileServer(CustomDirFS{Directory: filepath.Dir(filename)}))
+	r.Path("/").Handler(http.RedirectHandler(sr.FirstSlidePath(), http.StatusTemporaryRedirect))
 
 	log.Printf("Ready to serve on http://%s", *listenFlag)
-	if err := http.ListenAndServe(*listenFlag, mux); err != nil {
+	if err := http.ListenAndServe(*listenFlag, r); err != nil {
 		return err
 	}
 	return nil
