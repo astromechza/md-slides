@@ -13,7 +13,6 @@ Usage:
 
 Subcommands:
 	serve     serve the slides as html
-	pdf       render slides to pdf
 	version   print version information
 `
 
@@ -22,22 +21,25 @@ var buildDate = "unknown"
 var gitVersion = "unknown"
 
 func mainInner() error {
-	flag.Usage = func() {
+	fs := flag.NewFlagSet("md-slides", flag.ExitOnError)
+	fs.Usage = func() {
 		fmt.Fprintf(os.Stderr, mainUsage)
-		flag.PrintDefaults()
+		fs.PrintDefaults()
 	}
-	flag.Parse()
+	if err := fs.Parse(os.Args[1:]); err != nil {
+		return err
+	}
 
-	if flag.NArg() == 0 {
-		flag.Usage()
+	if fs.NArg() == 0 {
+		fs.Usage()
 		fmt.Fprintf(os.Stderr, "\n")
 		return fmt.Errorf("expected subcommand as first argument")
 	}
 
-	subcommand := flag.Arg(0)
+	subcommand := fs.Arg(0)
 	switch subcommand {
 	case "serve":
-		return Serve(flag.Args()[1:])
+		return Serve(fs.Args()[1:])
 	case "version":
 		fmt.Printf("Version: %s\n", gitVersion)
 		fmt.Printf("Hash:    %s\n", commitHash)

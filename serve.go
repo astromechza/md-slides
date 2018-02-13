@@ -4,6 +4,7 @@ import (
 	"flag"
 	"fmt"
 	"log"
+	"net"
 	"net/http"
 	"os"
 	"path/filepath"
@@ -43,7 +44,8 @@ func Serve(args []string) error {
 	hotFlag := fs.Bool("hot", false, "reload, reparse, and regenerate slides on each refresh")
 	checkOnlyFlag := fs.Bool("check-only", false, "stop after checking slides")
 	resFlag := fs.String("res", "1600x900", "set render aspect ratio and zoom for rendering")
-	listenFlag := fs.String("listen", ":8080", "interface:port to listen on")
+	portFlag := fs.Int("port", 8080, "port to listen on")
+	hostFlag := fs.String("host", "", "host to listen on (localhost, 127.0.0.1)")
 	backgroundCSS := fs.String("css-background", "#fffff8", "slide background css")
 
 	if err := fs.Parse(args); err != nil {
@@ -76,8 +78,9 @@ func Serve(args []string) error {
 	r.Path("/{static}").Handler(http.FileServer(CustomDirFS{Directory: filepath.Dir(filename)}))
 	r.Path("/").Handler(http.RedirectHandler(sr.FirstSlidePath(), http.StatusTemporaryRedirect))
 
-	log.Printf("Ready to serve on http://%s", *listenFlag)
-	if err := http.ListenAndServe(*listenFlag, r); err != nil {
+	listenString := net.JoinHostPort(*hostFlag, strconv.Itoa(*portFlag))
+	log.Printf("Ready to serve on %s", listenString)
+	if err := http.ListenAndServe(listenString, r); err != nil {
 		return err
 	}
 	return nil
