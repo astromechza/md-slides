@@ -10,6 +10,8 @@ AstromechZA 2018
 
 `md-slides` is a tool for presenting html-based presentations based on a Markdown documents.
 
+Project URL: [github.com/AstromechZA/md-slides](https://github.com/AstromechZA/md-slides)
+
 Features:
 
 - single static binary with no runtime dependencies
@@ -19,6 +21,46 @@ Features:
 - uses `blackfriday` markdown library
 - supports custom aspect-ratios and zooms
 - prints to pdf well
+
+---
+
+### Prior art
+
+- _many_. Just Google "Markdown slides"
+	- reveal.js
+	- remark.js
+	- GitPitch
+	- etc..
+
+- But I believe in building software to meet your own needs, and reinventing the wheel for yourself can be some good fun.
+
+- And this provides a good balance between self-hosted, lock-in-free software, and feature-packed service offerings. *While still making the slide source easily readable in its source or rendered markdown forms*.
+
+---
+
+### Installation
+
+Although you _can_ build and install it from source, we recommend that you pull
+the appropriate binary for your system from the project releases page [here](https://github.com/AstromechZA/md-slides/releases).
+
+```bash
+$ wget https://github.com/AstromechZA/md-slides/releases/download/v0.0/md-slides.linux.amd64
+
+# verify integrity
+$ wget https://github.com/AstromechZA/md-slides/releases/download/v0.0/SHA256SUMS
+$ sha256sum -c SHA256SUMS
+
+$ chmod +x md-slides.linux.amd64
+$ mv md-slides.linux.amd64 ~/bin/md-slides
+```
+
+#### Dependencies
+
+The following 3rd party libraries (and their dependencies) are statically linked into the binary:
+
+- `github.com/russross/blackfriday` : markdown processing
+- `github.com/gorilla/mux` : a better http server router
+- `github.com/alecthomas/chroma` : syntax highlighting
 
 ---
 
@@ -48,7 +90,7 @@ Features:
 
 A single markdown document represents the multiple slides separated by a horizantal rule:
 
-```
+```markdown
 # this is slide one
 
 stuff
@@ -97,7 +139,7 @@ This makes it easy to present live content or to embed dynamic data into the sli
 
 To improve the sizing of images embedded into your slides, you can specify the width and height as url fragment parameters.
 
-```
+```markdown
 ![alt text](/my/relative/path#height=500px)
 
 ![alt text](/my/relative/path#width=500px)
@@ -109,7 +151,7 @@ To improve the sizing of images embedded into your slides, you can specify the w
 
 These meta tags control where in the slide the content is positioned. They are most effective when used to position content to the bottom or corners of a slide.
 
-```
+```html
 <meta valign="bottom" halign="left">
 ```
 
@@ -137,7 +179,7 @@ second line
 
 The `talign` metadata should be used with `halign` and `valign` to direct the text-alignment of the slide.
 
-```
+```html
 <meta talign="left">
 ```
 
@@ -224,11 +266,10 @@ Development is still in progress:
 
 - [x] v0.0 available on github
 - [ ] Rework CSS styles
-- [ ] Syntax highlighting for code blocks
-- [ ] Rebuilding `README.html` as part of travis build
+- [ ] Rebuilding `README.html` as part of travis build and putting it on github pages.
 - [ ] Testing!
 - [ ] v1.0?
-- [ ] Page footers?
+- [ ] Page footers (for something like a copyright/date/conference)?
 
 ---
 

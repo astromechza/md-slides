@@ -65,7 +65,8 @@ func (r *CustomHTMLRenderer) RenderNode(w io.Writer, node *blackfriday.Node, ent
 			if err != nil {
 				panic(err)
 			}
-			node.Literal = []byte(strings.Replace(string(node.Literal), match[0], string(cmdOut), 1))
+			cmdOutStr := strings.TrimSpace(string(cmdOut))
+			node.Literal = []byte(strings.Replace(string(node.Literal), match[0], cmdOutStr, 1))
 		}
 	}
 
