@@ -2,21 +2,18 @@ package sliderenderer
 
 const scriptHeader = `
 <script>
-var prevSlide = "/_slides?page=%d";
-var nextSlide = "/_slides?page=%d";
-
 document.onkeydown = function(evt) {
 	evt = evt || window.event
 	if ([13, 32, 39, 40].indexOf(evt.keyCode) >= 0) {
-		window.location = nextSlide;
+		window.location = "{{ .URLPath }}?page={{ .PageNext }}";
 	}
 	if ([8, 37, 38].indexOf(evt.keyCode) >= 0 ) {
-		window.location = prevSlide;
+		window.location = "{{ .URLPath }}?page={{ .PagePrev }}";
 	}
 }
 
 window.onresize = function(event) {
-	var el = document.getElementById("body-inner");
+	var el = document.getElementsByClassName("slide-wrap")[0];
 	var m = 50;
 	var wi = el.clientWidth + m;
 	var hi = el.clientHeight + m;
@@ -36,23 +33,23 @@ document.addEventListener("DOMContentLoaded", function(event) {
 const styleHeader = `
 <style>
 html {
-	height: 100%%;
-	font-size: 22px;
+	height: 100%;
+	font-size: {{ .FontSize }}px;
 }
 
 body {
-	height: 100%%;
+	height: 100%;
     display: flex;
     flex-flow: column;
 	background-color: #444;
 	justify-content: center;
 }
 
-.body-inner {
+.slide-wrap {
 	align-self: center;
 	display: grid;
 	box-sizing: border-box;
-	background: %s;
+	background: white;
 	padding: 1rem;
     border-radius: 0.3rem;
 	box-shadow: 0px 0.2rem 0.6rem black;
@@ -64,15 +61,15 @@ body {
 	grid-auto-rows: 1fr;
 }
 
-.body-inner-halign-left {justify-items: start;}
-.body-inner-halign-center {justify-items: center;}
-.body-inner-halign-right {justify-items: end;}
-.body-inner-valign-top {align-items: start;}
-.body-inner-valign-center {align-items: center;}
-.body-inner-valign-bottom {align-items: end;}
-.body-inner-talign-left {text-align: left;}
-.body-inner-talign-center {text-align: center;}
-.body-inner-talign-right {text-align: right;}
+.slide-wrap-halign-left {justify-items: start;}
+.slide-wrap-halign-center {justify-items: center;}
+.slide-wrap-halign-right {justify-items: end;}
+.slide-wrap-valign-top {align-items: start;}
+.slide-wrap-valign-center {align-items: center;}
+.slide-wrap-valign-bottom {align-items: end;}
+.slide-wrap-talign-left {text-align: left;}
+.slide-wrap-talign-center {text-align: center;}
+.slide-wrap-talign-right {text-align: right;}
 
 .page-number {
 	font-family: Palatino, "Palatino Linotype", "Palatino LT STD", "Book Antiqua", Georgia, serif;
@@ -82,35 +79,38 @@ body {
 	margin: 0.5rem;
 	color: lightgrey;
 }
-
 </style>
 `
 
 const styleMultiHeader = `
 <style>
+html {
+	height: auto;
+	font-size: {{ .FontSize }}px;
+}
+
 body {
 	justify-content: start;
 	position: relative;
 }
 
-.body-inner {
+.slide-wrap {
 	margin-top: 1.5rem;
 	margin-bottom: 1.5rem;
 	position: relative;
 }
-</style>
 
-<style type="text/css" media="print">
-.body-inner {
-	margin-top: 20px;
-	margin-bottom: 20px;
-	page-break-before: always;
-	page-break-inside: avoid;
-	page-break-after: always;
+@media print {
+	.slide-wrap {
+		margin-top: 20px;
+		margin-bottom: 20px;
+		page-break-before: always;
+		page-break-inside: avoid;
+	}
 }
 
 @page {
-	size: 1640px 940px;
+	size: {{ add .XRes 40 }}px {{ add .YRes 40 }}px;
 }
 </style>
 `

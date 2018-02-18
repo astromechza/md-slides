@@ -55,7 +55,8 @@ func Serve(args []string) error {
 	}
 	hotFlag := fs.Bool("hot", false, "reload, reparse, and regenerate slides on each refresh")
 	checkOnlyFlag := fs.Bool("check-only", false, "stop after checking slides")
-	resFlag := fs.String("res", "1600x900", "set render aspect ratio and zoom for rendering")
+	resFlag := fs.String("res", "1366x768", "set render aspect ratio and zoom for rendering")
+	fontSizeFlag := fs.Int("font-size", 18, "relative font size within slide")
 	portFlag := fs.Int("port", 8080, "port to listen on")
 	hostFlag := fs.String("host", "", "host to listen on (localhost, 127.0.0.1)")
 	backgroundCSS := fs.String("css-background", "#fffff8", "slide background css")
@@ -82,8 +83,12 @@ func Serve(args []string) error {
 		Hot:      *hotFlag,
 		XRes:     xres,
 		YRes:     yres,
+		FontSize: *fontSizeFlag,
 		BGCSS:    *backgroundCSS,
 		URLPath:  "/_slides",
+	}
+	if err = sr.Init(); err != nil {
+		return fmt.Errorf("failed to init renderer: %s", err)
 	}
 	if err = sr.CheckSlides(); err != nil {
 		return fmt.Errorf("check failed: %s", err)

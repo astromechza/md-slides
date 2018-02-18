@@ -6,7 +6,6 @@ import (
 	"net/http"
 	"path/filepath"
 	"strconv"
-	"strings"
 
 	"github.com/russross/blackfriday"
 )
@@ -57,30 +56,25 @@ func (sr *SlideRenderer) Serve(i int, rw http.ResponseWriter, req *http.Request)
 	}))
 	rndr = &CustomHTMLRenderer{Renderer: rndr, CWD: filepath.Dir(sr.Filename)}
 	rndr.RenderHeader(rw, nil)
-	rw.Write([]byte(fmt.Sprintf(scriptHeader, prevSlide, nextSlide)))
-	rw.Write([]byte(normalizeCSS))
-	rw.Write([]byte(fmt.Sprintf(styleHeader, sr.BGCSS)))
-	rw.Write([]byte(markdownCSS))
-	bodyClasses := []string{"body-inner"}
-	if doc.Settings.Get("halign") != "" {
-		bodyClasses = append(bodyClasses, "body-inner-halign-"+doc.Settings.Get("halign"))
+
+	ctx := struct {
+		SlideRenderer
+		PageNum      int
+		PageNext     int
+		PagePrev     int
+		SlideClasses string
+	}{
+		*sr, i, nextSlide, prevSlide, doc.SlideClasses(),
 	}
-	if doc.Settings.Get("valign") != "" {
-		bodyClasses = append(bodyClasses, "body-inner-valign-"+doc.Settings.Get("valign"))
-	}
-	if doc.Settings.Get("talign") != "" {
-		bodyClasses = append(bodyClasses, "body-inner-talign-"+doc.Settings.Get("talign"))
-	}
-	rw.Write([]byte(fmt.Sprintf(
-		`<div id="body-inner" class="%s" style="width: %dpx; height: %dpx">`,
-		strings.Join(bodyClasses, " "), sr.XRes, sr.YRes,
-	)))
-	rw.Write([]byte(`<div class="markdown-body">`))
+
+	sr.Templates.ExecuteTemplate(rw, "scripts", ctx)
+	sr.Templates.ExecuteTemplate(rw, "normalize-css", ctx)
+	sr.Templates.ExecuteTemplate(rw, "markdown-css", ctx)
+	sr.Templates.ExecuteTemplate(rw, "other-css", ctx)
+	sr.Templates.ExecuteTemplate(rw, "slide-prefix", ctx)
 	doc.Walk(func(node *blackfriday.Node, entering bool) blackfriday.WalkStatus {
 		return rndr.RenderNode(rw, node, entering)
 	})
-	rw.Write([]byte(`</div>`))
-	rw.Write([]byte(fmt.Sprintf(`<div class="page-number">%d/%d</div>`, i, len(sr.CachedSlides))))
-	rw.Write([]byte(`</div>`))
+	sr.Templates.ExecuteTemplate(rw, "slide-suffix", ctx)
 	rndr.RenderFooter(rw, nil)
 }

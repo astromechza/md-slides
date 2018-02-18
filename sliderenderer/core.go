@@ -1,90 +1,33 @@
 package sliderenderer
 
 import (
-	"bytes"
 	"fmt"
+	"html/template"
 	"io/ioutil"
 	"log"
-	"net/url"
 
 	"github.com/russross/blackfriday"
-	"golang.org/x/net/html"
-	"golang.org/x/net/html/atom"
 )
 
 type SlideRenderer struct {
 	Filename     string
+	Templates    *template.Template
 	CachedSlides []*DocumentNode
 	Hot          bool
 	XRes         int
 	YRes         int
+	FontSize     int
 	BGCSS        string
 	URLPath      string
 }
 
+func (sr *SlideRenderer) Init() (err error) {
+	sr.Templates, err = LoadTemplates()
+	return
+}
+
 func (sr *SlideRenderer) ShouldRecache() bool {
 	return sr.CachedSlides == nil || sr.Hot
-}
-
-type DocumentNode struct {
-	blackfriday.Node
-	Settings url.Values
-}
-
-func breakIntoDocumentNodes(node *blackfriday.Node) []*DocumentNode {
-	var documents []*DocumentNode
-	var currentDoc *DocumentNode
-	currentNode := node.FirstChild
-	for currentNode != nil {
-		nextNode := currentNode.Next
-		if currentNode.Type == blackfriday.HorizontalRule {
-			if currentDoc != nil {
-				fillDocumentSettings(currentDoc)
-				documents = append(documents, currentDoc)
-				currentDoc = nil
-			}
-		} else {
-			if currentDoc == nil {
-				currentDoc = &DocumentNode{
-					Node: blackfriday.Node{Type: blackfriday.Document},
-				}
-			}
-			currentDoc.AppendChild(currentNode)
-		}
-		currentNode = nextNode
-	}
-	if currentDoc != nil {
-		fillDocumentSettings(currentDoc)
-		documents = append(documents, currentDoc)
-	}
-	return documents
-}
-
-func fillDocumentSettings(node *DocumentNode) {
-	node.Settings = url.Values{}
-	c := node.FirstChild
-	for c != nil {
-		if c.Type == blackfriday.Paragraph {
-			fc := c.FirstChild
-			for fc != nil {
-				if fc.Type == blackfriday.HTMLSpan {
-					htmlNodes, _ := html.ParseFragment(bytes.NewReader(fc.Literal),
-						&html.Node{Type: html.ElementNode, Data: "body", DataAtom: atom.Body},
-					)
-					for _, n := range htmlNodes {
-						if n.Data != "meta" {
-							continue
-						}
-						for _, a := range n.Attr {
-							node.Settings.Set(a.Key, a.Val)
-						}
-					}
-				}
-				fc = fc.Next
-			}
-		}
-		c = c.Next
-	}
 }
 
 func (sr *SlideRenderer) RecacheSlides() error {

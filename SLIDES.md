@@ -63,9 +63,9 @@ blah
 
 # TODO
 
-- [ ] **fix** multislide doesn't work with custom resolution
 - [ ] **feature** code hightlighting
 - [ ] **fix** major improvements using templating
+- [ ] **epic** css refit / redo
 
 ---
 
