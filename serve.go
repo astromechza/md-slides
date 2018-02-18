@@ -62,6 +62,7 @@ func Serve(args []string) error {
 	backgroundCSS := fs.String("css-background", "#fffff8", "slide background css")
 	noStaticsFlag := fs.Bool("no-statics", false, "disable static file serving (security option)")
 	exportFlag := fs.String("export-to", "", "export slides as a single html page (dont serve)")
+	modeFlag := fs.String("mode", "paged", "mode to serve in (paged|scrolling)")
 
 	if err := fs.Parse(args); err != nil {
 		return err
@@ -123,13 +124,19 @@ func Serve(args []string) error {
 	}
 
 	r := mux.NewRouter()
-	r.Path(sr.URLPath + "/").Handler(http.RedirectHandler(sr.FirstSlidePath(), http.StatusTemporaryRedirect))
-	r.Path(sr.URLPath).HandlerFunc(sr.ServeHTTP)
-	r.Path("/_multislide").HandlerFunc(sr.MultiServeHTTP)
+	switch *modeFlag {
+	case "paged":
+		r.Path(sr.URLPath + "/").Handler(http.RedirectHandler(sr.FirstSlidePath(), http.StatusTemporaryRedirect))
+		r.Path(sr.URLPath).HandlerFunc(sr.ServeHTTP)
+	case "scrolling":
+		r.Path(sr.URLPath).HandlerFunc(sr.MultiServeHTTP)
+	default:
+		return fmt.Errorf("unknown mode '%s'", *modeFlag)
+	}
 	if !*noStaticsFlag {
 		r.Path("/{static}").Handler(http.FileServer(CustomDirFS{Directory: filepath.Dir(filename)}))
 	}
-	r.Path("/").Handler(http.RedirectHandler(sr.FirstSlidePath(), http.StatusTemporaryRedirect))
+	r.Path("/").Handler(http.RedirectHandler(sr.URLPath, http.StatusTemporaryRedirect))
 
 	listenString := net.JoinHostPort(*hostFlag, strconv.Itoa(*portFlag))
 	log.Printf("Ready to serve on %s", listenString)

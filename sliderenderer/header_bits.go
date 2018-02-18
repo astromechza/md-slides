@@ -41,7 +41,7 @@ body {
 	height: 100%;
     display: flex;
     flex-flow: column;
-	background-color: #444;
+	background: #444444;
 	justify-content: center;
 }
 

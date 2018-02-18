@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"io"
 	"log"
+	"net/url"
 	"os/exec"
 	"regexp"
 	"strings"
@@ -59,6 +60,19 @@ func (r *CustomHTMLRenderer) RenderNode(w io.Writer, node *blackfriday.Node, ent
 				panic(err)
 			}
 			node.Literal = []byte(strings.Replace(string(node.Literal), match[0], string(cmdOut), 1))
+		}
+	}
+
+	if node.Type == blackfriday.Image && entering == false {
+		if u, err := url.Parse(string(node.LinkData.Destination)); err == nil {
+			extra, _ := url.ParseQuery(u.Fragment)
+			w.Write([]byte(`" style="`))
+			if extra.Get("height") != "" {
+				w.Write([]byte(`height: ` + extra.Get("height") + ";"))
+			}
+			if extra.Get("width") != "" {
+				w.Write([]byte(`width: ` + extra.Get("width") + ";"))
+			}
 		}
 	}
 

@@ -39,7 +39,9 @@ func (sr *SlideRenderer) RecacheSlides() error {
 	log.Printf("Parsing Markdown")
 	node := blackfriday.New(
 		blackfriday.WithExtensions(
-			blackfriday.CommonExtensions | blackfriday.Footnotes | blackfriday.NoEmptyLineBeforeBlock,
+			blackfriday.CommonExtensions |
+				blackfriday.Footnotes |
+				blackfriday.NoEmptyLineBeforeBlock,
 		),
 	).Parse(content)
 	log.Printf("Breaking into slides")
