@@ -1,8 +1,12 @@
 package sliderenderer
 
 import (
+	"bytes"
 	"fmt"
 	"html/template"
+
+	"github.com/alecthomas/chroma/formatters/html"
+	"github.com/alecthomas/chroma/styles"
 )
 
 func LoadTemplates() (*template.Template, error) {
@@ -28,6 +32,13 @@ func LoadTemplates() (*template.Template, error) {
 	}
 	if _, err := root.New("multipage-css").Parse(styleMultiHeader); err != nil {
 		return nil, fmt.Errorf("failed to load multipage-css: %s", err)
+	}
+
+	buff := bytes.NewBufferString("<style>")
+	html.New(html.WithClasses()).WriteCSS(buff, styles.BlackWhite)
+	buff.WriteString("</style>")
+	if _, err := root.New("chroma-css").Parse(buff.String()); err != nil {
+		return nil, fmt.Errorf("failed to load chroma-css: %s", err)
 	}
 
 	if _, err := root.New("slide-prefix").Parse(`

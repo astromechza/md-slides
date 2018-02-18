@@ -6,6 +6,8 @@ AstromechZA 2018
 
 ---
 
+### Intro
+
 `md-slides` is a tool for presenting html-based presentations based on a Markdown documents.
 
 Features:
@@ -16,7 +18,7 @@ Features:
 - supports embedding images
 - uses `blackfriday` markdown library
 - supports custom aspect-ratios and zooms
-- prints to pdf very well
+- prints to pdf well
 
 ---
 
@@ -171,6 +173,31 @@ Anything that `https://github.com/russross/blackfriday` v2 supports.
 
 ---
 
+### Code highlighting
+
+```go
+package main
+
+import "fmt"
+
+func main() {
+	for i := 1; i <= 100; i++ {
+		result := ""
+		if i%3 == 0 { result += "Fizz" }
+		if i%5 == 0 { result += "Buzz" }
+		if result != "" {
+			fmt.Println(result)
+			continue
+		}
+		fmt.Println(i)
+	}
+}
+```
+
+---
+
+### Tables?
+
 <meta valign="center" halign="center">
 
 | Tables   |      Are      |  Cool |
@@ -199,7 +226,6 @@ Development is still in progress:
 - [ ] Rework CSS styles
 - [ ] Syntax highlighting for code blocks
 - [ ] Rebuilding `README.html` as part of travis build
-- [ ] `install.sh` script
 - [ ] Testing!
 - [ ] v1.0?
 - [ ] Page footers?

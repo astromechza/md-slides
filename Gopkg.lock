@@ -2,6 +2,24 @@
 
 
 [[projects]]
+  name = "github.com/alecthomas/chroma"
+  packages = [".","formatters/html","lexers","lexers/a","lexers/b","lexers/c","lexers/d","lexers/e","lexers/f","lexers/g","lexers/h","lexers/i","lexers/internal","lexers/j","lexers/k","lexers/l","lexers/m","lexers/n","lexers/o","lexers/p","lexers/q","lexers/r","lexers/s","lexers/t","lexers/v","lexers/w","lexers/x","lexers/y","styles"]
+  revision = "563aadc53c53292c4c1def1b0a547be498bba83e"
+  version = "v0.3.0"
+
+[[projects]]
+  branch = "master"
+  name = "github.com/danwakefield/fnmatch"
+  packages = ["."]
+  revision = "cbb64ac3d964b81592e64f957ad53df015803288"
+
+[[projects]]
+  name = "github.com/dlclark/regexp2"
+  packages = [".","syntax"]
+  revision = "487489b64fb796de2e55f4e8a4ad1e145f80e957"
+  version = "v1.1.6"
+
+[[projects]]
   name = "github.com/gorilla/context"
   packages = ["."]
   revision = "1ea25387ff6f684839d82767c1733ff4d4d15d0a"
@@ -34,6 +52,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "90be782ae1c98d6a2f741e8d2ffe80a2cb7699d9ed0c85fe72433350f78ee4bd"
+  inputs-digest = "076fa8d91bfc7487d5fcd0ce40bb6940e682516eed381deceac0279e389f1917"
   solver-name = "gps-cdcl"
   solver-version = 1

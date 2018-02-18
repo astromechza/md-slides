@@ -70,6 +70,7 @@ func (sr *SlideRenderer) Serve(i int, rw http.ResponseWriter, req *http.Request)
 	sr.Templates.ExecuteTemplate(rw, "scripts", ctx)
 	sr.Templates.ExecuteTemplate(rw, "normalize-css", ctx)
 	sr.Templates.ExecuteTemplate(rw, "markdown-css", ctx)
+	sr.Templates.ExecuteTemplate(rw, "chroma-css", ctx)
 	sr.Templates.ExecuteTemplate(rw, "other-css", ctx)
 	sr.Templates.ExecuteTemplate(rw, "slide-prefix", ctx)
 	doc.Walk(func(node *blackfriday.Node, entering bool) blackfriday.WalkStatus {

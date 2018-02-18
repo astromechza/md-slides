@@ -27,6 +27,7 @@ func (sr *SlideRenderer) MultiServeHTTP(rw http.ResponseWriter, req *http.Reques
 
 	sr.Templates.ExecuteTemplate(rw, "normalize-css", sr)
 	sr.Templates.ExecuteTemplate(rw, "markdown-css", sr)
+	sr.Templates.ExecuteTemplate(rw, "chroma-css", sr)
 	sr.Templates.ExecuteTemplate(rw, "other-css", sr)
 	sr.Templates.ExecuteTemplate(rw, "multipage-css", sr)
 

@@ -189,7 +189,7 @@ h1 > code, h2 > code, h3 > code { font-size: 0.80em; }
 
 .marginnote > code, .sidenote > code { font-size: 1rem; }
 
-pre.code { font-size: 0.9rem;
+pre.code { font-size: 0.9em;
            width: 52.5%;
            margin-left: 2.5%;
            overflow-x: auto; }
@@ -218,5 +218,39 @@ label.margin-toggle:not(.sidenote-number) { display: none; }
                          left: 0;
                          width: 100%;
                          height: 100%; }
+
+table {
+    font-size: 1.4rem;
+    padding: 0;
+}
+table tr {
+    border-top: 1px solid #cccccc;
+    background-color: white;
+    margin: 0;
+    padding: 0;
+}
+table tr:nth-child(2n) {
+    background-color: #f8f8f8;
+}
+table tr th {
+    background-color: #f8f8f8;
+    font-weight: bold;
+    border: 1px solid #cccccc;
+    text-align: left;
+    margin: 0;
+    padding: 0.5rem 1rem;
+}
+table tr td {
+    border: 1px solid #cccccc;
+    text-align: left;
+    margin: 0;
+    padding: 0.5rem 1rem;
+}
+table tr th :first-child, table tr td :first-child {
+    margin-top: 0;
+}
+table tr th :last-child, table tr td :last-child {
+    margin-bottom: 0;
+}
 </style>
 `

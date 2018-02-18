@@ -9,6 +9,10 @@ import (
 	"regexp"
 	"strings"
 
+	"github.com/alecthomas/chroma"
+	"github.com/alecthomas/chroma/formatters/html"
+	"github.com/alecthomas/chroma/lexers"
+	"github.com/alecthomas/chroma/styles"
 	"github.com/russross/blackfriday"
 )
 
@@ -22,7 +26,8 @@ const checkedSVG = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="2
 
 func (r *CustomHTMLRenderer) RenderNode(w io.Writer, node *blackfriday.Node, entering bool) blackfriday.WalkStatus {
 
-	if node.Type == blackfriday.Item &&
+	if entering &&
+		node.Type == blackfriday.Item &&
 		node.FirstChild != nil &&
 		node.FirstChild.Type == blackfriday.Paragraph &&
 		node.FirstChild.FirstChild != nil &&
@@ -44,7 +49,8 @@ func (r *CustomHTMLRenderer) RenderNode(w io.Writer, node *blackfriday.Node, ent
 		}
 	}
 
-	if node.Type == blackfriday.Text || node.Type == blackfriday.CodeBlock {
+	if entering &&
+		(node.Type == blackfriday.Text || node.Type == blackfriday.CodeBlock) {
 		re := regexp.MustCompile(`\{embedcommand: (.*?)\}`)
 		matches := re.FindAllStringSubmatch(string(node.Literal), -1)
 		for _, match := range matches {
@@ -63,7 +69,8 @@ func (r *CustomHTMLRenderer) RenderNode(w io.Writer, node *blackfriday.Node, ent
 		}
 	}
 
-	if node.Type == blackfriday.Image && entering == false {
+	if !entering &&
+		node.Type == blackfriday.Image {
 		if u, err := url.Parse(string(node.LinkData.Destination)); err == nil {
 			extra, _ := url.ParseQuery(u.Fragment)
 			w.Write([]byte(`" style="`))
@@ -74,6 +81,27 @@ func (r *CustomHTMLRenderer) RenderNode(w io.Writer, node *blackfriday.Node, ent
 				w.Write([]byte(`width: ` + extra.Get("width") + ";"))
 			}
 		}
+	}
+
+	if entering &&
+		node.Type == blackfriday.CodeBlock {
+		var lexer chroma.Lexer
+		if len(node.CodeBlockData.Info) > 0 {
+			lexer = lexers.Get(string(node.CodeBlockData.Info))
+		}
+		if lexer == nil {
+			lexer = lexers.Fallback
+		}
+		lexer = chroma.Coalesce(lexer)
+
+		// Tokenize the code
+		iterator, err := lexer.Tokenise(nil, string(node.Literal))
+		if err == nil {
+			if html.New(html.WithClasses()).Format(w, styles.BlackWhite, iterator) == nil {
+				return blackfriday.SkipChildren
+			}
+		}
+		log.Printf("code formatter problem: %s", err)
 	}
 
 	return r.Renderer.RenderNode(w, node, entering)

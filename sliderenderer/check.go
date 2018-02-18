@@ -18,6 +18,11 @@ func (sr *SlideRenderer) CheckSlides() error {
 	if len(sr.CachedSlides) == 0 {
 		return fmt.Errorf("0 slides detected")
 	}
+	oldHeat := sr.Hot
+	sr.Hot = false
+	defer func() { sr.Hot = oldHeat }()
+
+	log.Printf("Checking slides")
 	for i := range sr.CachedSlides {
 		rr := httptest.NewRecorder()
 		sr.Serve(i+1, rr, httptest.NewRequest(http.MethodGet, "http://local/", nil))
