@@ -75,7 +75,8 @@ body {
 .body-inner-talign-right {text-align: right;}
 
 .page-number {
-	position: fixed;
+	font-family: Palatino, "Palatino Linotype", "Palatino LT STD", "Book Antiqua", Georgia, serif;
+	position: absolute;
 	bottom: 0;
 	right: 0;
 	margin: 0.5rem;

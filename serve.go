@@ -3,9 +3,11 @@ package main
 import (
 	"flag"
 	"fmt"
+	"io"
 	"log"
 	"net"
 	"net/http"
+	"net/http/httptest"
 	"os"
 	"path/filepath"
 	"strconv"
@@ -58,6 +60,7 @@ func Serve(args []string) error {
 	hostFlag := fs.String("host", "", "host to listen on (localhost, 127.0.0.1)")
 	backgroundCSS := fs.String("css-background", "#fffff8", "slide background css")
 	noStaticsFlag := fs.Bool("no-statics", false, "disable static file serving (security option)")
+	exportFlag := fs.String("export-to", "", "export slides as a single html page (dont serve)")
 
 	if err := fs.Parse(args); err != nil {
 		return err
@@ -86,6 +89,31 @@ func Serve(args []string) error {
 		return fmt.Errorf("check failed: %s", err)
 	}
 	if *checkOnlyFlag {
+		return nil
+	}
+	if *exportFlag != "" {
+		log.Printf("Attempting to export html to %s", *exportFlag)
+		rec := httptest.NewRecorder()
+		sr.MultiServeHTTP(rec, httptest.NewRequest(http.MethodGet, "http://local/", nil))
+		if rec.Code != http.StatusOK {
+			return fmt.Errorf("Unexpected failure")
+		}
+		if *exportFlag == "-" {
+			if _, err := io.Copy(os.Stdout, rec.Body); err != nil {
+				return fmt.Errorf("IO error: %s", err)
+			}
+		} else {
+			f, err := os.Create(*exportFlag)
+			if err != nil {
+				return fmt.Errorf("failed to export: %s", err)
+			}
+			if _, err := io.Copy(f, rec.Body); err != nil {
+				return fmt.Errorf("IO error: %s", err)
+			}
+			if err := f.Close(); err != nil {
+				return fmt.Errorf("IO error: %s", err)
+			}
+		}
 		return nil
 	}
 
