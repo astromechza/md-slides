@@ -11,8 +11,6 @@ const markdownCSS = `
 	font-family: Palatino, "Palatino Linotype", "Palatino LT STD", "Book Antiqua", Georgia, serif;
 	color: #111;
     counter-reset: sidenote-counter;
-    min-width: 0;
-    min-height: 0;
 }
 
 h1, h2, h3, h4, h5 {

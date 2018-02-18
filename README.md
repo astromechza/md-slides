@@ -171,6 +171,16 @@ Anything that `https://github.com/russross/blackfriday` v2 supports.
 
 ---
 
+<meta valign="center" halign="center">
+
+| Tables   |      Are      |  Cool |
+|----------|:-------------:|------:|
+| col 1 is |  left-aligned | $1600 |
+| col 2 is |    centered   |   $12 |
+| col 3 is | right-aligned |    $1 |
+
+---
+
 <meta valign="center" halign="center" talign="center">
 
 ### Text above image
@@ -178,6 +188,21 @@ Anything that `https://github.com/russross/blackfriday` v2 supports.
 ![A test image](windmill.jpeg#height=500px)
 
 Text below image
+
+---
+
+### TODO
+
+Development is still in progress:
+
+- [x] v0.0 available on github
+- [ ] Rework CSS styles
+- [ ] Syntax highlighting for code blocks
+- [ ] Rebuilding `README.html` as part of travis build
+- [ ] `install.sh` script
+- [ ] Testing!
+- [ ] v1.0?
+- [ ] Page footers?
 
 ---
 
