@@ -73,6 +73,15 @@ body {
 .body-inner-talign-left {text-align: left;}
 .body-inner-talign-center {text-align: center;}
 .body-inner-talign-right {text-align: right;}
+
+.page-number {
+	position: fixed;
+	bottom: 0;
+	right: 0;
+	margin: 0.5rem;
+	color: lightgrey;
+}
+
 </style>
 `
 

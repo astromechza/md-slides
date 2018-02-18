@@ -30,7 +30,7 @@ func (sr *SlideRenderer) MultiServeHTTP(rw http.ResponseWriter, req *http.Reques
 	rw.Write([]byte(fmt.Sprintf(styleHeader, sr.BGCSS)))
 	rw.Write([]byte(styleMultiHeader))
 	rw.Write([]byte(markdownCSS))
-	for _, doc := range sr.CachedSlides {
+	for i, doc := range sr.CachedSlides {
 		bodyClasses := []string{"body-inner", "body-inner-multipage"}
 		if doc.Settings.Get("halign") != "" {
 			bodyClasses = append(bodyClasses, "body-inner-halign-"+doc.Settings.Get("halign"))
@@ -50,6 +50,7 @@ func (sr *SlideRenderer) MultiServeHTTP(rw http.ResponseWriter, req *http.Reques
 			return rndr.RenderNode(rw, node, entering)
 		})
 		rw.Write([]byte(`</div>`))
+		rw.Write([]byte(fmt.Sprintf(`<div class="page-number">%d/%d</div>`, i+1, len(sr.CachedSlides))))
 		rw.Write([]byte(`</div>`))
 	}
 

@@ -118,23 +118,23 @@ func (sr *SlideRenderer) Serve(i int, rw http.ResponseWriter, req *http.Request)
 			return
 		}
 	}
-	if i < 0 || i >= len(sr.CachedSlides) {
+	if i < 1 || i > len(sr.CachedSlides) {
 		rw.Header().Set("location", sr.FirstSlidePath())
 		rw.WriteHeader(http.StatusTemporaryRedirect)
 		return
 	}
 
 	nextSlide, prevSlide := i, i
-	if prevSlide > 0 {
+	if prevSlide > 1 {
 		prevSlide--
 	}
-	if nextSlide < len(sr.CachedSlides)-1 {
+	if nextSlide < len(sr.CachedSlides) {
 		nextSlide++
 	}
 
-	doc := sr.CachedSlides[i]
+	doc := sr.CachedSlides[i-1]
 	rndr := blackfriday.Renderer(blackfriday.NewHTMLRenderer(blackfriday.HTMLRendererParameters{
-		Title: fmt.Sprintf("%s %d/%d", filepath.Base(sr.Filename), i+1, len(sr.CachedSlides)),
+		Title: fmt.Sprintf("%s %d/%d", filepath.Base(sr.Filename), i, len(sr.CachedSlides)),
 		Flags: blackfriday.CompletePage | blackfriday.HrefTargetBlank,
 	}))
 	rndr = &CustomHTMLRenderer{Renderer: rndr, CWD: filepath.Dir(sr.Filename)}
@@ -162,6 +162,7 @@ func (sr *SlideRenderer) Serve(i int, rw http.ResponseWriter, req *http.Request)
 		return rndr.RenderNode(rw, node, entering)
 	})
 	rw.Write([]byte(`</div>`))
+	rw.Write([]byte(fmt.Sprintf(`<div class="page-number">%d/%d</div>`, i, len(sr.CachedSlides))))
 	rw.Write([]byte(`</div>`))
 	rndr.RenderFooter(rw, nil)
 }

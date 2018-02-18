@@ -27,5 +27,5 @@ func (sr *SlideRenderer) NthSlidePath(n int) string {
 }
 
 func (sr *SlideRenderer) FirstSlidePath() string {
-	return sr.NthSlidePath(0)
+	return sr.NthSlidePath(1)
 }

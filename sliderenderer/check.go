@@ -20,7 +20,7 @@ func (sr *SlideRenderer) CheckSlides() error {
 	}
 	for i := range sr.CachedSlides {
 		rr := httptest.NewRecorder()
-		sr.Serve(i, rr, httptest.NewRequest(http.MethodGet, "http://local/", nil))
+		sr.Serve(i+1, rr, httptest.NewRequest(http.MethodGet, "http://local/", nil))
 		if rr.Code != http.StatusOK {
 			return fmt.Errorf("rendering of slide %d failed with code %d", i, rr.Code)
 		}
