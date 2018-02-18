@@ -22,6 +22,7 @@ type SlideRenderer struct {
 	XRes         int
 	YRes         int
 	BGCSS        string
+	URLPath      string
 }
 
 func (sr *SlideRenderer) ShouldRecache() bool {
@@ -118,11 +119,10 @@ func (sr *SlideRenderer) Serve(i int, rw http.ResponseWriter, req *http.Request)
 		}
 	}
 	if i < 0 || i >= len(sr.CachedSlides) {
-		rw.Header().Set("location", "/slides/0")
+		rw.Header().Set("location", sr.FirstSlidePath())
 		rw.WriteHeader(http.StatusTemporaryRedirect)
 		return
 	}
-	log.Printf("Serving slide %d/%d", i+1, len(sr.CachedSlides))
 
 	nextSlide, prevSlide := i, i
 	if prevSlide > 0 {

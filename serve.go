@@ -16,6 +16,12 @@ import (
 	"github.com/AstromechZA/md-slides/sliderenderer"
 )
 
+const serveUsage = `Usage:
+  md-slides serve [options...] <filepath>
+
+Options:
+`
+
 func parseResString(i string) (int, int, error) {
 	i = strings.TrimSpace(strings.ToLower(i))
 	parts := strings.Split(i, "x")
@@ -41,12 +47,17 @@ func parseResString(i string) (int, int, error) {
 
 func Serve(args []string) error {
 	fs := flag.NewFlagSet("serve", flag.ExitOnError)
+	fs.Usage = func() {
+		fmt.Fprintf(os.Stderr, serveUsage)
+		fs.PrintDefaults()
+	}
 	hotFlag := fs.Bool("hot", false, "reload, reparse, and regenerate slides on each refresh")
 	checkOnlyFlag := fs.Bool("check-only", false, "stop after checking slides")
 	resFlag := fs.String("res", "1600x900", "set render aspect ratio and zoom for rendering")
 	portFlag := fs.Int("port", 8080, "port to listen on")
 	hostFlag := fs.String("host", "", "host to listen on (localhost, 127.0.0.1)")
 	backgroundCSS := fs.String("css-background", "#fffff8", "slide background css")
+	noStaticsFlag := fs.Bool("no-statics", false, "disable static file serving (security option)")
 
 	if err := fs.Parse(args); err != nil {
 		return err
@@ -63,7 +74,14 @@ func Serve(args []string) error {
 		return fmt.Errorf("bad res string: %s", err)
 	}
 
-	sr := sliderenderer.SlideRenderer{Filename: filename, Hot: *hotFlag, XRes: xres, YRes: yres, BGCSS: *backgroundCSS}
+	sr := sliderenderer.SlideRenderer{
+		Filename: filename,
+		Hot:      *hotFlag,
+		XRes:     xres,
+		YRes:     yres,
+		BGCSS:    *backgroundCSS,
+		URLPath:  "/_slides",
+	}
 	if err = sr.CheckSlides(); err != nil {
 		return fmt.Errorf("check failed: %s", err)
 	}
@@ -72,10 +90,12 @@ func Serve(args []string) error {
 	}
 
 	r := mux.NewRouter()
-	r.Path("/_slides/").Handler(http.RedirectHandler(sr.FirstSlidePath(), http.StatusTemporaryRedirect))
-	r.Path("/_slides").HandlerFunc(sr.ServeHTTP)
+	r.Path(sr.URLPath + "/").Handler(http.RedirectHandler(sr.FirstSlidePath(), http.StatusTemporaryRedirect))
+	r.Path(sr.URLPath).HandlerFunc(sr.ServeHTTP)
 	r.Path("/_multislide").HandlerFunc(sr.MultiServeHTTP)
-	r.Path("/{static}").Handler(http.FileServer(CustomDirFS{Directory: filepath.Dir(filename)}))
+	if !*noStaticsFlag {
+		r.Path("/{static}").Handler(http.FileServer(CustomDirFS{Directory: filepath.Dir(filename)}))
+	}
 	r.Path("/").Handler(http.RedirectHandler(sr.FirstSlidePath(), http.StatusTemporaryRedirect))
 
 	listenString := net.JoinHostPort(*hostFlag, strconv.Itoa(*portFlag))

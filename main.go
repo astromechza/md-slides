@@ -9,11 +9,11 @@ import (
 const mainUsage = `md-slides is a html slide server based on slides defined in a markdown formatted file.
 
 Usage:
-	md-slides [subcommand] [options...]
+  md-slides [subcommand] [options...]
 
 Subcommands:
-	serve     serve the slides as html
-	version   print version information
+  serve     serve the slides as html
+  version   print version information
 `
 
 var commitHash = "unknown"

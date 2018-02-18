@@ -57,19 +57,13 @@ blah
 
 ![testimage](./testimage.png)
 
+[../../../../../etc/hosts](../../../../../etc/hosts)
+
 ---
 
 # TODO
 
-- [ ] **critical**: fix statics paths (they need to be relative to the single/multi paths)
-- [ ] **bug**: remove httptest flag command (why is it there)
-- [ ] **feature**: pdf rendering
-- [ ] **security**: disable file serving if necessary or by default
-- [ ] **security**: blacklist some file patterns from serving
 - [ ] **feature**: page numbers
-- [ ] **feature**: file path can be a url :D
-- [x] **fix**: change slides urls to `/_slides/<int>`
-- [x] **feature**: other keys for advancing slides (space, enter)
 
 ---
 

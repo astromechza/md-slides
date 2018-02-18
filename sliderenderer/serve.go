@@ -6,8 +6,6 @@ import (
 	"strconv"
 )
 
-const slidesPath = "/_slides"
-
 func (sr *SlideRenderer) ServeHTTP(rw http.ResponseWriter, req *http.Request) {
 	snRaw := req.URL.Query().Get("page")
 	if snRaw == "" {
@@ -25,7 +23,7 @@ func (sr *SlideRenderer) ServeHTTP(rw http.ResponseWriter, req *http.Request) {
 }
 
 func (sr *SlideRenderer) NthSlidePath(n int) string {
-	return fmt.Sprintf("%s?page=%d", slidesPath, n)
+	return fmt.Sprintf("%s?page=%d", sr.URLPath, n)
 }
 
 func (sr *SlideRenderer) FirstSlidePath() string {
