@@ -12,6 +12,7 @@ script:
   - dist/md-slides.linux.amd64 version
   - mkdir pages
   - dist/md-slides.linux.amd64 serve --export-to=pages/index.html README.md
+  - cp windmill.jpeg pages/
 deploy:
   - provider: releases
     api_key:
