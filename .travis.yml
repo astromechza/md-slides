@@ -11,7 +11,7 @@ script:
   - cd ..
   - dist/md-slides.linux.amd64 version
   - mkdir pages
-  - dist/md-slides.linux.amd64 serve --export-to=pages/output.html README.md
+  - dist/md-slides.linux.amd64 serve --export-to=pages/index.html README.md
 deploy:
   - provider: releases
     api_key:
@@ -25,7 +25,8 @@ deploy:
       repo: AstromechZA/md-slides
       tags: true
   - provider: pages
-    github-token: BynOK6NdCU/fPWVLbsjp1WxX+270+5Ql7vNj2HTeIovQ2yxaHQvE94Hu1SUU62J69GOOHSpukraClTMVAz/SWnv0Qz5usrFHYOOqAV5lUBmqymQSx+ztnrRgM66GlVWH6v5Pc0ANUrbDrn+tsdxoRrAzxfLr3Vuu1ZK+ubs9qdnM4ywOQtDUYOm5UsALkXBfQLW0gm9skO01vTuIc0Es9ohYDvV748AWouY2mCgLHDCJh5K+IpdyV/wWegUlX5t/vgDMOzyxLzjHSrUluVl6v+QeFZnz2TybADyDdXvu9sUifjPFG/KVvbXKKA7nfa1TT99Zc9JVxDYO4usNDw/Qrc40icPpB/XHauH4zcDvAmsyQ/8WtaM2imkoM3g7VnwI0yVTOTmYjRS1lndgzCNbsplYW5IEdwBuF1fCgxLZ0LEOuh9lEt2CluZdp0KuXay7VIOLA4fmQw/NSIGfRBS4BoNyuXfPg9mTCRxotaUdiWfkXl0EAzK2I7lnWrzqcya5Am36TJI0gbBDmKQ2GQh+orYhXC/IeyOjLcPa6mZ/Gu2hI9K992q1bzG5nG0r1rssg4owNlSu1dGGR6ey2IKYwyhXxdq+LzrQhvQslhvqr/fBTI1JJme8YX8hwBCVwnHbubw799mFBEGybOjkS5CCwolwg6TmmXZ2fimQi2u/jt8=
+    github-token:
+      secure: BynOK6NdCU/fPWVLbsjp1WxX+270+5Ql7vNj2HTeIovQ2yxaHQvE94Hu1SUU62J69GOOHSpukraClTMVAz/SWnv0Qz5usrFHYOOqAV5lUBmqymQSx+ztnrRgM66GlVWH6v5Pc0ANUrbDrn+tsdxoRrAzxfLr3Vuu1ZK+ubs9qdnM4ywOQtDUYOm5UsALkXBfQLW0gm9skO01vTuIc0Es9ohYDvV748AWouY2mCgLHDCJh5K+IpdyV/wWegUlX5t/vgDMOzyxLzjHSrUluVl6v+QeFZnz2TybADyDdXvu9sUifjPFG/KVvbXKKA7nfa1TT99Zc9JVxDYO4usNDw/Qrc40icPpB/XHauH4zcDvAmsyQ/8WtaM2imkoM3g7VnwI0yVTOTmYjRS1lndgzCNbsplYW5IEdwBuF1fCgxLZ0LEOuh9lEt2CluZdp0KuXay7VIOLA4fmQw/NSIGfRBS4BoNyuXfPg9mTCRxotaUdiWfkXl0EAzK2I7lnWrzqcya5Am36TJI0gbBDmKQ2GQh+orYhXC/IeyOjLcPa6mZ/Gu2hI9K992q1bzG5nG0r1rssg4owNlSu1dGGR6ey2IKYwyhXxdq+LzrQhvQslhvqr/fBTI1JJme8YX8hwBCVwnHbubw799mFBEGybOjkS5CCwolwg6TmmXZ2fimQi2u/jt8=
     skip_cleanup: true
     keep-history: true
     local-dir: ./pages
