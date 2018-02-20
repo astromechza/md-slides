@@ -1,4 +1,5 @@
 <meta valign="center" halign="center" talign="center">
+<meta footer="github.com/AstromechZA/md-slides">
 
 # md-slides
 
@@ -6,9 +7,13 @@ AstromechZA 2018
 
 ---
 
+<meta footer="">
+
 ### Intro
 
 `md-slides` is a tool for presenting html-based presentations based on a Markdown documents.
+
+Online Example (scrolling): [astromechza.github.io/md-slides/](https://astromechza.github.io/md-slides/)
 
 Project URL: [github.com/AstromechZA/md-slides](https://github.com/AstromechZA/md-slides)
 
@@ -195,6 +200,22 @@ second line
 
 ---
 
+<meta footer="January 1970 &vert; Some Conference">
+
+### Metadata: `footer`
+
+Add some footer text to the bottom left of each slide using the `footer` metadata key.
+
+The value will persist between pages until overriden by a new value or empty string.
+
+```html
+<meta footer="January 1970 &vert; Some Conference">
+```
+
+---
+
+<meta footer="">
+
 ### Markdown support
 
 Anything that `https://github.com/russross/blackfriday` v2 supports.
@@ -266,10 +287,8 @@ Development is still in progress:
 
 - [x] v0.0 available on github
 - [ ] Rework CSS styles
-- [ ] Rebuilding `README.html` as part of travis build and putting it on github pages.
 - [ ] Testing!
 - [ ] v1.0?
-- [ ] Page footers (for something like a copyright/date/conference)?
 
 ---
 

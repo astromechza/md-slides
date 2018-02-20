@@ -77,7 +77,18 @@ body {
 	bottom: 0;
 	right: 0;
 	margin: 0.5rem;
-	color: lightgrey;
+	font-size: 0.9em;
+	color: darkgrey;
+}
+
+.page-footer {
+	font-family: Palatino, "Palatino Linotype", "Palatino LT STD", "Book Antiqua", Georgia, serif;
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	margin: 0.5rem;
+	font-size: 0.9em;
+	color: darkgrey;
 }
 
 pre.chroma {

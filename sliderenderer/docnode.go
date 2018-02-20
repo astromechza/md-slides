@@ -29,6 +29,15 @@ func (n *DocumentNode) SlideClasses() string {
 	return strings.Join(bodyClasses, " ")
 }
 
+func (n *DocumentNode) HasFooter() bool {
+	_, ok := n.Settings["footer"]
+	return ok
+}
+
+func (n *DocumentNode) Footer() string {
+	return n.Settings.Get("footer")
+}
+
 func breakIntoDocumentNodes(node *blackfriday.Node) []*DocumentNode {
 	var documents []*DocumentNode
 	var currentDoc *DocumentNode
@@ -55,7 +64,19 @@ func breakIntoDocumentNodes(node *blackfriday.Node) []*DocumentNode {
 		fillDocumentSettings(currentDoc)
 		documents = append(documents, currentDoc)
 	}
+	cascadeFooters(documents)
 	return documents
+}
+
+func cascadeFooters(nodes []*DocumentNode) {
+	currentFooter := ""
+	for _, n := range nodes {
+		if n.HasFooter() {
+			currentFooter = n.Footer()
+		} else {
+			n.Settings.Set("footer", currentFooter)
+		}
+	}
 }
 
 func fillDocumentSettings(node *DocumentNode) {

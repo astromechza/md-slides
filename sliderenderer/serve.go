@@ -63,8 +63,9 @@ func (sr *SlideRenderer) Serve(i int, rw http.ResponseWriter, req *http.Request)
 		PageNext     int
 		PagePrev     int
 		SlideClasses string
+		Footer string
 	}{
-		*sr, i, nextSlide, prevSlide, doc.SlideClasses(),
+		*sr, i, nextSlide, prevSlide, doc.SlideClasses(), doc.Footer(),
 	}
 
 	sr.Templates.ExecuteTemplate(rw, "scripts", ctx)

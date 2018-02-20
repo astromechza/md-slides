@@ -50,6 +50,9 @@ func LoadTemplates() (*template.Template, error) {
 
 	if _, err := root.New("slide-suffix").Parse(`
 			</div>
+			{{ if .Footer }}
+				<div class="page-footer">{{ .Footer }}</div>
+			{{ end }}
 			<div class="page-number">{{ .PageNum }}/{{ len .CachedSlides }}</div>
 		</div>
 		`); err != nil {

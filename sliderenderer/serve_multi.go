@@ -36,8 +36,9 @@ func (sr *SlideRenderer) MultiServeHTTP(rw http.ResponseWriter, req *http.Reques
 			SlideRenderer
 			PageNum      int
 			SlideClasses string
+			Footer string
 		}{
-			SlideRenderer: *sr, PageNum: i + 1, SlideClasses: doc.SlideClasses(),
+			SlideRenderer: *sr, PageNum: i + 1, SlideClasses: doc.SlideClasses(), Footer: doc.Footer(),
 		}
 
 		sr.Templates.ExecuteTemplate(rw, "slide-prefix", ctx)
