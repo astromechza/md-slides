@@ -370,7 +370,18 @@ body {
 	bottom: 0;
 	right: 0;
 	margin: 0.5rem;
-	color: lightgrey;
+	font-size: 0.9em;
+	color: darkgrey;
+}
+
+.page-footer {
+	font-family: Palatino, "Palatino Linotype", "Palatino LT STD", "Book Antiqua", Georgia, serif;
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	margin: 0.5rem;
+	font-size: 0.9em;
+	color: darkgrey;
 }
 
 pre.chroma {
@@ -413,22 +424,29 @@ body {
 
 	<div class="slide-wrap slide-wrap-halign-center slide-wrap-valign-center slide-wrap-talign-center" style="width: 1366px; height: 768px; background: #fffff8">
 		<div class="markdown-body">
-	<p><meta valign="center" halign="center" talign="center"></p>
+	<p><meta valign="center" halign="center" talign="center">
+<meta footer="github.com/AstromechZA/md-slides"></p>
 
 <h1>md-slides</h1>
 
 <p>AstromechZA 2018</p>
 
 			</div>
-			<div class="page-number">1/20</div>
+			
+				<div class="page-footer">github.com/AstromechZA/md-slides</div>
+			
+			<div class="page-number">1/21</div>
 		</div>
 		
 	<div class="slide-wrap" style="width: 1366px; height: 768px; background: #fffff8">
 		<div class="markdown-body">
-	
+	<p><meta footer=""></p>
+
 <h3>Intro</h3>
 
 <p><code>md-slides</code> is a tool for presenting html-based presentations based on a Markdown documents.</p>
+
+<p>Online Example (scrolling): <a href="https://astromechza.github.io/md-slides/" target="_blank">astromechza.github.io/md-slides/</a></p>
 
 <p>Project URL: <a href="https://github.com/AstromechZA/md-slides" target="_blank">github.com/AstromechZA/md-slides</a></p>
 
@@ -445,7 +463,8 @@ body {
 </ul>
 
 			</div>
-			<div class="page-number">2/20</div>
+			
+			<div class="page-number">2/21</div>
 		</div>
 		
 	<div class="slide-wrap" style="width: 1366px; height: 768px; background: #fffff8">
@@ -469,7 +488,8 @@ body {
 </ul>
 
 			</div>
-			<div class="page-number">3/20</div>
+			
+			<div class="page-number">3/21</div>
 		</div>
 		
 	<div class="slide-wrap" style="width: 1366px; height: 768px; background: #fffff8">
@@ -499,7 +519,8 @@ $ mv md-slides.linux.amd64 ~/bin/md-slides
 </ul>
 
 			</div>
-			<div class="page-number">4/20</div>
+			
+			<div class="page-number">4/21</div>
 		</div>
 		
 	<div class="slide-wrap" style="width: 1366px; height: 768px; background: #fffff8">
@@ -517,12 +538,13 @@ Subcommands:
 </pre>
 <h3><code>version</code> subcommand</h3>
 <pre class="chroma">Version: v0.1
-Hash:    d4e7bee
-Date:    2018-02-19
+Hash:    33e79c1
+Date:    2018-02-20
 URL:     https://github.com/AstromechZA/md-slides
 </pre>
 			</div>
-			<div class="page-number">5/20</div>
+			
+			<div class="page-number">5/21</div>
 		</div>
 		
 	<div class="slide-wrap" style="width: 1366px; height: 768px; background: #fffff8">
@@ -555,7 +577,8 @@ Options:
     	set render aspect ratio and zoom for rendering (default &#34;1366x768&#34;)
 </pre>
 			</div>
-			<div class="page-number">6/20</div>
+			
+			<div class="page-number">6/21</div>
 		</div>
 		
 	<div class="slide-wrap" style="width: 1366px; height: 768px; background: #fffff8">
@@ -581,7 +604,8 @@ Options:
 </span><span class="err"></span>stuff<span class="err">
 </span><span class="err"></span></pre>
 			</div>
-			<div class="page-number">7/20</div>
+			
+			<div class="page-number">7/21</div>
 		</div>
 		
 	<div class="slide-wrap" style="width: 1366px; height: 768px; background: #fffff8">
@@ -598,7 +622,8 @@ Options:
 </ul>
 
 			</div>
-			<div class="page-number">8/20</div>
+			
+			<div class="page-number">8/21</div>
 		</div>
 		
 	<div class="slide-wrap" style="width: 1366px; height: 768px; background: #fffff8">
@@ -609,12 +634,13 @@ Options:
 <p>Embed command embeds the combined stdout/stdin output of executing a given subcommand. The subcommand should be embeded as a json array like <code>[&quot;ls&quot;, &quot;-al&quot;, &quot;blah&quot;]</code>.</p>
 
 <p>For example a slide containing <code>{embed</code><code>command: [&quot;date&quot;]}</code> could output:</p>
-<pre class="chroma">Mon Feb 19 06:56:02 UTC 2018
+<pre class="chroma">Tue Feb 20 06:13:54 UTC 2018
 </pre>
 <p>This makes it easy to present live content or to embed dynamic data into the slides based on the output of scripts.</p>
 
 			</div>
-			<div class="page-number">9/20</div>
+			
+			<div class="page-number">9/21</div>
 		</div>
 		
 	<div class="slide-wrap" style="width: 1366px; height: 768px; background: #fffff8">
@@ -628,7 +654,8 @@ Options:
 </span><span class="err"></span>![<span class="nt">alt text</span>](<span class="na">/my/relative/path#width=500px</span>)<span class="err">
 </span><span class="err"></span></pre>
 			</div>
-			<div class="page-number">10/20</div>
+			
+			<div class="page-number">10/21</div>
 		</div>
 		
 	<div class="slide-wrap" style="width: 1366px; height: 768px; background: #fffff8">
@@ -652,7 +679,8 @@ Options:
 </ul>
 
 			</div>
-			<div class="page-number">11/20</div>
+			
+			<div class="page-number">11/21</div>
 		</div>
 		
 	<div class="slide-wrap slide-wrap-halign-right slide-wrap-valign-bottom" style="width: 1366px; height: 768px; background: #fffff8">
@@ -664,7 +692,8 @@ Options:
 <p>second line</p>
 
 			</div>
-			<div class="page-number">12/20</div>
+			
+			<div class="page-number">12/21</div>
 		</div>
 		
 	<div class="slide-wrap" style="width: 1366px; height: 768px; background: #fffff8">
@@ -678,7 +707,8 @@ Options:
 <p>Allowed values for <code>talign</code> are <code>left</code>, <code>center</code>, <code>right</code></p>
 
 			</div>
-			<div class="page-number">13/20</div>
+			
+			<div class="page-number">13/21</div>
 		</div>
 		
 	<div class="slide-wrap slide-wrap-talign-right" style="width: 1366px; height: 768px; background: #fffff8">
@@ -690,12 +720,32 @@ Options:
 <p>second line</p>
 
 			</div>
-			<div class="page-number">14/20</div>
+			
+			<div class="page-number">14/21</div>
 		</div>
 		
 	<div class="slide-wrap" style="width: 1366px; height: 768px; background: #fffff8">
 		<div class="markdown-body">
-	
+	<p><meta footer="January 1970 &vert; Some Conference"></p>
+
+<h3>Metadata: <code>footer</code></h3>
+
+<p>Add some footer text to the bottom left of each slide using the <code>footer</code> metadata key.</p>
+
+<p>The value will persist between pages until overriden by a new value or empty string.</p>
+<pre class="chroma"><span class="p">&lt;</span><span class="nt">meta</span> <span class="na">footer</span><span class="o">=</span><span class="s">&#34;January 1970 &amp;vert; Some Conference&#34;</span><span class="p"></span><span class="p">&gt;</span>
+</pre>
+			</div>
+			
+				<div class="page-footer">January 1970 | Some Conference</div>
+			
+			<div class="page-number">15/21</div>
+		</div>
+		
+	<div class="slide-wrap" style="width: 1366px; height: 768px; background: #fffff8">
+		<div class="markdown-body">
+	<p><meta footer=""></p>
+
 <h3>Markdown support</h3>
 
 <p>Anything that <code>https://github.com/russross/blackfriday</code> v2 supports.</p>
@@ -720,7 +770,8 @@ Options:
 </blockquote>
 
 			</div>
-			<div class="page-number">15/20</div>
+			
+			<div class="page-number">16/21</div>
 		</div>
 		
 	<div class="slide-wrap" style="width: 1366px; height: 768px; background: #fffff8">
@@ -745,7 +796,8 @@ Options:
 <span class="p">}</span>
 </pre>
 			</div>
-			<div class="page-number">16/20</div>
+			
+			<div class="page-number">17/21</div>
 		</div>
 		
 	<div class="slide-wrap slide-wrap-halign-center slide-wrap-valign-center" style="width: 1366px; height: 768px; background: #fffff8">
@@ -786,7 +838,8 @@ Options:
 </table>
 
 			</div>
-			<div class="page-number">17/20</div>
+			
+			<div class="page-number">18/21</div>
 		</div>
 		
 	<div class="slide-wrap slide-wrap-halign-center slide-wrap-valign-center slide-wrap-talign-center" style="width: 1366px; height: 768px; background: #fffff8">
@@ -800,7 +853,8 @@ Options:
 <p>Text below image</p>
 
 			</div>
-			<div class="page-number">18/20</div>
+			
+			<div class="page-number">19/21</div>
 		</div>
 		
 	<div class="slide-wrap" style="width: 1366px; height: 768px; background: #fffff8">
@@ -813,14 +867,13 @@ Options:
 <ul>
 <li><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M10.041 17l-4.5-4.319 1.395-1.435 3.08 2.937 7.021-7.183 1.422 1.409-8.418 8.591zm-5.041-15c-1.654 0-3 1.346-3 3v14c0 1.654 1.346 3 3 3h14c1.654 0 3-1.346 3-3v-14c0-1.654-1.346-3-3-3h-14zm19 3v14c0 2.761-2.238 5-5 5h-14c-2.762 0-5-2.239-5-5v-14c0-2.761 2.238-5 5-5h14c2.762 0 5 2.239 5 5z"/></svg> v0.0 available on github</li>
 <li><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M5 2c-1.654 0-3 1.346-3 3v14c0 1.654 1.346 3 3 3h14c1.654 0 3-1.346 3-3v-14c0-1.654-1.346-3-3-3h-14zm19 3v14c0 2.761-2.238 5-5 5h-14c-2.762 0-5-2.239-5-5v-14c0-2.761 2.238-5 5-5h14c2.762 0 5 2.239 5 5z"/></svg> Rework CSS styles</li>
-<li><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M5 2c-1.654 0-3 1.346-3 3v14c0 1.654 1.346 3 3 3h14c1.654 0 3-1.346 3-3v-14c0-1.654-1.346-3-3-3h-14zm19 3v14c0 2.761-2.238 5-5 5h-14c-2.762 0-5-2.239-5-5v-14c0-2.761 2.238-5 5-5h14c2.762 0 5 2.239 5 5z"/></svg> Rebuilding <code>README.html</code> as part of travis build and putting it on github pages.</li>
 <li><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M5 2c-1.654 0-3 1.346-3 3v14c0 1.654 1.346 3 3 3h14c1.654 0 3-1.346 3-3v-14c0-1.654-1.346-3-3-3h-14zm19 3v14c0 2.761-2.238 5-5 5h-14c-2.762 0-5-2.239-5-5v-14c0-2.761 2.238-5 5-5h14c2.762 0 5 2.239 5 5z"/></svg> Testing!</li>
 <li><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M5 2c-1.654 0-3 1.346-3 3v14c0 1.654 1.346 3 3 3h14c1.654 0 3-1.346 3-3v-14c0-1.654-1.346-3-3-3h-14zm19 3v14c0 2.761-2.238 5-5 5h-14c-2.762 0-5-2.239-5-5v-14c0-2.761 2.238-5 5-5h14c2.762 0 5 2.239 5 5z"/></svg> v1.0?</li>
-<li><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M5 2c-1.654 0-3 1.346-3 3v14c0 1.654 1.346 3 3 3h14c1.654 0 3-1.346 3-3v-14c0-1.654-1.346-3-3-3h-14zm19 3v14c0 2.761-2.238 5-5 5h-14c-2.762 0-5-2.239-5-5v-14c0-2.761 2.238-5 5-5h14c2.762 0 5 2.239 5 5z"/></svg> Page footers (for something like a copyright/date/conference)?</li>
 </ul>
 
 			</div>
-			<div class="page-number">19/20</div>
+			
+			<div class="page-number">20/21</div>
 		</div>
 		
 	<div class="slide-wrap slide-wrap-halign-center slide-wrap-valign-center slide-wrap-talign-center" style="width: 1366px; height: 768px; background: #fffff8">
@@ -830,7 +883,8 @@ Options:
 <h2>Thanks!</h2>
 
 			</div>
-			<div class="page-number">20/20</div>
+			
+			<div class="page-number">21/21</div>
 		</div>
 		
 </body>
