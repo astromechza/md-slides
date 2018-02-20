@@ -46,10 +46,13 @@ body {
 }
 
 .slide-wrap {
+	width: {{ .XRes }}px;
+	height: {{ .YRes }}px;
 	align-self: center;
 	display: grid;
 	box-sizing: border-box;
 	background: white;
+	background: {{ .BGCSS }};
 	padding: 1rem;
     border-radius: 0.3rem;
 	box-shadow: 0px 0.2rem 0.6rem black;
@@ -127,7 +130,7 @@ body {
 }
 
 @page {
-	size: {{ add .XRes 40 }}px {{ add .YRes 40 }}px;
+	size: {{ add .XRes 41 }}px {{ add .YRes 41 }}px;
 }
 </style>
 `

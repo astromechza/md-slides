@@ -42,7 +42,7 @@ func LoadTemplates() (*template.Template, error) {
 	}
 
 	if _, err := root.New("slide-prefix").Parse(`
-	<div class="{{ .SlideClasses }}" style="width: {{ .XRes }}px; height: {{ .YRes }}px; background: {{ .BGCSS }}">
+	<div class="{{ .SlideClasses }}">
 		<div class="markdown-body">
 	`); err != nil {
 		return nil, fmt.Errorf("failed to load slide-prefix: %s", err)
