@@ -51,20 +51,27 @@ the appropriate binary for your system from the project releases page [here](htt
 Or use the installation script to be quick:
 
 ```
-$ curl https://raw.githubusercontent.com/AstromechZA/md-slides/master/install.sh | OVERRIDE_RELEASE_TAG=~/bin sh
+$ curl https://raw.githubusercontent.com/AstromechZA/md-slides/master/install.sh | INSTALL_DIRECTORY=~/bin sh
 ```
 
+Eg:
 
-```bash
-$ wget https://github.com/AstromechZA/md-slides/releases/download/v0.0/md-slides.linux.amd64
-
-# verify integrity
-$ wget https://github.com/AstromechZA/md-slides/releases/download/v0.0/SHA256SUMS
-$ sha256sum -c SHA256SUMS
-
-$ chmod +x md-slides.linux.amd64
-$ mv md-slides.linux.amd64 ~/bin/md-slides
 ```
+$ curl https://raw.githubusercontent.com/AstromechZA/md-slides/master/install.sh | INSTALL_DIRECTORY=~/bin sh
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100  4390  100  4390    0     0  16473      0 --:--:-- --:--:-- --:--:-- 16819
+ARCH = amd64
+OS = darwin
+Fetching https://github.com/AstromechZA/md-slides/releases/latest..
+Release Tag = v0.1
+Fetching https://github.com/AstromechZA/md-slides/releases/tag/v0.1..
+Fetching https://github.com/AstromechZA/md-slides/releases/download/v0.1/md-slides.darwin.amd64..
+Setting executable permissions.
+Moving executable to /Users/benmeier/bin/md-slides
+```
+
+---
 
 #### Dependencies
 
@@ -292,10 +299,18 @@ Text below image
 
 Development is still in progress:
 
-- [x] v0.0 available on github
-- [ ] Rework CSS styles
-- [ ] Testing!
-- [ ] v1.0?
+- [x] **v0.1 is available on github**. We'll keep it this way for a while so that people
+	can use it and report their experiences, then we can change things up if there
+	are any issues.
+- [ ] **Communication between client and server**. I'd like to explore this in order
+	to add things like a speaker dashboard that is synchronised to the main display
+	but in a different browser window.
+- [ ] **Slides declare aspect ration/font size**. Slides should be able to declare their
+	own aspect ratio/zoom.
+- [ ] **Theme support**. Make css themes around the markdown more transparent and
+	easy to use. Also expose code highlighting theme. Do we declare these in the slides
+	or in the cli args? Does this replace background color?. Is it just a matter of
+	adding a stylesheet `<link href="/thing.css"...` to each/appropriate slide?
 
 ---
 
