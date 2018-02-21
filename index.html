@@ -339,10 +339,13 @@ body {
 }
 
 .slide-wrap {
+	width: 1366px;
+	height: 768px;
 	align-self: center;
 	display: grid;
 	box-sizing: border-box;
 	background: white;
+	background: #fffff8;
 	padding: 1rem;
     border-radius: 0.3rem;
 	box-shadow: 0px 0.2rem 0.6rem black;
@@ -418,11 +421,11 @@ body {
 }
 
 @page {
-	size: 1406px 808px;
+	size: 1407px 809px;
 }
 </style>
 
-	<div class="slide-wrap slide-wrap-halign-center slide-wrap-valign-center slide-wrap-talign-center" style="width: 1366px; height: 768px; background: #fffff8">
+	<div class="slide-wrap slide-wrap-halign-center slide-wrap-valign-center slide-wrap-talign-center">
 		<div class="markdown-body">
 	<p><meta valign="center" halign="center" talign="center">
 <meta footer="github.com/AstromechZA/md-slides"></p>
@@ -435,10 +438,10 @@ body {
 			
 				<div class="page-footer">github.com/AstromechZA/md-slides</div>
 			
-			<div class="page-number">1/21</div>
+			<div class="page-number">1/22</div>
 		</div>
 		
-	<div class="slide-wrap" style="width: 1366px; height: 768px; background: #fffff8">
+	<div class="slide-wrap">
 		<div class="markdown-body">
 	<p><meta footer=""></p>
 
@@ -464,10 +467,10 @@ body {
 
 			</div>
 			
-			<div class="page-number">2/21</div>
+			<div class="page-number">2/22</div>
 		</div>
 		
-	<div class="slide-wrap" style="width: 1366px; height: 768px; background: #fffff8">
+	<div class="slide-wrap">
 		<div class="markdown-body">
 	
 <h3>Prior art</h3>
@@ -489,25 +492,42 @@ body {
 
 			</div>
 			
-			<div class="page-number">3/21</div>
+			<div class="page-number">3/22</div>
 		</div>
 		
-	<div class="slide-wrap" style="width: 1366px; height: 768px; background: #fffff8">
+	<div class="slide-wrap">
 		<div class="markdown-body">
 	
 <h3>Installation</h3>
 
 <p>Although you <em>can</em> build and install it from source, we recommend that you pull
 the appropriate binary for your system from the project releases page <a href="https://github.com/AstromechZA/md-slides/releases" target="_blank">here</a>.</p>
-<pre class="chroma">$ wget https://github.com/AstromechZA/md-slides/releases/download/v0.0/md-slides.linux.amd64
 
-<span class="c1"># verify integrity
-</span><span class="c1"></span>$ wget https://github.com/AstromechZA/md-slides/releases/download/v0.0/SHA256SUMS
-$ sha256sum -c SHA256SUMS
-
-$ chmod +x md-slides.linux.amd64
-$ mv md-slides.linux.amd64 ~/bin/md-slides
+<p>Or use the installation script to be quick:</p>
+<pre class="chroma">$ curl https://raw.githubusercontent.com/AstromechZA/md-slides/master/install.sh | INSTALL_DIRECTORY=~/bin sh
 </pre>
+<p>Eg:</p>
+<pre class="chroma">$ curl https://raw.githubusercontent.com/AstromechZA/md-slides/master/install.sh | INSTALL_DIRECTORY=~/bin sh
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100  4390  100  4390    0     0  16473      0 --:--:-- --:--:-- --:--:-- 16819
+ARCH = amd64
+OS = darwin
+Fetching https://github.com/AstromechZA/md-slides/releases/latest..
+Release Tag = v0.1
+Fetching https://github.com/AstromechZA/md-slides/releases/tag/v0.1..
+Fetching https://github.com/AstromechZA/md-slides/releases/download/v0.1/md-slides.darwin.amd64..
+Setting executable permissions.
+Moving executable to /Users/benmeier/bin/md-slides
+</pre>
+			</div>
+			
+			<div class="page-number">4/22</div>
+		</div>
+		
+	<div class="slide-wrap">
+		<div class="markdown-body">
+	
 <h4>Dependencies</h4>
 
 <p>The following 3rd party libraries (and their dependencies) are statically linked into the binary:</p>
@@ -520,10 +540,10 @@ $ mv md-slides.linux.amd64 ~/bin/md-slides
 
 			</div>
 			
-			<div class="page-number">4/21</div>
+			<div class="page-number">5/22</div>
 		</div>
 		
-	<div class="slide-wrap" style="width: 1366px; height: 768px; background: #fffff8">
+	<div class="slide-wrap">
 		<div class="markdown-body">
 	
 <h3>subcommands</h3>
@@ -538,16 +558,16 @@ Subcommands:
 </pre>
 <h3><code>version</code> subcommand</h3>
 <pre class="chroma">Version: v0.1
-Hash:    33e79c1
-Date:    2018-02-20
+Hash:    96d63fe
+Date:    2018-02-21
 URL:     https://github.com/AstromechZA/md-slides
 </pre>
 			</div>
 			
-			<div class="page-number">5/21</div>
+			<div class="page-number">6/22</div>
 		</div>
 		
-	<div class="slide-wrap" style="width: 1366px; height: 768px; background: #fffff8">
+	<div class="slide-wrap">
 		<div class="markdown-body">
 	
 <h3><code>serve</code> subcommand</h3>
@@ -578,10 +598,10 @@ Options:
 </pre>
 			</div>
 			
-			<div class="page-number">6/21</div>
+			<div class="page-number">7/22</div>
 		</div>
 		
-	<div class="slide-wrap" style="width: 1366px; height: 768px; background: #fffff8">
+	<div class="slide-wrap">
 		<div class="markdown-body">
 	
 <h3>Input format</h3>
@@ -605,10 +625,10 @@ Options:
 </span><span class="err"></span></pre>
 			</div>
 			
-			<div class="page-number">7/21</div>
+			<div class="page-number">8/22</div>
 		</div>
 		
-	<div class="slide-wrap" style="width: 1366px; height: 768px; background: #fffff8">
+	<div class="slide-wrap">
 		<div class="markdown-body">
 	
 <h3>Paged vs Scrolling mode</h3>
@@ -623,10 +643,10 @@ Options:
 
 			</div>
 			
-			<div class="page-number">8/21</div>
+			<div class="page-number">9/22</div>
 		</div>
 		
-	<div class="slide-wrap" style="width: 1366px; height: 768px; background: #fffff8">
+	<div class="slide-wrap">
 		<div class="markdown-body">
 	
 <h3>Extension: <code>{embedcommand: ...}</code></h3>
@@ -634,16 +654,16 @@ Options:
 <p>Embed command embeds the combined stdout/stdin output of executing a given subcommand. The subcommand should be embeded as a json array like <code>[&quot;ls&quot;, &quot;-al&quot;, &quot;blah&quot;]</code>.</p>
 
 <p>For example a slide containing <code>{embed</code><code>command: [&quot;date&quot;]}</code> could output:</p>
-<pre class="chroma">Tue Feb 20 06:13:54 UTC 2018
+<pre class="chroma">Wed Feb 21 04:53:47 UTC 2018
 </pre>
 <p>This makes it easy to present live content or to embed dynamic data into the slides based on the output of scripts.</p>
 
 			</div>
 			
-			<div class="page-number">9/21</div>
+			<div class="page-number">10/22</div>
 		</div>
 		
-	<div class="slide-wrap" style="width: 1366px; height: 768px; background: #fffff8">
+	<div class="slide-wrap">
 		<div class="markdown-body">
 	
 <h3>Extension: image dimensions in url fragment</h3>
@@ -655,10 +675,10 @@ Options:
 </span><span class="err"></span></pre>
 			</div>
 			
-			<div class="page-number">10/21</div>
+			<div class="page-number">11/22</div>
 		</div>
 		
-	<div class="slide-wrap" style="width: 1366px; height: 768px; background: #fffff8">
+	<div class="slide-wrap">
 		<div class="markdown-body">
 	
 <h3>Metadata: <code>halign</code> and <code>valign</code></h3>
@@ -680,10 +700,10 @@ Options:
 
 			</div>
 			
-			<div class="page-number">11/21</div>
+			<div class="page-number">12/22</div>
 		</div>
 		
-	<div class="slide-wrap slide-wrap-halign-right slide-wrap-valign-bottom" style="width: 1366px; height: 768px; background: #fffff8">
+	<div class="slide-wrap slide-wrap-halign-right slide-wrap-valign-bottom">
 		<div class="markdown-body">
 	<p><meta valign="bottom" halign="right"></p>
 
@@ -693,10 +713,10 @@ Options:
 
 			</div>
 			
-			<div class="page-number">12/21</div>
+			<div class="page-number">13/22</div>
 		</div>
 		
-	<div class="slide-wrap" style="width: 1366px; height: 768px; background: #fffff8">
+	<div class="slide-wrap">
 		<div class="markdown-body">
 	
 <h3>Metadata: <code>talign</code></h3>
@@ -708,10 +728,10 @@ Options:
 
 			</div>
 			
-			<div class="page-number">13/21</div>
+			<div class="page-number">14/22</div>
 		</div>
 		
-	<div class="slide-wrap slide-wrap-talign-right" style="width: 1366px; height: 768px; background: #fffff8">
+	<div class="slide-wrap slide-wrap-talign-right">
 		<div class="markdown-body">
 	<p><meta talign="right"></p>
 
@@ -721,10 +741,10 @@ Options:
 
 			</div>
 			
-			<div class="page-number">14/21</div>
+			<div class="page-number">15/22</div>
 		</div>
 		
-	<div class="slide-wrap" style="width: 1366px; height: 768px; background: #fffff8">
+	<div class="slide-wrap">
 		<div class="markdown-body">
 	<p><meta footer="January 1970 &vert; Some Conference"></p>
 
@@ -739,10 +759,10 @@ Options:
 			
 				<div class="page-footer">January 1970 | Some Conference</div>
 			
-			<div class="page-number">15/21</div>
+			<div class="page-number">16/22</div>
 		</div>
 		
-	<div class="slide-wrap" style="width: 1366px; height: 768px; background: #fffff8">
+	<div class="slide-wrap">
 		<div class="markdown-body">
 	<p><meta footer=""></p>
 
@@ -771,10 +791,10 @@ Options:
 
 			</div>
 			
-			<div class="page-number">16/21</div>
+			<div class="page-number">17/22</div>
 		</div>
 		
-	<div class="slide-wrap" style="width: 1366px; height: 768px; background: #fffff8">
+	<div class="slide-wrap">
 		<div class="markdown-body">
 	
 <h3>Code highlighting</h3>
@@ -797,10 +817,10 @@ Options:
 </pre>
 			</div>
 			
-			<div class="page-number">17/21</div>
+			<div class="page-number">18/22</div>
 		</div>
 		
-	<div class="slide-wrap slide-wrap-halign-center slide-wrap-valign-center" style="width: 1366px; height: 768px; background: #fffff8">
+	<div class="slide-wrap slide-wrap-halign-center slide-wrap-valign-center">
 		<div class="markdown-body">
 	
 <h3>Tables?</h3>
@@ -839,10 +859,10 @@ Options:
 
 			</div>
 			
-			<div class="page-number">18/21</div>
+			<div class="page-number">19/22</div>
 		</div>
 		
-	<div class="slide-wrap slide-wrap-halign-center slide-wrap-valign-center slide-wrap-talign-center" style="width: 1366px; height: 768px; background: #fffff8">
+	<div class="slide-wrap slide-wrap-halign-center slide-wrap-valign-center slide-wrap-talign-center">
 		<div class="markdown-body">
 	<p><meta valign="center" halign="center" talign="center"></p>
 
@@ -854,10 +874,10 @@ Options:
 
 			</div>
 			
-			<div class="page-number">19/21</div>
+			<div class="page-number">20/22</div>
 		</div>
 		
-	<div class="slide-wrap" style="width: 1366px; height: 768px; background: #fffff8">
+	<div class="slide-wrap">
 		<div class="markdown-body">
 	
 <h3>TODO</h3>
@@ -865,18 +885,26 @@ Options:
 <p>Development is still in progress:</p>
 
 <ul>
-<li><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M10.041 17l-4.5-4.319 1.395-1.435 3.08 2.937 7.021-7.183 1.422 1.409-8.418 8.591zm-5.041-15c-1.654 0-3 1.346-3 3v14c0 1.654 1.346 3 3 3h14c1.654 0 3-1.346 3-3v-14c0-1.654-1.346-3-3-3h-14zm19 3v14c0 2.761-2.238 5-5 5h-14c-2.762 0-5-2.239-5-5v-14c0-2.761 2.238-5 5-5h14c2.762 0 5 2.239 5 5z"/></svg> v0.0 available on github</li>
-<li><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M5 2c-1.654 0-3 1.346-3 3v14c0 1.654 1.346 3 3 3h14c1.654 0 3-1.346 3-3v-14c0-1.654-1.346-3-3-3h-14zm19 3v14c0 2.761-2.238 5-5 5h-14c-2.762 0-5-2.239-5-5v-14c0-2.761 2.238-5 5-5h14c2.762 0 5 2.239 5 5z"/></svg> Rework CSS styles</li>
-<li><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M5 2c-1.654 0-3 1.346-3 3v14c0 1.654 1.346 3 3 3h14c1.654 0 3-1.346 3-3v-14c0-1.654-1.346-3-3-3h-14zm19 3v14c0 2.761-2.238 5-5 5h-14c-2.762 0-5-2.239-5-5v-14c0-2.761 2.238-5 5-5h14c2.762 0 5 2.239 5 5z"/></svg> Testing!</li>
-<li><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M5 2c-1.654 0-3 1.346-3 3v14c0 1.654 1.346 3 3 3h14c1.654 0 3-1.346 3-3v-14c0-1.654-1.346-3-3-3h-14zm19 3v14c0 2.761-2.238 5-5 5h-14c-2.762 0-5-2.239-5-5v-14c0-2.761 2.238-5 5-5h14c2.762 0 5 2.239 5 5z"/></svg> v1.0?</li>
+<li><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M10.041 17l-4.5-4.319 1.395-1.435 3.08 2.937 7.021-7.183 1.422 1.409-8.418 8.591zm-5.041-15c-1.654 0-3 1.346-3 3v14c0 1.654 1.346 3 3 3h14c1.654 0 3-1.346 3-3v-14c0-1.654-1.346-3-3-3h-14zm19 3v14c0 2.761-2.238 5-5 5h-14c-2.762 0-5-2.239-5-5v-14c0-2.761 2.238-5 5-5h14c2.762 0 5 2.239 5 5z"/></svg> <strong>v0.1 is available on github</strong>. We'll keep it this way for a while so that people
+can use it and report their experiences, then we can change things up if there
+are any issues.</li>
+<li><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M5 2c-1.654 0-3 1.346-3 3v14c0 1.654 1.346 3 3 3h14c1.654 0 3-1.346 3-3v-14c0-1.654-1.346-3-3-3h-14zm19 3v14c0 2.761-2.238 5-5 5h-14c-2.762 0-5-2.239-5-5v-14c0-2.761 2.238-5 5-5h14c2.762 0 5 2.239 5 5z"/></svg> <strong>Communication between client and server</strong>. I'd like to explore this in order
+to add things like a speaker dashboard that is synchronised to the main display
+but in a different browser window.</li>
+<li><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M5 2c-1.654 0-3 1.346-3 3v14c0 1.654 1.346 3 3 3h14c1.654 0 3-1.346 3-3v-14c0-1.654-1.346-3-3-3h-14zm19 3v14c0 2.761-2.238 5-5 5h-14c-2.762 0-5-2.239-5-5v-14c0-2.761 2.238-5 5-5h14c2.762 0 5 2.239 5 5z"/></svg> <strong>Slides declare aspect ration/font size</strong>. Slides should be able to declare their
+own aspect ratio/zoom.</li>
+<li><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M5 2c-1.654 0-3 1.346-3 3v14c0 1.654 1.346 3 3 3h14c1.654 0 3-1.346 3-3v-14c0-1.654-1.346-3-3-3h-14zm19 3v14c0 2.761-2.238 5-5 5h-14c-2.762 0-5-2.239-5-5v-14c0-2.761 2.238-5 5-5h14c2.762 0 5 2.239 5 5z"/></svg> <strong>Theme support</strong>. Make css themes around the markdown more transparent and
+easy to use. Also expose code highlighting theme. Do we declare these in the slides
+or in the cli args? Does this replace background color?. Is it just a matter of
+adding a stylesheet <code>&lt;link href=&quot;/thing.css&quot;...</code> to each/appropriate slide?</li>
 </ul>
 
 			</div>
 			
-			<div class="page-number">20/21</div>
+			<div class="page-number">21/22</div>
 		</div>
 		
-	<div class="slide-wrap slide-wrap-halign-center slide-wrap-valign-center slide-wrap-talign-center" style="width: 1366px; height: 768px; background: #fffff8">
+	<div class="slide-wrap slide-wrap-halign-center slide-wrap-valign-center slide-wrap-talign-center">
 		<div class="markdown-body">
 	<p><meta valign="center" halign="center" talign="center"></p>
 
@@ -884,7 +912,7 @@ Options:
 
 			</div>
 			
-			<div class="page-number">21/21</div>
+			<div class="page-number">22/22</div>
 		</div>
 		
 </body>
