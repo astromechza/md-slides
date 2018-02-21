@@ -48,6 +48,13 @@ Features:
 Although you _can_ build and install it from source, we recommend that you pull
 the appropriate binary for your system from the project releases page [here](https://github.com/AstromechZA/md-slides/releases).
 
+Or use the installation script to be quick:
+
+```
+$ curl https://raw.githubusercontent.com/AstromechZA/md-slides/master/install.sh | OVERRIDE_RELEASE_TAG=~/bin sh
+```
+
+
 ```bash
 $ wget https://github.com/AstromechZA/md-slides/releases/download/v0.0/md-slides.linux.amd64
 
