@@ -98,6 +98,7 @@ pre.chroma {
 	padding: 1rem;
 	border-radius: 0.5rem;
 	border: 1px solid lightgrey;
+	white-space: pre-wrap;
 }
 </style>
 `
