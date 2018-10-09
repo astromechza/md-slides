@@ -4,10 +4,10 @@ const scriptHeader = `
 <script>
 document.onkeydown = function(evt) {
 	evt = evt || window.event
-	if ([13, 32, 39, 40].indexOf(evt.keyCode) >= 0) {
+	if ([13, 32, 33, 39, 40].indexOf(evt.keyCode) >= 0) {
 		window.location = "{{ .URLPath }}?page={{ .PageNext }}";
 	}
-	if ([8, 37, 38].indexOf(evt.keyCode) >= 0 ) {
+	if ([8, 34, 37, 38].indexOf(evt.keyCode) >= 0 ) {
 		window.location = "{{ .URLPath }}?page={{ .PagePrev }}";
 	}
 }
