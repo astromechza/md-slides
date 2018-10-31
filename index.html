@@ -391,6 +391,7 @@ pre.chroma {
 	padding: 1rem;
 	border-radius: 0.5rem;
 	border: 1px solid lightgrey;
+	white-space: pre-wrap;
 }
 </style>
 
@@ -428,7 +429,8 @@ body {
 	<div class="slide-wrap slide-wrap-halign-center slide-wrap-valign-center slide-wrap-talign-center">
 		<div class="markdown-body">
 	<p><meta valign="center" halign="center" talign="center">
-<meta footer="github.com/AstromechZA/md-slides"></p>
+<meta footer="github.com/AstromechZA/md-slides">
+<meta font-size="18" res="1366x768"></p>
 
 <h1>md-slides</h1>
 
@@ -438,12 +440,12 @@ body {
 			
 				<div class="page-footer">github.com/AstromechZA/md-slides</div>
 			
-			<div class="page-number">1/22</div>
+			<div class="page-number">1/24</div>
 		</div>
 		
 	<div class="slide-wrap">
 		<div class="markdown-body">
-	<p><meta footer=""></p>
+	<p><meta valign="" halign="" talign="" footer=""></p>
 
 <h3>Intro</h3>
 
@@ -467,7 +469,7 @@ body {
 
 			</div>
 			
-			<div class="page-number">2/22</div>
+			<div class="page-number">2/24</div>
 		</div>
 		
 	<div class="slide-wrap">
@@ -492,7 +494,7 @@ body {
 
 			</div>
 			
-			<div class="page-number">3/22</div>
+			<div class="page-number">3/24</div>
 		</div>
 		
 	<div class="slide-wrap">
@@ -522,7 +524,7 @@ Moving executable to /Users/benmeier/bin/md-slides
 </pre>
 			</div>
 			
-			<div class="page-number">4/22</div>
+			<div class="page-number">4/24</div>
 		</div>
 		
 	<div class="slide-wrap">
@@ -540,7 +542,7 @@ Moving executable to /Users/benmeier/bin/md-slides
 
 			</div>
 			
-			<div class="page-number">5/22</div>
+			<div class="page-number">5/24</div>
 		</div>
 		
 	<div class="slide-wrap">
@@ -557,14 +559,14 @@ Subcommands:
   version   print version information
 </pre>
 <h3><code>version</code> subcommand</h3>
-<pre class="chroma">Version: v0.1
-Hash:    96d63fe
-Date:    2018-03-02
+<pre class="chroma">Version: v0.3
+Hash:    c27e249
+Date:    2018-10-31
 URL:     https://github.com/AstromechZA/md-slides
 </pre>
 			</div>
 			
-			<div class="page-number">6/22</div>
+			<div class="page-number">6/24</div>
 		</div>
 		
 	<div class="slide-wrap">
@@ -578,11 +580,9 @@ Options:
   -check-only
     	stop after checking slides
   -css-background string
-    	slide background css (default &#34;#fffff8&#34;)
+    	slide background css color (eg: #ffffff
   -export-to string
     	export slides as a single html page (dont serve)
-  -font-size int
-    	relative font size within slide (default 18)
   -host string
     	host to listen on (localhost, 127.0.0.1)
   -hot
@@ -593,12 +593,10 @@ Options:
     	disable static file serving (security option)
   -port int
     	port to listen on (default 8080)
-  -res string
-    	set render aspect ratio and zoom for rendering (default &#34;1366x768&#34;)
 </pre>
 			</div>
 			
-			<div class="page-number">7/22</div>
+			<div class="page-number">7/24</div>
 		</div>
 		
 	<div class="slide-wrap">
@@ -625,7 +623,7 @@ Options:
 </span><span class="err"></span></pre>
 			</div>
 			
-			<div class="page-number">8/22</div>
+			<div class="page-number">8/24</div>
 		</div>
 		
 	<div class="slide-wrap">
@@ -643,7 +641,7 @@ Options:
 
 			</div>
 			
-			<div class="page-number">9/22</div>
+			<div class="page-number">9/24</div>
 		</div>
 		
 	<div class="slide-wrap">
@@ -654,13 +652,13 @@ Options:
 <p>Embed command embeds the combined stdout/stdin output of executing a given subcommand. The subcommand should be embeded as a json array like <code>[&quot;ls&quot;, &quot;-al&quot;, &quot;blah&quot;]</code>.</p>
 
 <p>For example a slide containing <code>{embed</code><code>command: [&quot;date&quot;]}</code> could output:</p>
-<pre class="chroma">Fri Mar  2 16:23:20 UTC 2018
+<pre class="chroma">Wed Oct 31 22:51:58 UTC 2018
 </pre>
 <p>This makes it easy to present live content or to embed dynamic data into the slides based on the output of scripts.</p>
 
 			</div>
 			
-			<div class="page-number">10/22</div>
+			<div class="page-number">10/24</div>
 		</div>
 		
 	<div class="slide-wrap">
@@ -675,7 +673,23 @@ Options:
 </span><span class="err"></span></pre>
 			</div>
 			
-			<div class="page-number">11/22</div>
+			<div class="page-number">11/24</div>
+		</div>
+		
+	<div class="slide-wrap">
+		<div class="markdown-body">
+	
+<h3>Metadata tags</h3>
+
+<p>A number of meta tags are available to control formatting and alignment options.</p>
+
+<p>They take the form of <code>&lt;meta a=&quot;blah&quot; b=&quot;foo&quot;&gt;</code>.</p>
+
+<p>They apply from the current slide onwards until they are overrident or reset with an empty string.</p>
+
+			</div>
+			
+			<div class="page-number">12/24</div>
 		</div>
 		
 	<div class="slide-wrap">
@@ -700,7 +714,7 @@ Options:
 
 			</div>
 			
-			<div class="page-number">12/22</div>
+			<div class="page-number">13/24</div>
 		</div>
 		
 	<div class="slide-wrap slide-wrap-halign-right slide-wrap-valign-bottom">
@@ -713,12 +727,13 @@ Options:
 
 			</div>
 			
-			<div class="page-number">13/22</div>
+			<div class="page-number">14/24</div>
 		</div>
 		
 	<div class="slide-wrap">
 		<div class="markdown-body">
-	
+	<p><meta valign="" halign="" talign=""></p>
+
 <h3>Metadata: <code>talign</code></h3>
 
 <p>The <code>talign</code> metadata should be used with <code>halign</code> and <code>valign</code> to direct the text-alignment of the slide.</p>
@@ -728,10 +743,10 @@ Options:
 
 			</div>
 			
-			<div class="page-number">14/22</div>
+			<div class="page-number">15/24</div>
 		</div>
 		
-	<div class="slide-wrap slide-wrap-talign-right">
+	<div class="slide-wrap">
 		<div class="markdown-body">
 	<p><meta talign="right"></p>
 
@@ -741,12 +756,13 @@ Options:
 
 			</div>
 			
-			<div class="page-number">15/22</div>
+			<div class="page-number">16/24</div>
 		</div>
 		
 	<div class="slide-wrap">
 		<div class="markdown-body">
-	<p><meta footer="January 1970 &vert; Some Conference"></p>
+	<p><meta valign="" halign="" talign="">
+<meta footer="January 1970 &vert; Some Conference"></p>
 
 <h3>Metadata: <code>footer</code></h3>
 
@@ -759,12 +775,28 @@ Options:
 			
 				<div class="page-footer">January 1970 | Some Conference</div>
 			
-			<div class="page-number">16/22</div>
+			<div class="page-number">17/24</div>
 		</div>
 		
 	<div class="slide-wrap">
 		<div class="markdown-body">
-	<p><meta footer=""></p>
+	
+<h3>Metadata: <code>font-size</code> and <code>res</code></h3>
+
+<p>These are only allowed in the <strong>first</strong> slide.</p>
+<pre class="chroma"><span class="p">&lt;</span><span class="nt">meta</span> <span class="na">font-size</span><span class="o">=</span><span class="s">&#34;20px&#34;</span><span class="p"></span><span class="p">&gt;</span>
+<span class="p">&lt;</span><span class="nt">meta</span> <span class="na">res</span><span class="o">=</span><span class="s">&#34;1024x768&#34;</span><span class="p"></span><span class="p">&gt;</span>
+</pre>
+			</div>
+			
+				<div class="page-footer">January 1970 | Some Conference</div>
+			
+			<div class="page-number">18/24</div>
+		</div>
+		
+	<div class="slide-wrap">
+		<div class="markdown-body">
+	<p><meta valign="" halign="" talign="" footer=""></p>
 
 <h3>Markdown support</h3>
 
@@ -791,7 +823,7 @@ Options:
 
 			</div>
 			
-			<div class="page-number">17/22</div>
+			<div class="page-number">19/24</div>
 		</div>
 		
 	<div class="slide-wrap">
@@ -817,7 +849,7 @@ Options:
 </pre>
 			</div>
 			
-			<div class="page-number">18/22</div>
+			<div class="page-number">20/24</div>
 		</div>
 		
 	<div class="slide-wrap slide-wrap-halign-center slide-wrap-valign-center">
@@ -859,7 +891,7 @@ Options:
 
 			</div>
 			
-			<div class="page-number">19/22</div>
+			<div class="page-number">21/24</div>
 		</div>
 		
 	<div class="slide-wrap slide-wrap-halign-center slide-wrap-valign-center slide-wrap-talign-center">
@@ -874,12 +906,13 @@ Options:
 
 			</div>
 			
-			<div class="page-number">20/22</div>
+			<div class="page-number">22/24</div>
 		</div>
 		
 	<div class="slide-wrap">
 		<div class="markdown-body">
-	
+	<p><meta valign="" halign="" talign=""></p>
+
 <h3>TODO</h3>
 
 <p>Development is still in progress:</p>
@@ -901,10 +934,10 @@ adding a stylesheet <code>&lt;link href=&quot;/thing.css&quot;...</code> to each
 
 			</div>
 			
-			<div class="page-number">21/22</div>
+			<div class="page-number">23/24</div>
 		</div>
 		
-	<div class="slide-wrap slide-wrap-halign-center slide-wrap-valign-center slide-wrap-talign-center">
+	<div class="slide-wrap">
 		<div class="markdown-body">
 	<p><meta valign="center" halign="center" talign="center"></p>
 
@@ -912,7 +945,7 @@ adding a stylesheet <code>&lt;link href=&quot;/thing.css&quot;...</code> to each
 
 			</div>
 			
-			<div class="page-number">22/22</div>
+			<div class="page-number">24/24</div>
 		</div>
 		
 </body>
