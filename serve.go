@@ -11,7 +11,6 @@ import (
 	"os"
 	"path/filepath"
 	"strconv"
-	"strings"
 
 	"github.com/gorilla/mux"
 
@@ -24,29 +23,6 @@ const serveUsage = `Usage:
 Options:
 `
 
-func parseResString(i string) (int, int, error) {
-	i = strings.TrimSpace(strings.ToLower(i))
-	parts := strings.Split(i, "x")
-	if len(parts) != 2 {
-		return 0, 0, fmt.Errorf("res string '%s' did not contain one 'x'", i)
-	}
-	xres, err := strconv.Atoi(parts[0])
-	if err != nil {
-		return 0, 0, fmt.Errorf("failed to parse x value of res string '%s': %s", i, err)
-	}
-	yres, err := strconv.Atoi(parts[1])
-	if err != nil {
-		return 0, 0, fmt.Errorf("failed to parse y value of res string '%s': %s", i, err)
-	}
-	if xres <= 0 {
-		return 0, 0, fmt.Errorf("x value of rest string '%s' should be > 0", i)
-	}
-	if yres <= 0 {
-		return 0, 0, fmt.Errorf("y value of rest string '%s' should be > 0", i)
-	}
-	return int(xres), int(yres), nil
-}
-
 func Serve(args []string) error {
 	fs := flag.NewFlagSet("serve", flag.ExitOnError)
 	fs.Usage = func() {
@@ -55,11 +31,9 @@ func Serve(args []string) error {
 	}
 	hotFlag := fs.Bool("hot", false, "reload, reparse, and regenerate slides on each refresh")
 	checkOnlyFlag := fs.Bool("check-only", false, "stop after checking slides")
-	resFlag := fs.String("res", "1366x768", "set render aspect ratio and zoom for rendering")
-	fontSizeFlag := fs.Int("font-size", 18, "relative font size within slide")
 	portFlag := fs.Int("port", 8080, "port to listen on")
 	hostFlag := fs.String("host", "", "host to listen on (localhost, 127.0.0.1)")
-	backgroundCSS := fs.String("css-background", "#fffff8", "slide background css")
+	backgroundCSS := fs.String("css-background", "", "slide background css color (eg: #ffffff")
 	noStaticsFlag := fs.Bool("no-statics", false, "disable static file serving (security option)")
 	exportFlag := fs.String("export-to", "", "export slides as a single html page (dont serve)")
 	modeFlag := fs.String("mode", "paged", "mode to serve in (paged|scrolling)")
@@ -74,23 +48,17 @@ func Serve(args []string) error {
 	}
 	filename := fs.Arg(0)
 
-	xres, yres, err := parseResString(*resFlag)
+	sr, err := sliderenderer.NewSlideRenderer(filename)
 	if err != nil {
-		return fmt.Errorf("bad res string: %s", err)
-	}
-
-	sr := sliderenderer.SlideRenderer{
-		Filename: filename,
-		Hot:      *hotFlag,
-		XRes:     xres,
-		YRes:     yres,
-		FontSize: *fontSizeFlag,
-		BGCSS:    *backgroundCSS,
-		URLPath:  "/_slides",
-	}
-	if err = sr.Init(); err != nil {
 		return fmt.Errorf("failed to init renderer: %s", err)
 	}
+	if *hotFlag != false {
+		sr.Hot = *hotFlag
+	}
+	if *backgroundCSS != "" {
+		sr.BGCSS = *backgroundCSS
+	}
+
 	if err = sr.CheckSlides(); err != nil {
 		return fmt.Errorf("check failed: %s", err)
 	}

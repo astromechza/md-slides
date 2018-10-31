@@ -5,6 +5,7 @@ import (
 	"html/template"
 	"io/ioutil"
 	"log"
+	"strconv"
 
 	"github.com/russross/blackfriday"
 )
@@ -21,9 +22,20 @@ type SlideRenderer struct {
 	URLPath      string
 }
 
-func (sr *SlideRenderer) Init() (err error) {
-	sr.Templates, err = LoadTemplates()
-	return
+func NewSlideRenderer(filename string) (sr *SlideRenderer, err error) {
+	sr = &SlideRenderer{
+		Filename: filename,
+		Hot:      false,
+		XRes:     1366,
+		YRes:     768,
+		FontSize: 18,
+		BGCSS:    "#fffff8",
+		URLPath:  "/_slides",
+	}
+	if sr.Templates, err = LoadTemplates(); err != nil {
+		return nil, err
+	}
+	return sr, nil
 }
 
 func (sr *SlideRenderer) ShouldRecache() bool {
@@ -46,7 +58,24 @@ func (sr *SlideRenderer) RecacheSlides() error {
 	).Parse(content)
 	log.Printf("Breaking into slides..")
 	documents := ConvertRootIntoDocumentNodes(node)
-	log.Printf("Proliferating settings..")
+	log.Printf("Loading top level settings..")
+
+	if fs, ok := documents[0].Settings["font-size"]; ok {
+		i, err := strconv.ParseInt(fs, 10, 63)
+		if err != nil {
+			return fmt.Errorf("top level font size from slide 0 is invalid: %s", err)
+		}
+		sr.FontSize = int(i)
+	}
+
+	if r, ok := documents[0].Settings["res"]; ok {
+		x, y, err := ParseResString(r)
+		if err != nil {
+			return fmt.Errorf("top level res from slide 0 is invalid: %s", err)
+		}
+		sr.XRes = x
+		sr.YRes = y
+	}
 
 	log.Printf("Preprocessing done (%d slides)", len(documents))
 	sr.CachedSlides = documents

@@ -1,5 +1,6 @@
 <meta valign="center" halign="center" talign="center">
 <meta footer="github.com/AstromechZA/md-slides">
+<meta font-size="18" res="1366x768">
 
 # md-slides
 
@@ -232,6 +233,17 @@ The value will persist between pages until overriden by a new value or empty str
 
 ```html
 <meta footer="January 1970 &vert; Some Conference">
+```
+
+---
+
+### Metadata: `font-size` and `res`
+
+These are only allowed in the **first** slide.
+
+```html
+<meta font-size="20px">
+<meta res="1024x768">
 ```
 
 ---
