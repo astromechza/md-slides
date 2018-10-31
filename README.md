@@ -6,8 +6,7 @@
 AstromechZA 2018
 
 ---
-
-<meta footer="">
+<meta valign="" halign="" talign="" footer="">
 
 ### Intro
 
@@ -166,6 +165,16 @@ To improve the sizing of images embedded into your slides, you can specify the w
 
 ---
 
+### Metadata tags
+
+A number of meta tags are available to control formatting and alignment options.
+
+They take the form of `<meta a="blah" b="foo">`.
+
+They apply from the current slide onwards until they are overrident or reset with an empty string.
+
+---
+
 ### Metadata: `halign` and `valign`
 
 These meta tags control where in the slide the content is positioned. They are most effective when used to position content to the bottom or corners of a slide.
@@ -185,7 +194,6 @@ Good for:
 - slides containing centered images, questions, blocks, etc.
 
 ---
-
 <meta valign="bottom" halign="right">
 
 ### `Example of <meta valign="bottom" halign="right">`
@@ -193,6 +201,7 @@ Good for:
 second line
 
 ---
+<meta valign="" halign="" talign="">
 
 ### Metadata: `talign`
 
@@ -205,7 +214,6 @@ The `talign` metadata should be used with `halign` and `valign` to direct the te
 Allowed values for `talign` are `left`, `center`, `right`
 
 ---
-
 <meta talign="right">
 
 ### `Example of <meta talign="right">`
@@ -213,7 +221,7 @@ Allowed values for `talign` are `left`, `center`, `right`
 second line
 
 ---
-
+<meta valign="" halign="" talign="">
 <meta footer="January 1970 &vert; Some Conference">
 
 ### Metadata: `footer`
@@ -227,8 +235,7 @@ The value will persist between pages until overriden by a new value or empty str
 ```
 
 ---
-
-<meta footer="">
+<meta valign="" halign="" talign="" footer="">
 
 ### Markdown support
 
@@ -284,7 +291,6 @@ func main() {
 | col 3 is | right-aligned |    $1 |
 
 ---
-
 <meta valign="center" halign="center" talign="center">
 
 ### Text above image
@@ -294,6 +300,7 @@ func main() {
 Text below image
 
 ---
+<meta valign="" halign="" talign="">
 
 ### TODO
 
@@ -313,7 +320,6 @@ Development is still in progress:
 	adding a stylesheet `<link href="/thing.css"...` to each/appropriate slide?
 
 ---
-
 <meta valign="center" halign="center" talign="center">
 
 ## Thanks!

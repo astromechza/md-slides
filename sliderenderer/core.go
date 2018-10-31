@@ -31,12 +31,12 @@ func (sr *SlideRenderer) ShouldRecache() bool {
 }
 
 func (sr *SlideRenderer) RecacheSlides() error {
-	log.Printf("Reading file %s", sr.Filename)
+	log.Printf("Reading file %s..", sr.Filename)
 	content, err := ioutil.ReadFile(sr.Filename)
 	if err != nil {
 		return fmt.Errorf("failed to read '%s': %s", sr.Filename, err)
 	}
-	log.Printf("Parsing Markdown")
+	log.Printf("Parsing Markdown..")
 	node := blackfriday.New(
 		blackfriday.WithExtensions(
 			blackfriday.CommonExtensions |
@@ -44,8 +44,10 @@ func (sr *SlideRenderer) RecacheSlides() error {
 				blackfriday.NoEmptyLineBeforeBlock,
 		),
 	).Parse(content)
-	log.Printf("Breaking into slides")
-	documents := breakIntoDocumentNodes(node)
+	log.Printf("Breaking into slides..")
+	documents := ConvertRootIntoDocumentNodes(node)
+	log.Printf("Proliferating settings..")
+
 	log.Printf("Preprocessing done (%d slides)", len(documents))
 	sr.CachedSlides = documents
 	return nil
