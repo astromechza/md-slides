@@ -21,21 +21,21 @@ h1, h2, h3, h4, h5 {
 
 h1 {
     margin-bottom: 1.5rem;
-    font-size: 4.2rem;
+    font-size: 3.0rem;
 }
 
 h2 {
     margin-bottom: 0;
-    font-size: 3.2rem;
+    font-size: 2.5rem;
 }
 
 h3 {
-    font-size: 2.2rem;
+    font-size: 2.0rem;
     margin-bottom: 0;
 }
 
 h4 {
-    font-size: 1.7rem;
+    font-size: 1.5rem;
     margin-bottom: 0;
 }
 

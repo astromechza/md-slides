@@ -9,7 +9,7 @@ AstromechZA 2018
 ---
 <meta valign="" halign="" talign="" footer="">
 
-### Intro
+## Intro
 
 `md-slides` is a tool for presenting html-based presentations based on a Markdown documents.
 
@@ -29,7 +29,7 @@ Features:
 
 ---
 
-### Prior art
+## Prior art
 
 - _many_. Just Google "Markdown slides"
 	- reveal.js
@@ -43,7 +43,7 @@ Features:
 
 ---
 
-### Installation
+## Installation
 
 Although you _can_ build and install it from source, we recommend that you pull
 the appropriate binary for your system from the project releases page [here](https://github.com/AstromechZA/md-slides/releases).
@@ -73,7 +73,7 @@ Moving executable to /Users/benmeier/bin/md-slides
 
 ---
 
-#### Dependencies
+## Dependencies
 
 The following 3rd party libraries (and their dependencies) are statically linked into the binary:
 
@@ -83,13 +83,13 @@ The following 3rd party libraries (and their dependencies) are statically linked
 
 ---
 
-### subcommands
+## Embedded commands
 
 ```
 {embedcommand: ["bash", "-c", "./md-slides --help || true"]}
 ```
 
-### `version` subcommand
+## `version` subcommand
 
 ```
 {embedcommand: ["./md-slides", "version"]}
@@ -97,7 +97,7 @@ The following 3rd party libraries (and their dependencies) are statically linked
 
 ---
 
-### `serve` subcommand
+## `serve` subcommand
 
 ```
 {embedcommand: ["bash", "-c", "./md-slides serve --help || true"]}
@@ -105,7 +105,7 @@ The following 3rd party libraries (and their dependencies) are statically linked
 
 ---
 
-### Input format
+## Input format
 
 A single markdown document represents the multiple slides separated by a horizantal rule:
 
@@ -129,7 +129,7 @@ stuff
 
 ---
 
-### Paged vs Scrolling mode
+## Paged vs Scrolling mode
 
 The `-mode` flag can switch between display modes.
 
@@ -140,7 +140,7 @@ The `-mode` flag can switch between display modes.
 
 ---
 
-### Extension: `{embedcommand: ...}`
+## Extension: `{embedcommand: ...}`
 
 Embed command embeds the combined stdout/stdin output of executing a given subcommand. The subcommand should be embeded as a json array like `["ls", "-al", "blah"]`.
 
@@ -154,7 +154,7 @@ This makes it easy to present live content or to embed dynamic data into the sli
 
 ---
 
-### Extension: image dimensions in url fragment
+## Extension: image dimensions in url fragment
 
 To improve the sizing of images embedded into your slides, you can specify the width and height as url fragment parameters.
 
@@ -166,7 +166,7 @@ To improve the sizing of images embedded into your slides, you can specify the w
 
 ---
 
-### Metadata tags
+## Metadata tags
 
 A number of meta tags are available to control formatting and alignment options.
 
@@ -176,7 +176,7 @@ They apply from the current slide onwards until they are overrident or reset wit
 
 ---
 
-### Metadata: `halign` and `valign`
+## Metadata: `halign` and `valign`
 
 These meta tags control where in the slide the content is positioned. They are most effective when used to position content to the bottom or corners of a slide.
 
@@ -197,14 +197,14 @@ Good for:
 ---
 <meta valign="bottom" halign="right">
 
-### `Example of <meta valign="bottom" halign="right">`
+## `Example of <meta valign="bottom" halign="right">`
 
 second line
 
 ---
 <meta valign="" halign="" talign="">
 
-### Metadata: `talign`
+## Metadata: `talign`
 
 The `talign` metadata should be used with `halign` and `valign` to direct the text-alignment of the slide.
 
@@ -217,7 +217,7 @@ Allowed values for `talign` are `left`, `center`, `right`
 ---
 <meta talign="right">
 
-### `Example of <meta talign="right">`
+## `Example of <meta talign="right">`
 
 second line
 
@@ -225,7 +225,7 @@ second line
 <meta valign="" halign="" talign="">
 <meta footer="January 1970 &vert; Some Conference">
 
-### Metadata: `footer`
+## Metadata: `footer`
 
 Add some footer text to the bottom left of each slide using the `footer` metadata key.
 
@@ -237,7 +237,7 @@ The value will persist between pages until overriden by a new value or empty str
 
 ---
 
-### Metadata: `font-size` and `res`
+## Metadata: `font-size` and `res`
 
 These are only allowed in the **first** slide.
 
@@ -249,7 +249,7 @@ These are only allowed in the **first** slide.
 ---
 <meta valign="" halign="" talign="" footer="">
 
-### Markdown support
+## Markdown support
 
 Anything that `https://github.com/russross/blackfriday` v2 supports.
 
@@ -269,7 +269,7 @@ Anything that `https://github.com/russross/blackfriday` v2 supports.
 
 ---
 
-### Code highlighting
+## Code highlighting
 
 ```go
 package main
@@ -292,7 +292,7 @@ func main() {
 
 ---
 
-### Tables?
+## Tables?
 
 <meta valign="center" halign="center">
 
@@ -305,7 +305,7 @@ func main() {
 ---
 <meta valign="center" halign="center" talign="center">
 
-### Text above image
+## Text above image
 
 ![A test image](windmill.jpeg#height=500px)
 
@@ -314,7 +314,7 @@ Text below image
 ---
 <meta valign="" halign="" talign="">
 
-### TODO
+## TODO
 
 Development is still in progress:
 
@@ -324,8 +324,6 @@ Development is still in progress:
 - [ ] **Communication between client and server**. I'd like to explore this in order
 	to add things like a speaker dashboard that is synchronised to the main display
 	but in a different browser window.
-- [ ] **Slides declare aspect ration/font size**. Slides should be able to declare their
-	own aspect ratio/zoom.
 - [ ] **Theme support**. Make css themes around the markdown more transparent and
 	easy to use. Also expose code highlighting theme. Do we declare these in the slides
 	or in the cli args? Does this replace background color?. Is it just a matter of

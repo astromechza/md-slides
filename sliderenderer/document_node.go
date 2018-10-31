@@ -57,16 +57,19 @@ func (n *DocumentNode) FillMetaSettingsFromSelf() {
 }
 
 func (n *DocumentNode) FillMetaSettingsFromParent(other *DocumentNode) {
+	// loop through parents settings
 	for k, v := range other.Settings {
+		// check if we have a value
 		_, ok := n.Settings[k]
+
+		// if we don't, then copy the last value to ourselves
 		if !ok {
-			if v != "" {
-				n.Settings[k] = v
-			}
-		} else {
-			if v == "" {
-				delete(n.Settings, k)
-			}
+			n.Settings[k] = v
+		}
+
+		// if our value was or is now empty we can delete it entirely
+		if n.Settings[k] == "" {
+			delete(n.Settings, k)
 		}
 	}
 }
