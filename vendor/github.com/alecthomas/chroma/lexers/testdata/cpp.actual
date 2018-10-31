@@ -1,3 +1,0 @@
-template <typename T>
-void func(const std::string &s, const T &t) {
-} // Do interesting things.
