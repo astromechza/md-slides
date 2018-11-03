@@ -16,9 +16,9 @@ Subcommands:
   version   print version information
 `
 
-var commitHash = "unknown"
-var buildDate = "unknown"
-var gitVersion = "unknown"
+var gitHash = "unknown"
+var gitDate = "unknown"
+var version = "unknown"
 
 func mainInner() error {
 	fs := flag.NewFlagSet("md-slides", flag.ExitOnError)
@@ -41,9 +41,9 @@ func mainInner() error {
 	case "serve":
 		return Serve(fs.Args()[1:])
 	case "version":
-		fmt.Printf("Version: %s\n", gitVersion)
-		fmt.Printf("Hash:    %s\n", commitHash)
-		fmt.Printf("Date:    %s\n", buildDate)
+		fmt.Printf("Version: %s\n", version)
+		fmt.Printf("Hash:    %s\n", gitHash)
+		fmt.Printf("Date:    %s\n", gitDate)
 		fmt.Printf("URL:     https://github.com/AstromechZA/md-slides\n")
 		return nil
 	default:

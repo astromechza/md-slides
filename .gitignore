@@ -2,3 +2,5 @@ md-slides
 .vscode/
 debug
 dist/
+.idea/
+pages/

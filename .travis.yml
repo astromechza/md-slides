@@ -1,19 +1,13 @@
 language: go
 go:
-  - 1.9
+  - 1.11
 script:
   - go build .
-  - bash ./build-all.sh
-  - cp ./dist/md-slides.linux.amd64 ./md-slides
-  - ls -l dist/
-  - cd dist
-  - sha256sum md-slides.* > SHA256SUMS
-  - cat SHA256SUMS
-  - cd ..
+  - make release
+  - ls -l dist
+  - cat dist/SHA256SUMS
   - ./md-slides version
-  - mkdir pages
-  - ./md-slides serve --export-to=pages/index.html README.md
-  - cp windmill.jpeg pages/
+  - make pages/index.html
 deploy:
   - provider: releases
     api_key:
