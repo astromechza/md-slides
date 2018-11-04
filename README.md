@@ -236,18 +236,22 @@ The value will persist between pages until overriden by a new value or empty str
 ```
 
 ---
+<meta res="768x768">
 
-## Metadata: `font-size` and `res`
+## Metadata: `res`
 
-These are only allowed in the **first** slide.
+This can be used to tweak the size and shape of one or more slides. This is useful for a number of things:
+
+- adjusting aspect ratio
+- extra wide slides
+- zoom in or out to effectively change the font size
 
 ```html
-<meta font-size="20px">
-<meta res="1024x768">
+<meta res="768x768">
 ```
 
 ---
-<meta valign="" halign="" talign="" footer="">
+<meta valign="" halign="" talign="" footer="" res="">
 
 ## Markdown support
 

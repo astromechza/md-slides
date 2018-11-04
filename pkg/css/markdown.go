@@ -238,23 +238,15 @@ div.table-wrapper {
   font-family: "Trebuchet MS", "Gill Sans", "Gill Sans MT", sans-serif;
 }
 
-.sans {
-  font-family: "Gill Sans", "Gill Sans MT", Calibri, sans-serif;
-  letter-spacing: .03em;
-}
-
 code {
   font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace;
-  font-size: 1.0rem;
+  font-size: 1em;
   line-height: 1.42;
-}
-
-.sans > code {
-  font-size: 1.2rem;
+  color: crimson;
 }
 
 h1 > code, h2 > code, h3 > code {
-  font-size: 0.80em;
+  font-size: 1em;
 }
 
 .marginnote > code, .sidenote > code {

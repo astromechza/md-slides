@@ -43,18 +43,23 @@ func NewSlide(dom blackfriday.Node, previous *Slide) *Slide {
 		n.TAlign = v
 	}
 	if v, ok := meta["res"]; ok {
-		x, y, err := util.ParseXYResString(v)
-		if err != nil {
-			log.Fatalf("failed to parse res '%s': %s", v, err)
+		if v == "" {
+			n.XResPX = 0
+			n.YResPX = 0
+		} else {
+			x, y, err := util.ParseXYResString(v)
+			if err != nil {
+				log.Fatalf("failed to parse res '%s': %s", v, err)
+			}
+			if x <= 0 {
+				log.Fatalf("invalid xres '%s': too small", x)
+			}
+			n.XResPX = int(x)
+			if y <= 0 {
+				log.Fatalf("invalid y res '%s': too small", y)
+			}
+			n.YResPX = int(y)
 		}
-		if x <= 0 {
-			log.Fatalf("invalid xres '%s': too small", x)
-		}
-		n.XResPX = int(x)
-		if y <= 0 {
-			log.Fatalf("invalid y res '%s': too small", y)
-		}
-		n.YResPX = int(y)
 	}
 	if v, ok := meta["footer"]; ok {
 		n.FooterText = v

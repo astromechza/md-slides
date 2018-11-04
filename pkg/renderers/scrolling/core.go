@@ -32,7 +32,6 @@ func New(path string, source renderers.SlideSource) (*Renderer, error) {
 	css.AddMarkdownStyleTemplate(root)
 	css.AddNormalizeStyleTemplate(root)
 	css.AddChromaStyleTemplate(root)
-	AddStyleOverridesTemplate(root)
 
 	root, err = root.Parse(slideTemplate)
 	if err != nil {
@@ -46,10 +45,12 @@ func New(path string, source renderers.SlideSource) (*Renderer, error) {
 	}, nil
 }
 
-type ContentSettings struct {
+type preparedSlide struct {
 	PageNum  int
 	Content  template.HTML
 	Settings slide.Settings
+	PageLeft int
+	PageTop  int
 }
 
 func (sr *Renderer) ServeHTTP(rw http.ResponseWriter, req *http.Request) {
@@ -68,13 +69,13 @@ func (sr *Renderer) ServeHTTP(rw http.ResponseWriter, req *http.Request) {
 	}
 
 	maxPageXRes, maxPageYRes := 0, 0
-	var preparedSlides []*ContentSettings
+	var preparedSlides []*preparedSlide
 	for i, s := range collection.Slides {
 		var b bytes.Buffer
 		s.Walk(func(node *blackfriday.Node, entering bool) blackfriday.WalkStatus {
 			return renderer.RenderNode(&b, node, entering)
 		})
-		preparedSlides = append(preparedSlides, &ContentSettings{
+		preparedSlides = append(preparedSlides, &preparedSlide{
 			PageNum:  i + 1,
 			Content:  template.HTML(b.String()),
 			Settings: s.Settings,
@@ -90,22 +91,29 @@ func (sr *Renderer) ServeHTTP(rw http.ResponseWriter, req *http.Request) {
 	maxPageXRes += 40
 	maxPageYRes += 40
 
+	for _, s := range preparedSlides {
+		s.PageLeft = (maxPageXRes - s.Settings.XResPX) / 2
+		s.PageTop = (maxPageYRes - s.Settings.YResPX) / 2
+	}
+
 	if err := sr.Templates.Execute(rw, struct {
 		PageCount int
 
-		URLPath        string
-		Title          string
-		PageXResPX     int
-		PageYResPX     int
-		PreparedSlides []*ContentSettings
+		URLPath            string
+		Title              string
+		PageXResPX         int
+		PageYResPX         int
+		AdjustedPageYResPX int
+		PreparedSlides     []*preparedSlide
 	}{
 		PageCount: len(collection.Slides),
 
-		URLPath:        sr.Path,
-		Title:          collection.Title,
-		PageXResPX:     maxPageXRes,
-		PageYResPX:     maxPageYRes,
-		PreparedSlides: preparedSlides,
+		URLPath:            sr.Path,
+		Title:              collection.Title,
+		PageXResPX:         maxPageXRes,
+		PageYResPX:         maxPageYRes,
+		AdjustedPageYResPX: maxPageYRes - 1,
+		PreparedSlides:     preparedSlides,
 	}); err != nil {
 		log.Fatalf("error executing template: %s", err)
 	}

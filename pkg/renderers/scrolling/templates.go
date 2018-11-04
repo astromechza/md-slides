@@ -1,29 +1,5 @@
 package scrolling
 
-import (
-	"html/template"
-	"log"
-)
-
-func AddStyleOverridesTemplate(root *template.Template) {
-	if _, err := root.New("style.overrides").Parse(`
-html {
-	height: auto;
-}
-
-body {
-	height: 100%;
-    display: flex;
-    flex-flow: column;
-	justify-content: start;
-	position: relative;
-}
-
-`); err != nil {
-		log.Fatalf("failed to parse: %s", err)
-	}
-}
-
 const slideTemplate = `
 <!DOCTYPE html>
   <head>
@@ -36,14 +12,26 @@ const slideTemplate = `
       {{ template "style.markdown" . }}
       {{ template "style.chroma" .}}
       {{ template "style.common" . }}
-      {{ template "style.overrides" .}}
+	  body {
+          display: flex;
+          flex-flow: column;
+          justify-content: start;
+		  align-items: center;
+      }
+      .page-wrap {
+          width: {{ $.PageXResPX }}px;
+          height: {{ $.AdjustedPageYResPX }}px;
+      }
+      .slide-wrap {
+          position: relative;
+      }
       @page {
 	      size: {{ $.PageXResPX }}px {{ $.PageYResPX }}px;
       }
     </style>
 	{{ range .PreparedSlides }}
-    <div class="page-wrap" style="width: {{ $.PageXResPX }}px; height: {{ $.PageYResPX }}px">
-    <div class="slide-wrap slide-wrap-halign-{{ .Settings.HAlign }} slide-wrap-valign-{{ .Settings.VAlign }} slide-wrap-talign-{{ .Settings.TAlign }}" style="width: {{ .Settings.XResPX }}px; height: {{ .Settings.YResPX }}px">
+    <div class="page-wrap">
+    <div class="slide-wrap slide-wrap-halign-{{ .Settings.HAlign }} slide-wrap-valign-{{ .Settings.VAlign }} slide-wrap-talign-{{ .Settings.TAlign }}" style="width: {{ .Settings.XResPX }}px; left: {{ .PageLeft }}px; top: {{ .PageTop }}px; height: {{ .Settings.YResPX }}px">
       <div class="markdown-body">
         {{ .Content }}
       </div>

@@ -15,15 +15,6 @@ body {
 	background: #444444;
 }
 
-.page-wrap {
-	align-self: center;
-	display: grid;
-	justify-items: center;
-	align-items: center;
-	page-break-before: always;
-	page-break-inside: avoid;
-}
-
 .slide-wrap {
 	align-self: center;
 	display: grid;
