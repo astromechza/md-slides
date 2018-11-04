@@ -2,7 +2,6 @@ language: go
 go:
   - 1.11
 script:
-  - go build .
   - make release
   - ls -l dist
   - cat dist/SHA256SUMS
