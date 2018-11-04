@@ -246,8 +246,11 @@ This can be used to tweak the size and shape of one or more slides. This is usef
 - extra wide slides
 - zoom in or out to effectively change the font size
 
+By default the resolution is 1366x768 but this can be changed by slides. Note that the resolution of the first slide is
+used to inform the primary size and shape of the slide deck.
+
 ```html
-<meta res="768x768">
+<meta res="1366x1366">
 ```
 
 ---
@@ -314,24 +317,6 @@ func main() {
 ![A test image](windmill.jpeg#height=500px)
 
 Text below image
-
----
-<meta valign="" halign="" talign="">
-
-## TODO
-
-Development is still in progress:
-
-- [x] **v0.1 is available on github**. We'll keep it this way for a while so that people
-	can use it and report their experiences, then we can change things up if there
-	are any issues.
-- [ ] **Communication between client and server**. I'd like to explore this in order
-	to add things like a speaker dashboard that is synchronised to the main display
-	but in a different browser window.
-- [ ] **Theme support**. Make css themes around the markdown more transparent and
-	easy to use. Also expose code highlighting theme. Do we declare these in the slides
-	or in the cli args? Does this replace background color?. Is it just a matter of
-	adding a stylesheet `<link href="/thing.css"...` to each/appropriate slide?
 
 ---
 <meta valign="center" halign="center" talign="center">
