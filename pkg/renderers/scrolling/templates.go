@@ -37,6 +37,9 @@ const slideTemplate = `
       {{ template "style.chroma" .}}
       {{ template "style.common" . }}
       {{ template "style.overrides" .}}
+      @page {
+	      size: {{ $.PageXResPX }}px {{ $.PageYResPX }}px;
+      }
     </style>
 	{{ range .PreparedSlides }}
     <div class="page-wrap" style="width: {{ $.PageXResPX }}px; height: {{ $.PageYResPX }}px">

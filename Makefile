@@ -35,7 +35,7 @@ pages/:
 	mkdir pages
 
 pages/index.html: pages/ $(BINARY) README.md
-	@./$(BINARY) serve --export-to=$@ README.md
+	@./$(BINARY) html README.md pages/
 	@cp -v windmill.jpeg pages/
 
 # release build
