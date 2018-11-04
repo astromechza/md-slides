@@ -19,7 +19,7 @@ document.onkeydown = function(evt) {
 
 window.onresize = function(event) {
 	var el = document.getElementsByClassName("slide-wrap")[0];
-	var m = 50;
+	var m = 40;
 	var wi = el.clientWidth + m;
 	var hi = el.clientHeight + m;
 	var ws = window.innerWidth / wi;
