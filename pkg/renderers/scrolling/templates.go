@@ -19,9 +19,6 @@ body {
 	position: relative;
 }
 
-.slide-wrap {
-	position: relative;
-}
 `); err != nil {
 		log.Fatalf("failed to parse: %s", err)
 	}
