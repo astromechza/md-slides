@@ -28,9 +28,6 @@ func New(path string, source renderers.SlideSource) (*Renderer, error) {
 	var err error
 	root := template.New("")
 	root = root.Option("missingkey=error")
-	root = root.Funcs(template.FuncMap{
-		"add": func(i, j int) int { return i + j },
-	})
 
 	AddScriptTemplate(root)
 	css.AddCommonStyleTemplate(root)
