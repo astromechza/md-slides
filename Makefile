@@ -38,9 +38,15 @@ pages/index.html: pages/ $(BINARY) README.md
 	@./$(BINARY) html README.md pages/
 	@cp -v windmill.jpeg pages/
 
+.PHONY: test
+test: $(BINARY)
+	@./$(BINARY) -version
+
 # release build
 .PHONY: release
 release: dist/SHA256SUMS $(DISTRIBUTABLES)
+	ls -l $(DISTRIBUTABLES)
+	cat dist/SHA256SUMS
 
 # clean will just remove the main bits and pieces
 .PHONY: clean

@@ -3,9 +3,7 @@ go:
   - 1.11
 script:
   - make release
-  - ls -l dist
-  - cat dist/SHA256SUMS
-  - ./md-slides version
+  - make test
   - make pages/index.html
 deploy:
   - provider: releases
