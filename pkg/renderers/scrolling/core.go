@@ -70,6 +70,7 @@ func (sr *Renderer) ServeHTTP(rw http.ResponseWriter, req *http.Request) {
 		})),
 	}
 
+	maxPageXRes, maxPageYRes := 0, 0
 	var preparedSlides []*ContentSettings
 	for i, s := range collection.Slides {
 		var b bytes.Buffer
@@ -81,19 +82,32 @@ func (sr *Renderer) ServeHTTP(rw http.ResponseWriter, req *http.Request) {
 			Content:  template.HTML(b.String()),
 			Settings: s.Settings,
 		})
+		if s.XResPX > maxPageXRes {
+			maxPageXRes = s.XResPX
+		}
+		if s.YResPX > maxPageYRes {
+			maxPageYRes = s.YResPX
+		}
 	}
+
+	maxPageXRes += 40
+	maxPageYRes += 40
 
 	if err := sr.Templates.Execute(rw, struct {
 		PageCount int
 
 		URLPath        string
 		Title          string
+		PageXResPX     int
+		PageYResPX     int
 		PreparedSlides []*ContentSettings
 	}{
 		PageCount: len(collection.Slides),
 
 		URLPath:        sr.Path,
 		Title:          collection.Title,
+		PageXResPX:     maxPageXRes,
+		PageYResPX:     maxPageYRes,
 		PreparedSlides: preparedSlides,
 	}); err != nil {
 		log.Fatalf("error executing template: %s", err)

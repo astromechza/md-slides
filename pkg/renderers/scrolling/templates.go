@@ -21,8 +21,6 @@ body {
 
 .slide-wrap {
 	position: relative;
-	margin-top: 1.5em;
-	margin-bottom: 1.5em;
 }
 `); err != nil {
 		log.Fatalf("failed to parse: %s", err)
@@ -44,12 +42,14 @@ const slideTemplate = `
       {{ template "style.overrides" .}}
     </style>
 	{{ range .PreparedSlides }}
+    <div class="page-wrap" style="width: {{ $.PageXResPX }}px; height: {{ $.PageYResPX }}px">
     <div class="slide-wrap slide-wrap-halign-{{ .Settings.HAlign }} slide-wrap-valign-{{ .Settings.VAlign }} slide-wrap-talign-{{ .Settings.TAlign }}" style="width: {{ .Settings.XResPX }}px; height: {{ .Settings.YResPX }}px">
       <div class="markdown-body">
         {{ .Content }}
       </div>
       {{ with .Settings.FooterText }}<div class="page-footer">{{ . }}</div>{{ end }}
       <div class="page-number">{{ .PageNum }}/{{ $.PageCount }}</div>
+    </div>
     </div>
     {{ end }}
   </body>
