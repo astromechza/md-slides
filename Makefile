@@ -3,6 +3,7 @@ GIT_COMMIT := $(shell git rev-parse --short HEAD 2>/dev/null)
 GIT_DATE := $(shell git log -1 --format=%cI)
 
 ALL_FILES := $(shell find . -type f -name '*.go')
+PKG := github.com/AstromechZA/md-slides/cmd/md-slides
 BINARY := md-slides
 
 # make the main binary
@@ -23,7 +24,8 @@ $(DISTRIBUTABLES): dist/ $(ALL_FILES)
 	@echo Building $@..
 	@CGO_ENABLED=0 GOOS=$(GOOS) GOARCH=$(GOARCH) go build \
 		-o $@ \
-		-ldflags "-X main.gitHash=$(GIT_COMMIT) -X main.gitDate=$(GIT_DATE) -X main.version=$(VERSION)"
+		-ldflags "-X main.gitHash=$(GIT_COMMIT) -X main.gitDate=$(GIT_DATE) -X main.version=$(VERSION)" \
+		$(PKG)
 
 # shasums file for dist
 dist/SHA256SUMS: $(DISTRIBUTABLES)

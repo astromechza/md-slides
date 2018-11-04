@@ -1,4 +1,4 @@
-package sliderenderer
+package customhtml
 
 import (
 	"encoding/json"
@@ -16,7 +16,7 @@ import (
 	"github.com/russross/blackfriday"
 )
 
-type CustomHTMLRenderer struct {
+type CustomRenderer struct {
 	blackfriday.Renderer
 	CWD string
 }
@@ -24,7 +24,7 @@ type CustomHTMLRenderer struct {
 const uncheckedSVG = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M5 2c-1.654 0-3 1.346-3 3v14c0 1.654 1.346 3 3 3h14c1.654 0 3-1.346 3-3v-14c0-1.654-1.346-3-3-3h-14zm19 3v14c0 2.761-2.238 5-5 5h-14c-2.762 0-5-2.239-5-5v-14c0-2.761 2.238-5 5-5h14c2.762 0 5 2.239 5 5z"/></svg>`
 const checkedSVG = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M10.041 17l-4.5-4.319 1.395-1.435 3.08 2.937 7.021-7.183 1.422 1.409-8.418 8.591zm-5.041-15c-1.654 0-3 1.346-3 3v14c0 1.654 1.346 3 3 3h14c1.654 0 3-1.346 3-3v-14c0-1.654-1.346-3-3-3h-14zm19 3v14c0 2.761-2.238 5-5 5h-14c-2.762 0-5-2.239-5-5v-14c0-2.761 2.238-5 5-5h14c2.762 0 5 2.239 5 5z"/></svg>`
 
-func (r *CustomHTMLRenderer) RenderNode(w io.Writer, node *blackfriday.Node, entering bool) blackfriday.WalkStatus {
+func (r *CustomRenderer) RenderNode(w io.Writer, node *blackfriday.Node, entering bool) blackfriday.WalkStatus {
 
 	if entering &&
 		node.Type == blackfriday.Item &&
@@ -51,7 +51,7 @@ func (r *CustomHTMLRenderer) RenderNode(w io.Writer, node *blackfriday.Node, ent
 
 	if entering &&
 		(node.Type == blackfriday.Text || node.Type == blackfriday.CodeBlock) {
-		re := regexp.MustCompile(`\{embedcommand: (.*?)\}`)
+		re := regexp.MustCompile(`{embedcommand: (.*?)}`)
 		matches := re.FindAllStringSubmatch(string(node.Literal), -1)
 		for _, match := range matches {
 			var cmd []string
@@ -63,7 +63,7 @@ func (r *CustomHTMLRenderer) RenderNode(w io.Writer, node *blackfriday.Node, ent
 			c.Dir = r.CWD
 			cmdOut, err := c.CombinedOutput()
 			if err != nil {
-				panic(err)
+				log.Fatalf("failed to execute embedcommand: %s", err)
 			}
 			cmdOutStr := strings.TrimSpace(string(cmdOut))
 			node.Literal = []byte(strings.Replace(string(node.Literal), match[0], cmdOutStr, 1))

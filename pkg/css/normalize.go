@@ -1,7 +1,12 @@
-package sliderenderer
+package css
 
-const normalizeCSS = `
-<style>
+import (
+	"html/template"
+	"log"
+)
+
+func AddNormalizeStyleTemplate(root *template.Template) {
+	if _, err := root.New("style.normalize").Parse(`
 html{line-height:1.15;-webkit-text-size-adjust:100%}body{margin:0}h1{font-size:2em;margin:.67em 0}
 hr{box-sizing:content-box;height:0;overflow:visible}pre{font-family:monospace,monospace;font-size:1em}
 a{background-color:transparent}abbr[title]{border-bottom:none;text-decoration:underline;text-decoration:underline dotted}
@@ -17,5 +22,7 @@ progress{vertical-align:baseline}textarea{overflow:auto}[type="checkbox"],[type=
 [type="number"]::-webkit-inner-spin-button,[type="number"]::-webkit-outer-spin-button{height:auto}[type="search"]{-webkit-appearance:textfield;outline-offset:-2px}
 [type="search"]::-webkit-search-decoration{-webkit-appearance:none}::-webkit-file-upload-button{-webkit-appearance:button;font:inherit}details{display:block}
 summary{display:list-item}template{display:none}[hidden]{display:none}
-</style>
-`
+`); err != nil {
+		log.Fatalf("failed to parse: %s", err)
+	}
+}

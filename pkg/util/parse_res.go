@@ -1,4 +1,4 @@
-package sliderenderer
+package util
 
 import (
 	"fmt"
@@ -6,7 +6,7 @@ import (
 	"strings"
 )
 
-func ParseResString(i string) (int, int, error) {
+func ParseXYResString(i string) (int, int, error) {
 	i = strings.TrimSpace(strings.ToLower(i))
 	parts := strings.Split(i, "x")
 	if len(parts) != 2 {

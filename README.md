@@ -92,7 +92,7 @@ The following 3rd party libraries (and their dependencies) are statically linked
 ## `version` subcommand
 
 ```
-{embedcommand: ["./md-slides", "version"]}
+{embedcommand: ["./md-slides", "-version"]}
 ```
 
 ---
