@@ -236,7 +236,7 @@ The value will persist between pages until overriden by a new value or empty str
 ```
 
 ---
-<meta res="768x768">
+<meta res="1366x1366">
 
 ## Metadata: `res`
 

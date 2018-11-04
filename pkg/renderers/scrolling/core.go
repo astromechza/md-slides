@@ -51,6 +51,7 @@ type preparedSlide struct {
 	Settings slide.Settings
 	PageLeft int
 	PageTop  int
+	Scale    float32
 }
 
 func (sr *Renderer) ServeHTTP(rw http.ResponseWriter, req *http.Request) {
@@ -68,7 +69,6 @@ func (sr *Renderer) ServeHTTP(rw http.ResponseWriter, req *http.Request) {
 		})),
 	}
 
-	maxPageXRes, maxPageYRes := 0, 0
 	var preparedSlides []*preparedSlide
 	for i, s := range collection.Slides {
 		var b bytes.Buffer
@@ -80,20 +80,18 @@ func (sr *Renderer) ServeHTTP(rw http.ResponseWriter, req *http.Request) {
 			Content:  template.HTML(b.String()),
 			Settings: s.Settings,
 		})
-		if s.XResPX > maxPageXRes {
-			maxPageXRes = s.XResPX
-		}
-		if s.YResPX > maxPageYRes {
-			maxPageYRes = s.YResPX
-		}
 	}
 
-	maxPageXRes += 40
-	maxPageYRes += 40
+	pageXRes := preparedSlides[0].Settings.XResPX
+	pageYRes := preparedSlides[0].Settings.YResPX
 
 	for _, s := range preparedSlides {
-		s.PageLeft = (maxPageXRes - s.Settings.XResPX) / 2
-		s.PageTop = (maxPageYRes - s.Settings.YResPX) / 2
+		s.Scale = float32(pageXRes) / float32(s.Settings.XResPX)
+		if ys := float32(pageYRes) / float32(s.Settings.YResPX); (s.Scale > 0 && ys < s.Scale) || (s.Scale < 0 && ys > s.Scale) {
+			s.Scale = ys
+		}
+		s.PageLeft = (pageXRes-s.Settings.XResPX)/2 + 20
+		s.PageTop = (pageYRes-s.Settings.YResPX)/2 + 20
 	}
 
 	if err := sr.Templates.Execute(rw, struct {
@@ -110,9 +108,9 @@ func (sr *Renderer) ServeHTTP(rw http.ResponseWriter, req *http.Request) {
 
 		URLPath:            sr.Path,
 		Title:              collection.Title,
-		PageXResPX:         maxPageXRes,
-		PageYResPX:         maxPageYRes,
-		AdjustedPageYResPX: maxPageYRes - 1,
+		PageXResPX:         pageXRes + 40,
+		PageYResPX:         pageYRes + 40,
+		AdjustedPageYResPX: pageYRes + 40 - 1,
 		PreparedSlides:     preparedSlides,
 	}); err != nil {
 		log.Fatalf("error executing template: %s", err)

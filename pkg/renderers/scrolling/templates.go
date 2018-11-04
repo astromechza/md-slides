@@ -31,7 +31,7 @@ const slideTemplate = `
     </style>
 	{{ range .PreparedSlides }}
     <div class="page-wrap">
-    <div class="slide-wrap slide-wrap-halign-{{ .Settings.HAlign }} slide-wrap-valign-{{ .Settings.VAlign }} slide-wrap-talign-{{ .Settings.TAlign }}" style="width: {{ .Settings.XResPX }}px; left: {{ .PageLeft }}px; top: {{ .PageTop }}px; height: {{ .Settings.YResPX }}px">
+    <div class="slide-wrap slide-wrap-halign-{{ .Settings.HAlign }} slide-wrap-valign-{{ .Settings.VAlign }} slide-wrap-talign-{{ .Settings.TAlign }}" style="width: {{ .Settings.XResPX }}px; left: {{ .PageLeft }}px; top: {{ .PageTop }}px; height: {{ .Settings.YResPX }}px; transform: scale({{ .Scale }})">
       <div class="markdown-body">
         {{ .Content }}
       </div>
