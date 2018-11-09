@@ -6,6 +6,13 @@ ALL_FILES := $(shell find . -type f -name '*.go')
 PKG := github.com/AstromechZA/md-slides/cmd/mdslides
 BINARY := md-slides
 
+BUILD_OS := $(shell uname | tr "[:upper:]" "[:lower:]")
+ifeq "$(BUILD_OS)" "linux"
+SHACMD := sha256sum
+else
+SHACMD := shasum -a 256
+endif
+
 # make the main binary
 .PHONY: dev
 dev: $(BINARY)
@@ -15,9 +22,9 @@ dist/:
 	mkdir dist
 
 # tasks for creating binaries
-DISTRIBUTABLES = $(BINARY) dist/$(BINARY).linux.amd64 dist/$(BINARY).darwin.amd64 dist/$(BINARY).windows.amd64.exe
-GOOS = $(shell echo $@ | grep -oP "$(BINARY).\K\w+(?=\.)")
-GOARCH = $(shell echo $@ | grep -oP "$(BINARY).$(GOOS).\K\w+(?=\.|$$)")
+DISTRIBUTABLES = $(BINARY) dist/$(BINARY).linux.amd64 dist/$(BINARY).darwin.amd64 dist/$(BINARY).windows.amd64
+GOOS = $(shell echo $@ | grep amd64 | rev | cut -d. -f 2 | rev)
+GOARCH = $(shell echo $@ | grep amd64 | rev | cut -d. -f 1 | rev)
 
 # official distributable version
 $(DISTRIBUTABLES): dist/ $(ALL_FILES)
@@ -29,7 +36,7 @@ $(DISTRIBUTABLES): dist/ $(ALL_FILES)
 
 # shasums file for dist
 dist/SHA256SUMS: $(DISTRIBUTABLES)
-	cd dist && sha256sum md-slides.* > SHA256SUMS
+	cd dist && $(SHACMD) md-slides.* > SHA256SUMS
 
 pages/:
 	mkdir pages
