@@ -55,17 +55,16 @@ func SubcommandServe(args []string) error {
 		slideSource = &slide.CachedSource{Inner: slideSource}
 	}
 
-	urlPath := "/_slides"
 	var handler http.Handler
 	var err error
 	switch *modeFlag {
 	case "paged":
-		handler, err = paged.New(urlPath, slideSource)
+		handler, err = paged.New("/", slideSource)
 		if err != nil {
 			return fmt.Errorf("failed to construct handler: %s", err)
 		}
 	case "scrolling":
-		handler, err = scrolling.New(urlPath, slideSource)
+		handler, err = scrolling.New("/", slideSource)
 		if err != nil {
 			return fmt.Errorf("failed to construct handler: %s", err)
 		}
@@ -73,12 +72,12 @@ func SubcommandServe(args []string) error {
 		return fmt.Errorf("unknown mode '%s'", *modeFlag)
 	}
 
-	http.Handle(urlPath, handler)
-	http.Handle(urlPath+"/", http.RedirectHandler(urlPath, http.StatusTemporaryRedirect))
 	http.Handle("/favicon.ico", http.NotFoundHandler())
 	if !*noStaticFlag {
 		log.Printf("Setting up static file server on / for %s", filepath.Dir(filename))
-		http.Handle("/", http.FileServer(util.CustomDirFS{Directory: filepath.Dir(filename)}))
+		http.Handle("/", util.RootOrHandler(handler, http.FileServer(util.CustomDirFS{Directory: filepath.Dir(filename)})))
+	} else {
+		http.Handle("/", handler)
 	}
 
 	log.Printf("Ready to serve on %s", *listenAddressFlag)

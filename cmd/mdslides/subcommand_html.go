@@ -39,8 +39,7 @@ func copyFile(srcPath, dstPath string) error {
 
 func exportSlidesHTML(source *slide.CachedSource, targetDirectory string, noStatics bool) error {
 	log.Printf("Generating html output to %s..", targetDirectory)
-	urlPath := "/_slides"
-	handler, err := scrolling.New(urlPath, source)
+	handler, err := scrolling.New("/", source)
 	if err != nil {
 		return fmt.Errorf("failed to construct handler: %s", err)
 	}
@@ -52,7 +51,7 @@ func exportSlidesHTML(source *slide.CachedSource, targetDirectory string, noStat
 	defer f.Close()
 
 	recorder := httptest.NewRecorder()
-	handler.ServeHTTP(recorder, httptest.NewRequest("GET", urlPath, nil))
+	handler.ServeHTTP(recorder, httptest.NewRequest("GET", "/", nil))
 	if recorder.Code != 200 {
 		return fmt.Errorf("failed to handle internal request: code %d", recorder.Code)
 	}
