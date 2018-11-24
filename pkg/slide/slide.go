@@ -2,6 +2,7 @@ package slide
 
 import (
 	"bytes"
+	"html/template"
 	"log"
 
 	"github.com/AstromechZA/md-slides/pkg/util"
@@ -19,6 +20,7 @@ type Settings struct {
 	VAlign     string
 	TAlign     string
 	FontColor  string
+	Background template.CSS
 }
 
 type Slide struct {
@@ -68,6 +70,9 @@ func NewSlide(dom blackfriday.Node, previous *Slide) *Slide {
 	if v, ok := meta["fontcolor"]; ok {
 		n.FontColor = v
 	}
+	if v, ok := meta["background"]; ok {
+		n.Background = template.CSS(v)
+	}
 
 	// TODO validate values?
 
@@ -87,6 +92,9 @@ func NewSlide(dom blackfriday.Node, previous *Slide) *Slide {
 	}
 	if n.FontColor == "" {
 		n.FontColor = "#111111"
+	}
+	if n.Background == "" {
+		n.Background = "#fffff8"
 	}
 
 	return n

@@ -265,7 +265,23 @@ Change the font color.
 ```
 
 ---
-<meta valign="" halign="" talign="" footer="" res="" fontcolor="">
+<meta res="" fontcolor="#fffff8" background="#111">
+
+## Metadata: `background`
+
+Change the background. Accepts colors, gradients, images, etc.
+
+```html
+<meta background="#111">
+```
+
+---
+<meta valign="center" halign="center" res="" fontcolor="#fffff8" background="url(/windmill.jpeg)">
+
+# This can be used for background images too!
+
+---
+<meta valign="" halign="" talign="" fontcolor="" background="">
 
 ## Markdown support
 

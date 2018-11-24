@@ -70,7 +70,7 @@ const slideTemplate = `
       {{ template "style.common" . }}
       {{ template "style.overrides" .}}
     </style>
-    <div class="slide-wrap slide-wrap-halign-{{ .Settings.HAlign }} slide-wrap-valign-{{ .Settings.VAlign }} slide-wrap-talign-{{ .Settings.TAlign }}" style="width: {{ .Settings.XResPX }}px; height: {{ .Settings.YResPX }}px; color: {{ .Settings.FontColor }}">
+    <div class="slide-wrap slide-wrap-halign-{{ .Settings.HAlign }} slide-wrap-valign-{{ .Settings.VAlign }} slide-wrap-talign-{{ .Settings.TAlign }}" style="width: {{ .Settings.XResPX }}px; height: {{ .Settings.YResPX }}px; color: {{ .Settings.FontColor }}; background: {{ .Settings.Background }}">
       <div class="markdown-body">
         {{ .SlideContent }}
       </div>

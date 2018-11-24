@@ -185,6 +185,7 @@ a:link {
 /* Sidenotes, margin notes, figures, captions */
 img {
   max-width: 100%;
+  0.2 rem;
 }
 
 .sidenote, .marginnote {
@@ -288,7 +289,6 @@ label.margin-toggle:not(.sidenote-number) {
 .iframe-wrapper {
   position: relative;
   padding-bottom: 56.25%;
-    /* 16:9 */
   padding-top: 25px;
   height: 0;
 }

@@ -19,7 +19,6 @@ body {
 	align-self: center;
 	display: grid;
 	box-sizing: border-box;
-	background: #fffff8;
 	padding: 1rem;
     border-radius: 0.3rem;
 	box-shadow: 0px 0.2rem 0.6rem black;
@@ -29,6 +28,9 @@ body {
 	overflow: hidden;
 	grid-auto-columns: 1fr;
 	grid-auto-rows: 1fr;
+	background-position: center !important; 
+	background-repeat: no-repeat !important;
+	background-size: cover !important;
 }
 
 .slide-wrap-halign-left {justify-items: start;}
@@ -48,7 +50,7 @@ body {
 	right: 0;
 	margin: 0.5rem;
 	font-size: 0.9em;
-	color: darkgrey;
+	opacity: 0.7;
 }
 
 .page-footer {
@@ -58,7 +60,7 @@ body {
 	left: 0;
 	margin: 0.5rem;
 	font-size: 0.9em;
-	color: darkgrey;
+	opacity: 0.7;
 }
 
 pre.chroma {
@@ -67,6 +69,7 @@ pre.chroma {
 	border: 1px solid lightgrey;
 	white-space: pre-wrap;
 	background: white;
+	color: #111;
 }
 `); err != nil {
 		log.Fatalf("failed to parse: %s", err)
