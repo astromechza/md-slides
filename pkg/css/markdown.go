@@ -14,7 +14,6 @@ func AddMarkdownStyleTemplate(root *template.Template) {
 
 .markdown-body {
   font-family: Palatino, "Palatino Linotype", "Palatino LT STD", "Book Antiqua", Georgia, serif;
-  color: #111;
   counter-reset: sidenote-counter;
 }
 

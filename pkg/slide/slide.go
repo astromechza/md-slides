@@ -18,6 +18,7 @@ type Settings struct {
 	HAlign     string
 	VAlign     string
 	TAlign     string
+	FontColor  string
 }
 
 type Slide struct {
@@ -64,6 +65,11 @@ func NewSlide(dom blackfriday.Node, previous *Slide) *Slide {
 	if v, ok := meta["footer"]; ok {
 		n.FooterText = v
 	}
+	if v, ok := meta["fontcolor"]; ok {
+		n.FontColor = v
+	}
+
+	// TODO validate values?
 
 	// if any values are zero set them to defaults
 	if n.HAlign == "" {
@@ -78,6 +84,9 @@ func NewSlide(dom blackfriday.Node, previous *Slide) *Slide {
 	if n.XResPX == 0 || n.YResPX == 0 {
 		n.XResPX = 1366
 		n.YResPX = 768
+	}
+	if n.FontColor == "" {
+		n.FontColor = "#111111"
 	}
 
 	return n

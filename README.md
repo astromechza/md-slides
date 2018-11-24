@@ -254,7 +254,18 @@ used to inform the primary size and shape of the slide deck.
 ```
 
 ---
-<meta valign="" halign="" talign="" footer="" res="">
+<meta res="" fontcolor="#0000ff">
+
+## Metadata: `fontcolor`
+
+Change the font color.
+
+```html
+<meta fontcolor="#111">
+```
+
+---
+<meta valign="" halign="" talign="" footer="" res="" fontcolor="">
 
 ## Markdown support
 
