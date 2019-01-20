@@ -27,7 +27,7 @@ const checkedSVG = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="2
 
 func (r *CustomRenderer) RenderNode(w io.Writer, node *blackfriday.Node, entering bool) blackfriday.WalkStatus {
 
-	if entering && node.Type == blackfriday.HTMLSpan && strings.HasPrefix(string(node.Literal), "<meta skip>") {
+	if entering && node.Type == blackfriday.HTMLSpan && strings.HasPrefix(string(node.Literal), "<meta norender>") {
 		node.Unlink()
 		return blackfriday.SkipChildren
 	}

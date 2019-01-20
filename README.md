@@ -4,9 +4,14 @@
 
 # md-slides
 
-<meta skip>
+<meta norender>
 
-If you're reading this, this is the raw Markdown. Please go [here](https://astromechza.github.io/md-slides/) for the official documentation.
+If you're reading this, this is the raw Markdown source code, and contains various macros and syntax that informs the 
+rendering of the slides. 
+
+Please go [here](https://astromechza.github.io/md-slides/) for the official documentation example.
+
+---
 
 </meta>
 
@@ -303,12 +308,12 @@ Change the background. Accepts colors, gradients, images, etc.
 
 ---
 
-## Metadata: `skip`
+## Metadata: `norender`
 
-If you have a section of Markdown that you _don't_ want to render into the final html or pdf, you can use the `<meta skip>` tag to exclude a section:
+If you have a section of Markdown that you _don't_ want to render into the final html or pdf, you can use the `<meta norender>` tag to exclude a section:
 
 ```
-<meta skip>
+<meta norender>
 
 This section will be skipped but will be present in the Markdown file.
 
