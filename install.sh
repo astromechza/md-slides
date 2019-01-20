@@ -16,7 +16,6 @@
 # To adapt this to your own project, replace <project> with your user and project name.
 
 set -e
-set -o pipefail
 
 # project urls
 PROJECT_URL="https://github.com/astromechza/md-slides"
@@ -37,7 +36,8 @@ downloadJSON() {
     elif type wget > /dev/null; then
         temp=$(mktemp)
         body=$(wget -q --header='Accept: application/json' -O - --server-response --content-on-error "$url" 2> "$temp")
-        code=$(awk '/^  HTTP/{print $2}' < "$temp")
+        code=$(awk '/^  HTTP/{print $2}' < "$temp" | tail -1)
+        rm "$temp"
     else
         echo "Neither curl nor wget was available to perform http requests."
         exit 1

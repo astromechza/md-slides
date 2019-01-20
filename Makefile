@@ -17,5 +17,11 @@ pages: $(ARTIFACT_DIR)/pages/index.html
 
 ## Run more detailed integration tests
 .PHONY: integ-test
-integ-test: md-slides
+integ-test: md-slides | $(ARTIFACT_DIR)
+
+	$(LOG) testing pdf subcommand
 	@./md-slides pdf -tmp-dir artifacts README.md artifacts/test.pdf
+
+	$(LOG) testing install.sh script
+	INSTALL_DIRECTORY=$(shell mktemp -d -p $(ARTIFACT_DIR)); \
+		./install.sh
