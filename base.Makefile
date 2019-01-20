@@ -81,6 +81,8 @@ $(ARTIFACT_DIR)/SHASUMS: $(ARTIFACT_BINARIES)
 $(ARTIFACT_DIR)/coverage.out: $(GO_DEPENDENCIES) | $(ARTIFACT_DIR)
 	$(LOG) Running unittests with coverage..
 	@$(GO_BINARY) test -v -cover -covermode=count -coverprofile=$@ ./...
+	$(LOG) Running vet checks..
+	@$(GO_BINARY) vet ./...
 
 # Build a docker image
 $(ARTIFACT_DIR)/docker-%: tag = $*:$(shell cat $(ARTIFACT_DIR)/semver).$(shell date '+%Y%m%d%H%M%S')

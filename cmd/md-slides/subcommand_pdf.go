@@ -114,7 +114,8 @@ func SubcommandPDF(args []string) error {
 	}
 
 	log.Printf("Waiting for container..")
-	ctx, _ := context.WithTimeout(context.Background(), time.Second*30)
+	ctx, cancel := context.WithTimeout(context.Background(), time.Second*30)
+	defer cancel()
 	status, err := cli.WaitContainerWithContext(container.ID, ctx)
 	if err != nil {
 		return fmt.Errorf("failed to wait for container: %s", err)
