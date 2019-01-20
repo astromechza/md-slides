@@ -8,6 +8,7 @@ import (
 	"log"
 	"os"
 	"time"
+	"path/filepath"
 
 	"github.com/fsouza/go-dockerclient"
 
@@ -28,6 +29,7 @@ func SubcommandPDF(args []string) error {
 
 	noPullFlag := fs.Bool("no-pull", false, "Don't try to pull the Docker image")
 	noStaticFlag := fs.Bool("no-statics", false, "Don't serve static files")
+	tmpDirFlag := fs.String("tmp-dir", os.TempDir(), "Change the temporary directory used for the Docker context")
 
 	fs.Usage = func() {
 		fmt.Fprintf(os.Stderr, pdfUsage)
@@ -46,9 +48,13 @@ func SubcommandPDF(args []string) error {
 	sourceFileName, targetFile := fs.Arg(0), fs.Arg(1)
 	slideSource := &slide.CachedSource{Inner: &slide.FileSource{Path: sourceFileName}}
 
-	td, err := ioutil.TempDir(os.TempDir(), "md-slides")
+	td, err := ioutil.TempDir(*tmpDirFlag, "md-slides")
 	if err != nil {
-		return fmt.Errorf("failed to create temporary directory")
+		return fmt.Errorf("failed to create temporary directory: %s", err)
+	}
+	td, err = filepath.Abs(td)
+	if err != nil {
+		return fmt.Errorf("unable to get absolute path for %s: %s", td, err)
 	}
 	defer os.RemoveAll(td)
 
