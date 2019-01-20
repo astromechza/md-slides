@@ -23,5 +23,5 @@ integ-test: md-slides | $(ARTIFACT_DIR)
 	@./md-slides pdf -tmp-dir artifacts README.md artifacts/test.pdf
 
 	$(LOG) testing install.sh script
-	INSTALL_DIRECTORY=$(shell mktemp -d -p $(ARTIFACT_DIR)); \
+	INSTALL_DIRECTORY=$(shell mktemp -d -p $(ARTIFACT_DIR)) OVERRIDE_RELEASE_TAG=v0.7.0 \
 		./install.sh
