@@ -4,6 +4,12 @@
 
 # md-slides
 
+<meta skip>
+
+If you're reading this, this is the raw Markdown. Please go [here](https://astromechza.github.io/md-slides/) for the official documentation.
+
+</meta>
+
 astromechza {embedcommand: ["date", "+%Y"]}
 
 ---
@@ -294,6 +300,20 @@ Change the background. Accepts colors, gradients, images, etc.
 
 ---
 <meta valign="" halign="" talign="" fontcolor="" background="">
+
+---
+
+## Metadata: `skip`
+
+If you have a section of Markdown that you _don't_ want to render into the final html or pdf, you can use the `<meta skip>` tag to exclude a section:
+
+```
+<meta skip>
+
+This section will be skipped but will be present in the Markdown file.
+
+</meta>
+```
 
 ## Markdown support
 
