@@ -1,6 +1,7 @@
-md-slides
+/md-slides
 .vscode/
 debug
 dist/
 .idea/
 pages/
+artifacts/

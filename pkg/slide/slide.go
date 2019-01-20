@@ -5,7 +5,7 @@ import (
 	"html/template"
 	"log"
 
-	"github.com/AstromechZA/md-slides/pkg/util"
+	"github.com/astromechza/md-slides/pkg/util"
 
 	"github.com/russross/blackfriday"
 	"golang.org/x/net/html"
@@ -55,11 +55,11 @@ func NewSlide(dom blackfriday.Node, previous *Slide) *Slide {
 				log.Fatalf("failed to parse res '%s': %s", v, err)
 			}
 			if x <= 0 {
-				log.Fatalf("invalid xres '%s': too small", x)
+				log.Fatalf("invalid xres '%d': too small", x)
 			}
 			n.XResPX = int(x)
 			if y <= 0 {
-				log.Fatalf("invalid y res '%s': too small", y)
+				log.Fatalf("invalid y res '%d': too small", y)
 			}
 			n.YResPX = int(y)
 		}

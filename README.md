@@ -1,10 +1,10 @@
 <meta valign="center" halign="center" talign="center">
-<meta footer="github.com/AstromechZA/md-slides">
+<meta footer="github.com/astromechza/md-slides">
 <meta font-size="18" res="1366x768">
 
 # md-slides
 
-AstromechZA 2018
+astromechza 2018
 
 ---
 <meta valign="" halign="" talign="" footer="">
@@ -15,7 +15,7 @@ AstromechZA 2018
 
 Online Example (scrolling): [astromechza.github.io/md-slides/](https://astromechza.github.io/md-slides/)
 
-Project URL: [github.com/AstromechZA/md-slides](https://github.com/AstromechZA/md-slides)
+Project URL: [github.com/astromechza/md-slides](https://github.com/astromechza/md-slides)
 
 Features:
 
@@ -46,27 +46,27 @@ Features:
 ## Installation
 
 Although you _can_ build and install it from source, we recommend that you pull
-the appropriate binary for your system from the project releases page [here](https://github.com/AstromechZA/md-slides/releases).
+the appropriate binary for your system from the project releases page [here](https://github.com/astromechza/md-slides/releases).
 
 Or use the installation script to be quick:
 
 ```
-$ curl https://raw.githubusercontent.com/AstromechZA/md-slides/master/install.sh | INSTALL_DIRECTORY=~/bin sh
+$ curl https://raw.githubusercontent.com/astromechza/md-slides/master/install.sh | INSTALL_DIRECTORY=~/bin sh
 ```
 
 Eg:
 
 ```
-$ curl https://raw.githubusercontent.com/AstromechZA/md-slides/master/install.sh | INSTALL_DIRECTORY=~/bin sh
+$ curl https://raw.githubusercontent.com/astromechza/md-slides/master/install.sh | INSTALL_DIRECTORY=~/bin sh
   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
                                  Dload  Upload   Total   Spent    Left  Speed
 100  4390  100  4390    0     0  16473      0 --:--:-- --:--:-- --:--:-- 16819
 ARCH = amd64
 OS = darwin
-Fetching https://github.com/AstromechZA/md-slides/releases/latest..
+Fetching https://github.com/astromechza/md-slides/releases/latest..
 Release Tag = v0.1
-Fetching https://github.com/AstromechZA/md-slides/releases/tag/v0.1..
-Fetching https://github.com/AstromechZA/md-slides/releases/download/v0.1/md-slides.darwin.amd64..
+Fetching https://github.com/astromechza/md-slides/releases/tag/v0.1..
+Fetching https://github.com/astromechza/md-slides/releases/download/v0.1/md-slides.darwin.amd64..
 Setting executable permissions.
 Moving executable to /Users/benmeier/bin/md-slides
 ```

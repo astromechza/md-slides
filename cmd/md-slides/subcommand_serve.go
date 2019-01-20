@@ -8,11 +8,11 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/AstromechZA/md-slides/pkg/renderers/paged"
-	"github.com/AstromechZA/md-slides/pkg/renderers/scrolling"
+	"github.com/astromechza/md-slides/pkg/renderers/paged"
+	"github.com/astromechza/md-slides/pkg/renderers/scrolling"
 
-	"github.com/AstromechZA/md-slides/pkg/slide"
-	"github.com/AstromechZA/md-slides/pkg/util"
+	"github.com/astromechza/md-slides/pkg/slide"
+	"github.com/astromechza/md-slides/pkg/util"
 )
 
 const serveUsage = `serve the slides

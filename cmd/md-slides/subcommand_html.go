@@ -9,8 +9,8 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/AstromechZA/md-slides/pkg/renderers/scrolling"
-	"github.com/AstromechZA/md-slides/pkg/slide"
+	"github.com/astromechza/md-slides/pkg/renderers/scrolling"
+	"github.com/astromechza/md-slides/pkg/slide"
 )
 
 const htmlUsage = `Render the slides to html as an index.html file in the target directory.

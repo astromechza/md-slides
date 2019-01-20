@@ -8,13 +8,13 @@ import (
 	"net/http"
 	"strconv"
 
-	"github.com/AstromechZA/md-slides/pkg/slide"
+	"github.com/astromechza/md-slides/pkg/slide"
 
 	"github.com/russross/blackfriday"
 
-	"github.com/AstromechZA/md-slides/pkg/css"
-	"github.com/AstromechZA/md-slides/pkg/customhtml"
-	"github.com/AstromechZA/md-slides/pkg/renderers"
+	"github.com/astromechza/md-slides/pkg/css"
+	"github.com/astromechza/md-slides/pkg/customhtml"
+	"github.com/astromechza/md-slides/pkg/renderers"
 )
 
 type Renderer struct {
