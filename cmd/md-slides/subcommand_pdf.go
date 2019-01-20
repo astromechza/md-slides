@@ -17,6 +17,10 @@ import (
 
 const pdfUsage = `Render the slides to pdf.
 
+NOTE: if you're running with Docker on macos, you may need to use the 
+-tmp-dir flag to create the temporary directory in a location that is
+mountable into the Docker vm.
+
 Usage:
   md-slides pdf [options...] [file.md] [output.pdf]
 

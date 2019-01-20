@@ -16,6 +16,7 @@ Subcommands:
   serve     serve the slides as html
   html      render slide html to a directory
   pdf       export the slides to a pdf
+
 `
 
 
