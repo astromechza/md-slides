@@ -5,6 +5,7 @@ script:
   - make version
   - make coverage
   - make build
+  - make integ-test
   - make pages
 deploy:
   - provider: releases
