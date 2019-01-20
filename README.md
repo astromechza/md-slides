@@ -4,7 +4,7 @@
 
 # md-slides
 
-astromechza 2018
+astromechza {embedcommand: ["date", "+%Y"]}
 
 ---
 <meta valign="" halign="" talign="" footer="">
@@ -101,6 +101,18 @@ The following 3rd party libraries (and their dependencies) are statically linked
 
 ```
 {embedcommand: ["bash", "-c", "./md-slides serve --help || true"]}
+```
+
+## `html` subcommand
+
+```
+{embedcommand: ["bash", "-c", "./md-slides html --help || true"]}
+```
+
+## `pdf` subcommand
+
+```
+{embedcommand: ["bash", "-c", "./md-slides pdf --help || true"]}
 ```
 
 ---
