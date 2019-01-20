@@ -4,6 +4,17 @@
 
 # md-slides
 
+<meta norender>
+
+If you're reading this, this is the raw Markdown source code, and contains various macros and syntax that informs the 
+rendering of the slides. 
+
+Please go [here](https://astromechza.github.io/md-slides/) for the official documentation example.
+
+---
+
+</meta>
+
 astromechza {embedcommand: ["date", "+%Y"]}
 
 ---
@@ -294,6 +305,20 @@ Change the background. Accepts colors, gradients, images, etc.
 
 ---
 <meta valign="" halign="" talign="" fontcolor="" background="">
+
+---
+
+## Metadata: `norender`
+
+If you have a section of Markdown that you _don't_ want to render into the final html or pdf, you can use the `<meta norender>` tag to exclude a section:
+
+```
+<meta norender>
+
+This section will be skipped but will be present in the Markdown file.
+
+</meta>
+```
 
 ## Markdown support
 
