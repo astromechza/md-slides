@@ -11,7 +11,7 @@ import (
 
 	"github.com/fsouza/go-dockerclient"
 
-	"github.com/AstromechZA/md-slides/pkg/slide"
+	"github.com/astromechza/md-slides/pkg/slide"
 )
 
 const pdfUsage = `Render the slides to pdf.

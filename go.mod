@@ -1,4 +1,4 @@
-module github.com/AstromechZA/md-slides
+module github.com/astromechza/md-slides
 
 require (
 	github.com/alecthomas/assert v0.0.0-20170929043011-405dbfeb8e38 // indirect

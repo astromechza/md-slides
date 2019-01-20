@@ -11,7 +11,7 @@
 # - OVERRIDE_ARCH (optional): use a specific value for ARCH (mostly for testing)
 #
 # You can install using this script:
-# $ curl https://raw.githubusercontent.com/AstromechZA/md-slides/master/install.sh | sh
+# $ curl https://raw.githubusercontent.com/astromechza/md-slides/master/install.sh | sh
 #
 # To adapt this to your own project, replace <project> with your user and project name.
 
@@ -19,7 +19,7 @@ set -e
 set -o pipefail
 
 # project urls
-PROJECT_URL="https://github.com/AstromechZA/md-slides"
+PROJECT_URL="https://github.com/astromechza/md-slides"
 RELEASES_URL="${PROJECT_URL}/releases"
 BINARY_NAME="md-slides"
 

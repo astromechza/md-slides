@@ -18,9 +18,9 @@ Subcommands:
   pdf       export the slides to a pdf
 `
 
-var gitHash = "unknown"
-var gitDate = "unknown"
+
 var version = "unknown"
+var buildDate = "unknown"
 
 func mainInner() error {
 	fs := flag.NewFlagSet(os.Args[0], flag.ExitOnError)
@@ -34,10 +34,9 @@ func mainInner() error {
 	}
 
 	if *versionFlag {
-		fmt.Printf("Version: %s\n", version)
-		fmt.Printf("Hash:    %s\n", gitHash)
-		fmt.Printf("Date:    %s\n", gitDate)
-		fmt.Printf("URL:     https://github.com/AstromechZA/md-slides\n")
+		fmt.Printf("Version:     %s\n", version)
+		fmt.Printf("Build Date:  %s\n", buildDate)
+		fmt.Printf("URL:         https://github.com/astromechza/md-slides\n")
 		return nil
 	}
 
