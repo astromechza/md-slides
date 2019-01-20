@@ -73,7 +73,7 @@ $(ARTIFACT_BINARIES): $(GO_DEPENDENCIES) $(ARTIFACT_DIR)/semver
 		./cmd/$(word 1,$(t))
 
 # Write a shasums file for the artifact binaries
-$(ARTIFACT_DIR)/SHASUMS: $(ARTIFACT_BINARIES)
+$(ARTIFACT_DIR)/SHA256SUMS: $(ARTIFACT_BINARIES)
 	$(LOG) Calculating shasums for binaries..
 	@cd $(dir $@) && $(SHASUMS) $(notdir $(ARTIFACT_BINARIES)) > $(notdir $@)
 
@@ -106,7 +106,7 @@ version: $(ARTIFACT_DIR)/semver
 
 ## Build release binaries
 .PHONY: build
-build: $(ARTIFACT_BINARIES) $(ARTIFACT_DIR)/SHASUMS
+build: $(ARTIFACT_BINARIES) $(ARTIFACT_DIR)/SHA256SUMS
 	$(LOG) Artifact binaries available at: $^
 
 ## Run unittests
