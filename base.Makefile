@@ -11,9 +11,9 @@ BINARIES ?=
 ARTIFACT_BINARIES := $(addprefix $(ARTIFACT_DIR)/,$(BINARIES:=.linux.amd64) $(BINARIES:=.darwin.amd64) $(BINARIES:=.windows.amd64))
 
 GOFLAGS := -mod=vendor
-GO_BINARY := $(if $(USE_DOCKER),docker run --rm -t -e GOOS=$(GOOS) -e GOARCH=$(GOARCH) -e GOFLAGS=$(GOFLAGS) -v $(PWD):/__ -w /__ golang:1.11 go,GOOS=$(GOOS) GOARCH=$(GOARCH) GOFLAGS=$(GOFLAGS) go)
-GO_FILES := $(shell find $(subst /__/,$(PWD)/,$(shell $(GO_BINARY) list -f '{{ .Dir }}' ./...) -type f -name *.go))
-GO_DEPENDENCIES := $(GO_FILES) go.sum go.mod
+GO_BINARY = $(if $(USE_DOCKER),docker run --rm -t -e GOOS=$(GOOS) -e GOARCH=$(GOARCH) -e GOFLAGS=$(GOFLAGS) -v $(PWD):/__ -w /__ golang:1.11 go,GOOS=$(GOOS) GOARCH=$(GOARCH) GOFLAGS=$(GOFLAGS) go)
+GO_FILES = $(shell find $(subst /__/,$(PWD)/,$(shell $(GO_BINARY) list -f '{{ .Dir }}' ./...) -type f -name *.go))
+GO_DEPENDENCIES = $(GO_FILES) go.sum go.mod
 
 # Logging function used for some consistency - the if/else is used to turn off colors when no TTY exists
 ifeq "$(shell [ -t 0 ] && echo 1)" "1"
@@ -23,7 +23,7 @@ LOG = @echo $(shell date):
 endif
 
 # Shasums command
-SHASUMS := $(if $(uname | grep Darwin),shasum -a 256,sha256sum)
+SHASUMS := $(if $(shell uname | grep Darwin),shasum -a 256,sha256sum)
 
 ## Display a list of the documented make targets
 .PHONY: help
