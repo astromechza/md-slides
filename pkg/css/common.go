@@ -70,6 +70,7 @@ pre.chroma {
 	white-space: pre-wrap;
 	background: white;
 	color: #111;
+	text-align: left;
 }
 `); err != nil {
 		log.Fatalf("failed to parse: %s", err)
