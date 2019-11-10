@@ -5,9 +5,9 @@ include base.Makefile
 $(ARTIFACT_DIR)/pages:
 	@mkdir -pv $@
 
-$(ARTIFACT_DIR)/pages/index.html: md-slides README.md | $(ARTIFACT_DIR)/pages
+$(ARTIFACT_DIR)/pages/index.html: md-slides SLIDES.md | $(ARTIFACT_DIR)/pages
 	$(LOG) Generating $@..
-	@./md-slides html --source README.md --target-dir $(dir $@)
+	@./md-slides html --source SLIDES.md --target-dir $(dir $@)
 
 ## Generate pages pdf content
 .PHONY: pages
