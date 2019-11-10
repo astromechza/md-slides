@@ -11,7 +11,10 @@ import (
 
 func AddChromaStyleTemplate(root *template.Template) {
 	var b bytes.Buffer
-	html.New(html.WithClasses()).WriteCSS(&b, styles.BlackWhite)
+	err := html.New(html.WithClasses()).WriteCSS(&b, styles.BlackWhite)
+	if err != nil {
+		log.Fatal("failed to generate code highlighter")
+	}
 	if _, err := root.New("style.chroma").Parse(b.String()); err != nil {
 		log.Fatalf("failed to parse: %s", err)
 	}

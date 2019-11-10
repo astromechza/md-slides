@@ -8,51 +8,46 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/astromechza/md-slides/pkg/renderers/paged"
-	"github.com/astromechza/md-slides/pkg/renderers/scrolling"
-
-	"github.com/astromechza/md-slides/pkg/slide"
-	"github.com/astromechza/md-slides/pkg/util"
+	"github.com/astromechza/md-slides/internal/slides"
+	"github.com/astromechza/md-slides/internal/slides/parse"
+	"github.com/astromechza/md-slides/internal/slides/renderers/paged"
+	"github.com/astromechza/md-slides/internal/slides/renderers/scrolling"
+	"github.com/astromechza/md-slides/internal/util"
 )
 
 const serveUsage = `serve the slides
 
 Usage:
-  md-slides serve [options...] [file.md]
+  md-slides serve [options...] --source <file>
 
 `
 
-type slideSourcer interface {
-	Load() (*slide.Collection, error)
-}
-
 func SubcommandServe(args []string) error {
 	fs := flag.NewFlagSet("", flag.ExitOnError)
-
+	sourceFlag := fs.String("source", "", "Path to the source markdown file")
 	hotFlag := fs.Bool("hot", false, "Reload slides from disk on each request")
 	modeFlag := fs.String("mode", "paged", "Mode to serve slides in (choose from paged, scrolling)")
 	noStaticFlag := fs.Bool("no-statics", false, "Don't serve static files")
 	listenAddressFlag := fs.String("listen", "127.0.0.1:8080", "Address to listen on")
 
 	fs.Usage = func() {
-		fmt.Fprintf(os.Stderr, serveUsage)
+		_, _ = fmt.Fprintf(os.Stderr, serveUsage)
 		fs.PrintDefaults()
 	}
 	if err := fs.Parse(args); err != nil {
 		return err
 	}
-
-	if fs.NArg() == 0 {
-		fs.Usage()
-		fmt.Fprintf(os.Stderr, "\n")
-		return fmt.Errorf("expected slides source file as first positional argument")
+	if *sourceFlag == "" {
+		return fmt.Errorf("expected a value for --source")
+	}
+	if fs.NArg() > 0 {
+		return fmt.Errorf("expected 0 positional arguments")
 	}
 
-	filename := fs.Arg(0)
-	var slideSource slideSourcer
-	slideSource = &slide.FileSource{Path: filename}
+	var slideSource slides.SlideSource
+	slideSource = &parse.FileSource{Path: *sourceFlag}
 	if *hotFlag == false {
-		slideSource = &slide.CachedSource{Inner: slideSource}
+		slideSource = &parse.CachedSource{Inner: slideSource}
 	}
 
 	var handler http.Handler
@@ -74,8 +69,8 @@ func SubcommandServe(args []string) error {
 
 	http.Handle("/favicon.ico", http.NotFoundHandler())
 	if !*noStaticFlag {
-		log.Printf("Setting up static file server on / for %s", filepath.Dir(filename))
-		http.Handle("/", util.RootOrHandler(handler, http.FileServer(util.CustomDirFS{Directory: filepath.Dir(filename)})))
+		log.Printf("Setting up static file server on / for %s", filepath.Dir(*sourceFlag))
+		http.Handle("/", util.RootOrHandler(handler, http.FileServer(util.CustomDirFS{Directory: filepath.Dir(*sourceFlag)})))
 	} else {
 		http.Handle("/", handler)
 	}
