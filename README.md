@@ -18,6 +18,16 @@
 
 See [astromechza.github.io/md-slides/](https://astromechza.github.io/md-slides/) for an example of the standalone output and a more in depth look at the features.
 
+### Install
+
+The following command will find and download the latest release from the Github release page:
+
+```
+$ curl https://raw.githubusercontent.com/astromechza/md-slides/master/install.sh | INSTALL_DIRECTORY=~/bin sh
+```
+
+Binaries are available for macOS, Linux, and Windows.
+
 ### Development
 
 Built with Golang 1.11+ (with modules).
