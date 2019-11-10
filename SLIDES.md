@@ -1,6 +1,5 @@
 <meta valign="center" halign="center" talign="center">
 <meta footer="github.com/astromechza/md-slides 2019">
-<meta font-size="18" res="1366x768">
 
 # md-slides
 
@@ -336,6 +335,19 @@ func main() {
 ![A test image](windmill.jpeg#height=500px)
 
 Text below image
+
+---
+<meta valign="" halign="" talign="" fontcolor="" background="">
+
+## Distributing your slides
+
+Two choices:
+
+1. Use `md-slides html ..` to render to a directory and distribute as `index.html` with any images alongside it.
+
+2. Use Chrome to Menu → Print → Save as PDF to export the output of the `serve --mode=scrolling` as a multi-page pdf.
+    
+    Although this is buggy and will probably not be perfect. PDF is hard!
 
 ---
 <meta valign="center" halign="center" talign="center">
