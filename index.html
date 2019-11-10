@@ -1,7 +1,7 @@
 
 <!DOCTYPE html>
   <head>
-    <title>README.md</title>
+    <title>SLIDES.md</title>
 	<meta charset="utf-8">
   </head>
   <body>
@@ -493,28 +493,13 @@ pre.chroma {
     <div class="slide-wrap slide-wrap-halign-center slide-wrap-valign-center slide-wrap-talign-center" style="width: 1366px; left: 20px; top: 20px; height: 768px; color: #111111; background: #fffff8; transform: scale(1)">
       <div class="markdown-body">
         <p><meta valign="center" halign="center" talign="center">
-<meta footer="github.com/astromechza/md-slides">
-<meta font-size="18" res="1366x768"></p>
+<meta footer="github.com/astromechza/md-slides 2019"></p>
 
 <h1>md-slides</h1>
 
-<p>
       </div>
-      <div class="page-footer">github.com/astromechza/md-slides</div>
-      <div class="page-number">1/28</div>
-    </div>
-    </div>
-    
-    <div class="page-wrap">
-    <div class="slide-wrap slide-wrap-halign-center slide-wrap-valign-center slide-wrap-talign-center" style="width: 1366px; left: 20px; top: 20px; height: 768px; color: #111111; background: #fffff8; transform: scale(1)">
-      <div class="markdown-body">
-        <p></meta></p>
-
-<p>astromechza 2019</p>
-
-      </div>
-      <div class="page-footer">github.com/astromechza/md-slides</div>
-      <div class="page-number">2/28</div>
+      <div class="page-footer">github.com/astromechza/md-slides 2019</div>
+      <div class="page-number">1/27</div>
     </div>
     </div>
     
@@ -545,7 +530,7 @@ pre.chroma {
 
       </div>
       
-      <div class="page-number">3/28</div>
+      <div class="page-number">2/27</div>
     </div>
     </div>
     
@@ -572,7 +557,7 @@ pre.chroma {
 
       </div>
       
-      <div class="page-number">4/28</div>
+      <div class="page-number">3/27</div>
     </div>
     </div>
     
@@ -604,27 +589,7 @@ Moving executable to /Users/benmeier/bin/md-slides
 </pre>
       </div>
       
-      <div class="page-number">5/28</div>
-    </div>
-    </div>
-    
-    <div class="page-wrap">
-    <div class="slide-wrap slide-wrap-halign-left slide-wrap-valign-top slide-wrap-talign-left" style="width: 1366px; left: 20px; top: 20px; height: 768px; color: #111111; background: #fffff8; transform: scale(1)">
-      <div class="markdown-body">
-        
-<h2>Dependencies</h2>
-
-<p>The following 3rd party libraries (and their dependencies) are statically linked into the binary:</p>
-
-<ul>
-<li><code>github.com/russross/blackfriday</code> : markdown processing</li>
-<li><code>github.com/gorilla/mux</code> : a better http server router</li>
-<li><code>github.com/alecthomas/chroma</code> : syntax highlighting</li>
-</ul>
-
-      </div>
-      
-      <div class="page-number">6/28</div>
+      <div class="page-number">4/27</div>
     </div>
     </div>
     
@@ -633,28 +598,24 @@ Moving executable to /Users/benmeier/bin/md-slides
       <div class="markdown-body">
         
 <h2>Embedded commands</h2>
-<pre class="chroma">./md-slides is a html slide server based on slides defined in a markdown formatted file.
+
+<p><code>{embedcommand</code><code>: [&quot;bash&quot;, &quot;-c&quot;, &quot;./md-slides --help || true&quot;]}</code></p>
+<pre class="chroma">md-slides is an html slide server based on slides defined in a markdown formatted file.
 
 Usage:
   md-slides [subcommand] [options...]
 
 Subcommands:
-  check     validate that the slides are parsable
   serve     serve the slides as html
   html      render slide html to a directory
-  pdf       export the slides to a pdf
 
+Options:
   -version
-    	Print version information
-</pre>
-<h2><code>version</code> subcommand</h2>
-<pre class="chroma">Version:     unknown
-Build Date:  unknown
-URL:         https://github.com/astromechza/md-slides
+    	Show version information
 </pre>
       </div>
       
-      <div class="page-number">7/28</div>
+      <div class="page-number">5/27</div>
     </div>
     </div>
     
@@ -666,7 +627,7 @@ URL:         https://github.com/astromechza/md-slides
 <pre class="chroma">serve the slides
 
 Usage:
-  md-slides serve [options...] [file.md]
+  md-slides serve [options...] --source &lt;file&gt;
 
   -hot
     	Reload slides from disk on each request
@@ -676,36 +637,35 @@ Usage:
     	Mode to serve slides in (choose from paged, scrolling) (default &#34;paged&#34;)
   -no-statics
     	Don&#39;t serve static files
+  -source string
+    	Path to the source markdown file
 </pre>
+      </div>
+      
+      <div class="page-number">6/27</div>
+    </div>
+    </div>
+    
+    <div class="page-wrap">
+    <div class="slide-wrap slide-wrap-halign-left slide-wrap-valign-top slide-wrap-talign-left" style="width: 1366px; left: 20px; top: 20px; height: 768px; color: #111111; background: #fffff8; transform: scale(1)">
+      <div class="markdown-body">
+        
 <h2><code>html</code> subcommand</h2>
 <pre class="chroma">Render the slides to html as an index.html file in the target directory.
 
 Usage:
-  md-slides html [options...] [file.md] [target directory]
+  md-slides html [options...] --source &lt;file&gt; --target-dir &lt;directory&gt;
 
   -no-statics
     	Don&#39;t serve static files
-</pre>
-<h2><code>pdf</code> subcommand</h2>
-<pre class="chroma">Render the slides to pdf.
-
-NOTE: if you&#39;re running with Docker on macos, you may need to use the 
--tmp-dir flag to create the temporary directory in a location that is
-mountable into the Docker vm.
-
-Usage:
-  md-slides pdf [options...] [file.md] [output.pdf]
-
-  -no-pull
-    	Don&#39;t try to pull the Docker image
-  -no-statics
-    	Don&#39;t serve static files
-  -tmp-dir string
-    	Change the temporary directory used for the Docker context (default &#34;/tmp&#34;)
+  -source string
+    	Path to the source markdown file
+  -target-dir string
+    	Path to the directory to write output files to
 </pre>
       </div>
       
-      <div class="page-number">8/28</div>
+      <div class="page-number">7/27</div>
     </div>
     </div>
     
@@ -734,7 +694,7 @@ Usage:
 </span><span class="err"></span></pre>
       </div>
       
-      <div class="page-number">9/28</div>
+      <div class="page-number">8/27</div>
     </div>
     </div>
     
@@ -754,7 +714,7 @@ Usage:
 
       </div>
       
-      <div class="page-number">10/28</div>
+      <div class="page-number">9/27</div>
     </div>
     </div>
     
@@ -767,13 +727,13 @@ Usage:
 <p>Embed command embeds the combined stdout/stdin output of executing a given subcommand. The subcommand should be embeded as a json array like <code>[&quot;ls&quot;, &quot;-al&quot;, &quot;blah&quot;]</code>.</p>
 
 <p>For example a slide containing <code>{embed</code><code>command: [&quot;date&quot;]}</code> could output:</p>
-<pre class="chroma">Mon Jan 21 23:24:08 UTC 2019
+<pre class="chroma">Sun Nov 10 11:19:45 UTC 2019
 </pre>
 <p>This makes it easy to present live content or to embed dynamic data into the slides based on the output of scripts.</p>
 
       </div>
       
-      <div class="page-number">11/28</div>
+      <div class="page-number">10/27</div>
     </div>
     </div>
     
@@ -790,7 +750,7 @@ Usage:
 </span><span class="err"></span></pre>
       </div>
       
-      <div class="page-number">12/28</div>
+      <div class="page-number">11/27</div>
     </div>
     </div>
     
@@ -808,7 +768,7 @@ Usage:
 
       </div>
       
-      <div class="page-number">13/28</div>
+      <div class="page-number">12/27</div>
     </div>
     </div>
     
@@ -835,7 +795,7 @@ Usage:
 
       </div>
       
-      <div class="page-number">14/28</div>
+      <div class="page-number">13/27</div>
     </div>
     </div>
     
@@ -850,7 +810,7 @@ Usage:
 
       </div>
       
-      <div class="page-number">15/28</div>
+      <div class="page-number">14/27</div>
     </div>
     </div>
     
@@ -868,7 +828,7 @@ Usage:
 
       </div>
       
-      <div class="page-number">16/28</div>
+      <div class="page-number">15/27</div>
     </div>
     </div>
     
@@ -883,7 +843,7 @@ Usage:
 
       </div>
       
-      <div class="page-number">17/28</div>
+      <div class="page-number">16/27</div>
     </div>
     </div>
     
@@ -902,7 +862,7 @@ Usage:
 </pre>
       </div>
       <div class="page-footer">January 1970 | Some Conference</div>
-      <div class="page-number">18/28</div>
+      <div class="page-number">17/27</div>
     </div>
     </div>
     
@@ -927,7 +887,7 @@ used to inform the primary size and shape of the slide deck.</p>
 </pre>
       </div>
       <div class="page-footer">January 1970 | Some Conference</div>
-      <div class="page-number">19/28</div>
+      <div class="page-number">18/27</div>
     </div>
     </div>
     
@@ -943,7 +903,7 @@ used to inform the primary size and shape of the slide deck.</p>
 </pre>
       </div>
       <div class="page-footer">January 1970 | Some Conference</div>
-      <div class="page-number">20/28</div>
+      <div class="page-number">19/27</div>
     </div>
     </div>
     
@@ -959,20 +919,20 @@ used to inform the primary size and shape of the slide deck.</p>
 </pre>
       </div>
       <div class="page-footer">January 1970 | Some Conference</div>
-      <div class="page-number">21/28</div>
+      <div class="page-number">20/27</div>
     </div>
     </div>
     
     <div class="page-wrap">
-    <div class="slide-wrap slide-wrap-halign-center slide-wrap-valign-center slide-wrap-talign-left" style="width: 1366px; left: 20px; top: 20px; height: 768px; color: #fffff8; background: url(/windmill.jpeg); transform: scale(1)">
+    <div class="slide-wrap slide-wrap-halign-center slide-wrap-valign-center slide-wrap-talign-left" style="width: 1366px; left: 20px; top: 20px; height: 768px; color: #fffff8; background: url(windmill.jpeg); transform: scale(1)">
       <div class="markdown-body">
-        <p><meta valign="center" halign="center" res="" fontcolor="#fffff8" background="url(/windmill.jpeg)"></p>
+        <p><meta valign="center" halign="center" res="" fontcolor="#fffff8" background="url(windmill.jpeg)"></p>
 
 <h1>This can be used for background images too!</h1>
 
       </div>
       <div class="page-footer">January 1970 | Some Conference</div>
-      <div class="page-number">22/28</div>
+      <div class="page-number">21/27</div>
     </div>
     </div>
     
@@ -981,25 +941,6 @@ used to inform the primary size and shape of the slide deck.</p>
       <div class="markdown-body">
         <p><meta valign="" halign="" talign="" fontcolor="" background=""></p>
 
-      </div>
-      <div class="page-footer">January 1970 | Some Conference</div>
-      <div class="page-number">23/28</div>
-    </div>
-    </div>
-    
-    <div class="page-wrap">
-    <div class="slide-wrap slide-wrap-halign-left slide-wrap-valign-top slide-wrap-talign-left" style="width: 1366px; left: 20px; top: 20px; height: 768px; color: #111111; background: #fffff8; transform: scale(1)">
-      <div class="markdown-body">
-        
-<h2>Metadata: <code>norender</code></h2>
-
-<p>If you have a section of Markdown that you <em>don't</em> want to render into the final html or pdf, you can use the <code>&lt;meta norender&gt;</code> tag to exclude a section:</p>
-<pre class="chroma">&lt;meta norender&gt;
-
-This section will be skipped but will be present in the Markdown file.
-
-&lt;/meta&gt;
-</pre>
 <h2>Markdown support</h2>
 
 <p>Anything that <code>https://github.com/russross/blackfriday</code> v2 supports.</p>
@@ -1025,7 +966,7 @@ This section will be skipped but will be present in the Markdown file.
 
       </div>
       <div class="page-footer">January 1970 | Some Conference</div>
-      <div class="page-number">24/28</div>
+      <div class="page-number">22/27</div>
     </div>
     </div>
     
@@ -1053,7 +994,7 @@ This section will be skipped but will be present in the Markdown file.
 </pre>
       </div>
       <div class="page-footer">January 1970 | Some Conference</div>
-      <div class="page-number">25/28</div>
+      <div class="page-number">23/27</div>
     </div>
     </div>
     
@@ -1097,7 +1038,7 @@ This section will be skipped but will be present in the Markdown file.
 
       </div>
       <div class="page-footer">January 1970 | Some Conference</div>
-      <div class="page-number">26/28</div>
+      <div class="page-number">24/27</div>
     </div>
     </div>
     
@@ -1114,7 +1055,30 @@ This section will be skipped but will be present in the Markdown file.
 
       </div>
       <div class="page-footer">January 1970 | Some Conference</div>
-      <div class="page-number">27/28</div>
+      <div class="page-number">25/27</div>
+    </div>
+    </div>
+    
+    <div class="page-wrap">
+    <div class="slide-wrap slide-wrap-halign-left slide-wrap-valign-top slide-wrap-talign-left" style="width: 1366px; left: 20px; top: 20px; height: 768px; color: #111111; background: #fffff8; transform: scale(1)">
+      <div class="markdown-body">
+        <p><meta valign="" halign="" talign="" fontcolor="" background=""></p>
+
+<h2>Distributing your slides</h2>
+
+<p>Two choices:</p>
+
+<ol>
+<li><p>Use <code>md-slides html ..</code> to render to a directory and distribute as <code>index.html</code> with any images alongside it.</p></li>
+
+<li><p>Use Chrome to Menu → Print → Save as PDF to export the output of the <code>serve --mode=scrolling</code> as a multi-page pdf.</p>
+
+<p>Although this is buggy and will probably not be perfect. PDF is hard!</p></li>
+</ol>
+
+      </div>
+      <div class="page-footer">January 1970 | Some Conference</div>
+      <div class="page-number">26/27</div>
     </div>
     </div>
     
@@ -1127,7 +1091,7 @@ This section will be skipped but will be present in the Markdown file.
 
       </div>
       <div class="page-footer">January 1970 | Some Conference</div>
-      <div class="page-number">28/28</div>
+      <div class="page-number">27/27</div>
     </div>
     </div>
     
