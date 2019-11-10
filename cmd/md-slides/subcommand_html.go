@@ -9,14 +9,14 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/astromechza/md-slides/pkg/renderers/scrolling"
-	"github.com/astromechza/md-slides/pkg/slide"
+	"github.com/astromechza/md-slides/internal/slides/parse"
+	"github.com/astromechza/md-slides/internal/slides/renderers/scrolling"
 )
 
 const htmlUsage = `Render the slides to html as an index.html file in the target directory.
 
 Usage:
-  md-slides html [options...] [file.md] [target directory]
+  md-slides html [options...] --source <file> --target-dir <directory>
 
 `
 
@@ -37,7 +37,7 @@ func copyFile(srcPath, dstPath string) error {
 	return nil
 }
 
-func exportSlidesHTML(source *slide.CachedSource, targetDirectory string, noStatics bool) error {
+func exportSlidesHTML(source *parse.CachedSource, targetDirectory string, noStatics bool) error {
 	log.Printf("Generating html output to %s..", targetDirectory)
 	handler, err := scrolling.New("/", source)
 	if err != nil {
@@ -55,7 +55,10 @@ func exportSlidesHTML(source *slide.CachedSource, targetDirectory string, noStat
 	if recorder.Code != 200 {
 		return fmt.Errorf("failed to handle internal request: code %d", recorder.Code)
 	}
-	io.Copy(f, recorder.Body)
+	_, err = io.Copy(f, recorder.Body)
+	if err != nil {
+		return fmt.Errorf("failed to copy all bytes: %s", err)
+	}
 
 	if !noStatics {
 		slides, _ := source.Load()
@@ -76,27 +79,29 @@ func exportSlidesHTML(source *slide.CachedSource, targetDirectory string, noStat
 
 func SubcommandHTML(args []string) error {
 	fs := flag.NewFlagSet("", flag.ExitOnError)
-
+	sourceFlag := fs.String("source", "", "Path to the source markdown file")
+	destFlag := fs.String("target-dir", "", "Path to the directory to write output files to")
 	noStaticFlag := fs.Bool("no-statics", false, "Don't serve static files")
 
 	fs.Usage = func() {
-		fmt.Fprintf(os.Stderr, htmlUsage)
+		_, _ = fmt.Fprintf(os.Stderr, htmlUsage)
 		fs.PrintDefaults()
 	}
 	if err := fs.Parse(args); err != nil {
 		return err
 	}
-
-	if fs.NArg() != 2 {
-		fs.Usage()
-		fmt.Fprintf(os.Stderr, "\n")
-		return fmt.Errorf("expected positional arguments")
+	if *sourceFlag == "" {
+		return fmt.Errorf("expected a value for --source")
+	}
+	if *destFlag == "" {
+		return fmt.Errorf("expected a value for --target-dir")
+	}
+	if fs.NArg() > 0 {
+		return fmt.Errorf("expected 0 positional arguments")
 	}
 
-	sourceFileName, targetDirectoryName := fs.Arg(0), fs.Arg(1)
-	slideSource := &slide.CachedSource{Inner: &slide.FileSource{Path: sourceFileName}}
-
-	if err := exportSlidesHTML(slideSource, targetDirectoryName, *noStaticFlag); err != nil {
+	slideSource := &parse.CachedSource{Inner: &parse.FileSource{Path: *sourceFlag}}
+	if err := exportSlidesHTML(slideSource, *destFlag, *noStaticFlag); err != nil {
 		return err
 	}
 

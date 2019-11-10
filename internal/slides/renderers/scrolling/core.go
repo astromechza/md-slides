@@ -7,22 +7,21 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/astromechza/md-slides/pkg/slide"
+	"github.com/astromechza/md-slides/internal/slides"
 
 	"github.com/russross/blackfriday"
 
-	"github.com/astromechza/md-slides/pkg/css"
-	"github.com/astromechza/md-slides/pkg/customhtml"
-	"github.com/astromechza/md-slides/pkg/renderers"
+	"github.com/astromechza/md-slides/internal/css"
+	"github.com/astromechza/md-slides/internal/customhtml"
 )
 
 type Renderer struct {
 	Path      string
-	Source    renderers.SlideSource
+	Source    slides.SlideSource
 	Templates *template.Template
 }
 
-func New(path string, source renderers.SlideSource) (*Renderer, error) {
+func New(path string, source slides.SlideSource) (*Renderer, error) {
 
 	var err error
 	root := template.New("")
@@ -48,7 +47,7 @@ func New(path string, source renderers.SlideSource) (*Renderer, error) {
 type preparedSlide struct {
 	PageNum  int
 	Content  template.HTML
-	Settings slide.Settings
+	Settings slides.Settings
 	PageLeft int
 	PageTop  int
 	Scale    float32
@@ -59,7 +58,8 @@ func (sr *Renderer) ServeHTTP(rw http.ResponseWriter, req *http.Request) {
 	if err != nil {
 		log.Printf("Error: %s", err)
 		rw.WriteHeader(http.StatusInternalServerError)
-		rw.Write([]byte(err.Error()))
+		_, _ = rw.Write([]byte(err.Error()))
+		return
 	}
 
 	renderer := &customhtml.CustomRenderer{

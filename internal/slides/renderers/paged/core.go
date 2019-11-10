@@ -8,22 +8,21 @@ import (
 	"net/http"
 	"strconv"
 
-	"github.com/astromechza/md-slides/pkg/slide"
+	"github.com/astromechza/md-slides/internal/slides"
 
 	"github.com/russross/blackfriday"
 
-	"github.com/astromechza/md-slides/pkg/css"
-	"github.com/astromechza/md-slides/pkg/customhtml"
-	"github.com/astromechza/md-slides/pkg/renderers"
+	"github.com/astromechza/md-slides/internal/css"
+	"github.com/astromechza/md-slides/internal/customhtml"
 )
 
 type Renderer struct {
 	Path      string
-	Source    renderers.SlideSource
+	Source    slides.SlideSource
 	Templates *template.Template
 }
 
-func New(path string, source renderers.SlideSource) (*Renderer, error) {
+func New(path string, source slides.SlideSource) (*Renderer, error) {
 
 	var err error
 	root := template.New("")
@@ -58,7 +57,7 @@ func (sr *Renderer) ServeHTTP(rw http.ResponseWriter, req *http.Request) {
 	sn, err := strconv.Atoi(snRaw)
 	if err != nil {
 		rw.WriteHeader(http.StatusBadRequest)
-		rw.Write([]byte(http.StatusText(http.StatusBadRequest)))
+		_, _ = rw.Write([]byte(http.StatusText(http.StatusBadRequest)))
 		return
 	}
 	sr.Serve(int(sn), rw, req)
@@ -77,7 +76,8 @@ func (sr *Renderer) Serve(i int, rw http.ResponseWriter, req *http.Request) {
 	if err != nil {
 		log.Printf("Error: %s", err)
 		rw.WriteHeader(http.StatusInternalServerError)
-		rw.Write([]byte(err.Error()))
+		_, _ = rw.Write([]byte(err.Error()))
+		return
 	}
 	if i < 1 || i > len(collection.Slides) {
 		rw.Header().Set("location", sr.FirstSlidePath())
@@ -112,7 +112,7 @@ func (sr *Renderer) Serve(i int, rw http.ResponseWriter, req *http.Request) {
 
 		URLPath  string
 		Title    string
-		Settings slide.Settings
+		Settings slides.Settings
 
 		SlideContent template.HTML
 	}{

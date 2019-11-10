@@ -1,21 +1,8 @@
 <meta valign="center" halign="center" talign="center">
-<meta footer="github.com/astromechza/md-slides">
+<meta footer="github.com/astromechza/md-slides 2019">
 <meta font-size="18" res="1366x768">
 
 # md-slides
-
-<meta norender>
-
-If you're reading this, this is the raw Markdown source code, and contains various macros and syntax that informs the 
-rendering of the slides. 
-
-Please go [here](https://astromechza.github.io/md-slides/) for the official documentation example.
-
----
-
-</meta>
-
-astromechza {embedcommand: ["date", "+%Y"]}
 
 ---
 <meta valign="" halign="" talign="" footer="">
@@ -84,26 +71,12 @@ Moving executable to /Users/benmeier/bin/md-slides
 
 ---
 
-## Dependencies
-
-The following 3rd party libraries (and their dependencies) are statically linked into the binary:
-
-- `github.com/russross/blackfriday` : markdown processing
-- `github.com/gorilla/mux` : a better http server router
-- `github.com/alecthomas/chroma` : syntax highlighting
-
----
-
 ## Embedded commands
+
+`{embedcommand``: ["bash", "-c", "./md-slides --help || true"]}`
 
 ```
 {embedcommand: ["bash", "-c", "./md-slides --help || true"]}
-```
-
-## `version` subcommand
-
-```
-{embedcommand: ["./md-slides", "-version"]}
 ```
 
 ---
@@ -114,16 +87,12 @@ The following 3rd party libraries (and their dependencies) are statically linked
 {embedcommand: ["bash", "-c", "./md-slides serve --help || true"]}
 ```
 
+---
+
 ## `html` subcommand
 
 ```
 {embedcommand: ["bash", "-c", "./md-slides html --help || true"]}
-```
-
-## `pdf` subcommand
-
-```
-{embedcommand: ["bash", "-c", "./md-slides pdf --help || true"]}
 ```
 
 ---
@@ -299,26 +268,12 @@ Change the background. Accepts colors, gradients, images, etc.
 ```
 
 ---
-<meta valign="center" halign="center" res="" fontcolor="#fffff8" background="url(/windmill.jpeg)">
+<meta valign="center" halign="center" res="" fontcolor="#fffff8" background="url(windmill.jpeg)">
 
 # This can be used for background images too!
 
 ---
 <meta valign="" halign="" talign="" fontcolor="" background="">
-
----
-
-## Metadata: `norender`
-
-If you have a section of Markdown that you _don't_ want to render into the final html or pdf, you can use the `<meta norender>` tag to exclude a section:
-
-```
-<meta norender>
-
-This section will be skipped but will be present in the Markdown file.
-
-</meta>
-```
 
 ## Markdown support
 

@@ -33,7 +33,7 @@ func (fs CustomDirFS) Open(name string) (http.File, error) {
 		return nil, err
 	}
 	if d.IsDir() {
-		return nil, fmt.Errorf("cannot serve directory")
+		return nil, fmt.Errorf("cannot read subdirectory")
 	}
 	return f, nil
 }
