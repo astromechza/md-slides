@@ -17,8 +17,8 @@ import (
 	"bytes"
 	"html"
 	"regexp"
-
-	"github.com/shurcooL/sanitized_anchor_name"
+	"strings"
+	"unicode"
 )
 
 const (
@@ -258,7 +258,7 @@ func (p *Markdown) prefixHeading(data []byte) int {
 	}
 	if end > i {
 		if id == "" && p.extensions&AutoHeadingIDs != 0 {
-			id = sanitized_anchor_name.Create(string(data[i:end]))
+			id = SanitizedAnchorName(string(data[i:end]))
 		}
 		block := p.addBlock(Heading, data[i:end])
 		block.HeadingID = id
@@ -568,8 +568,8 @@ func (*Markdown) isHRule(data []byte) bool {
 
 // isFenceLine checks if there's a fence line (e.g., ``` or ``` go) at the beginning of data,
 // and returns the end index if so, or 0 otherwise. It also returns the marker found.
-// If syntax is not nil, it gets set to the syntax specified in the fence line.
-func isFenceLine(data []byte, syntax *string, oldmarker string) (end int, marker string) {
+// If info is not nil, it gets set to the syntax specified in the fence line.
+func isFenceLine(data []byte, info *string, oldmarker string) (end int, marker string) {
 	i, size := 0, 0
 
 	// skip up to three spaces
@@ -605,9 +605,9 @@ func isFenceLine(data []byte, syntax *string, oldmarker string) (end int, marker
 	}
 
 	// TODO(shurcooL): It's probably a good idea to simplify the 2 code paths here
-	// into one, always get the syntax, and discard it if the caller doesn't care.
-	if syntax != nil {
-		syn := 0
+	// into one, always get the info string, and discard it if the caller doesn't care.
+	if info != nil {
+		infoLength := 0
 		i = skipChar(data, i, ' ')
 
 		if i >= len(data) {
@@ -617,14 +617,14 @@ func isFenceLine(data []byte, syntax *string, oldmarker string) (end int, marker
 			return 0, ""
 		}
 
-		syntaxStart := i
+		infoStart := i
 
 		if data[i] == '{' {
 			i++
-			syntaxStart++
+			infoStart++
 
 			for i < len(data) && data[i] != '}' && data[i] != '\n' {
-				syn++
+				infoLength++
 				i++
 			}
 
@@ -634,31 +634,30 @@ func isFenceLine(data []byte, syntax *string, oldmarker string) (end int, marker
 
 			// strip all whitespace at the beginning and the end
 			// of the {} block
-			for syn > 0 && isspace(data[syntaxStart]) {
-				syntaxStart++
-				syn--
+			for infoLength > 0 && isspace(data[infoStart]) {
+				infoStart++
+				infoLength--
 			}
 
-			for syn > 0 && isspace(data[syntaxStart+syn-1]) {
-				syn--
+			for infoLength > 0 && isspace(data[infoStart+infoLength-1]) {
+				infoLength--
 			}
-
 			i++
+			i = skipChar(data, i, ' ')
 		} else {
-			for i < len(data) && !isspace(data[i]) {
-				syn++
+			for i < len(data) && !isverticalspace(data[i]) {
+				infoLength++
 				i++
 			}
 		}
 
-		*syntax = string(data[syntaxStart : syntaxStart+syn])
+		*info = strings.TrimSpace(string(data[infoStart : infoStart+infoLength]))
 	}
 
-	i = skipChar(data, i, ' ')
-	if i >= len(data) || data[i] != '\n' {
-		if i == len(data) {
-			return i, marker
-		}
+	if i == len(data) {
+		return i, marker
+	}
+	if i > len(data) || data[i] != '\n' {
 		return 0, ""
 	}
 	return i + 1, marker // Take newline into account.
@@ -668,14 +667,15 @@ func isFenceLine(data []byte, syntax *string, oldmarker string) (end int, marker
 // or 0 otherwise. It writes to out if doRender is true, otherwise it has no side effects.
 // If doRender is true, a final newline is mandatory to recognize the fenced code block.
 func (p *Markdown) fencedCodeBlock(data []byte, doRender bool) int {
-	var syntax string
-	beg, marker := isFenceLine(data, &syntax, "")
+	var info string
+	beg, marker := isFenceLine(data, &info, "")
 	if beg == 0 || beg >= len(data) {
 		return 0
 	}
+	fenceLength := beg - 1
 
 	var work bytes.Buffer
-	work.Write([]byte(syntax))
+	work.Write([]byte(info))
 	work.WriteByte('\n')
 
 	for {
@@ -706,6 +706,7 @@ func (p *Markdown) fencedCodeBlock(data []byte, doRender bool) int {
 	if doRender {
 		block := p.addBlock(CodeBlock, work.Bytes()) // TODO: get rid of temp buffer
 		block.IsFenced = true
+		block.FenceLength = fenceLength
 		finalizeCodeBlock(block)
 	}
 
@@ -1148,6 +1149,18 @@ func (p *Markdown) list(data []byte, flags ListType) int {
 	return i
 }
 
+// Returns true if the list item is not the same type as its parent list
+func (p *Markdown) listTypeChanged(data []byte, flags *ListType) bool {
+	if p.dliPrefix(data) > 0 && *flags&ListTypeDefinition == 0 {
+		return true
+	} else if p.oliPrefix(data) > 0 && *flags&ListTypeOrdered == 0 {
+		return true
+	} else if p.uliPrefix(data) > 0 && (*flags&ListTypeOrdered != 0 || *flags&ListTypeDefinition != 0) {
+		return true
+	}
+	return false
+}
+
 // Returns true if block ends with a blank line, descending if needed
 // into lists and sublists.
 func endsWithBlankLine(block *Node) bool {
@@ -1246,6 +1259,7 @@ func (p *Markdown) listItem(data []byte, flags *ListType) int {
 	// process the following lines
 	containsBlankLine := false
 	sublist := 0
+	codeBlockMarker := ""
 
 gatherlines:
 	for line < len(data) {
@@ -1279,6 +1293,27 @@ gatherlines:
 
 		chunk := data[line+indentIndex : i]
 
+		if p.extensions&FencedCode != 0 {
+			// determine if in or out of codeblock
+			// if in codeblock, ignore normal list processing
+			_, marker := isFenceLine(chunk, nil, codeBlockMarker)
+			if marker != "" {
+				if codeBlockMarker == "" {
+					// start of codeblock
+					codeBlockMarker = marker
+				} else {
+					// end of codeblock.
+					codeBlockMarker = ""
+				}
+			}
+			// we are in a codeblock, write line, and continue
+			if codeBlockMarker != "" || marker != "" {
+				raw.Write(data[line+indentIndex : i])
+				line = i
+				continue gatherlines
+			}
+		}
+
 		// evaluate how this line fits in
 		switch {
 		// is this a nested list item?
@@ -1286,14 +1321,21 @@ gatherlines:
 			p.oliPrefix(chunk) > 0 ||
 			p.dliPrefix(chunk) > 0:
 
-			if containsBlankLine {
-				*flags |= ListItemContainsBlock
+			// to be a nested list, it must be indented more
+			// if not, it is either a different kind of list
+			// or the next item in the same list
+			if indent <= itemIndent {
+				if p.listTypeChanged(chunk, flags) {
+					*flags |= ListItemEndOfList
+				} else if containsBlankLine {
+					*flags |= ListItemContainsBlock
+				}
+
+				break gatherlines
 			}
 
-			// to be a nested list, it must be indented more
-			// if not, it is the next item in the same list
-			if indent <= itemIndent {
-				break gatherlines
+			if containsBlankLine {
+				*flags |= ListItemContainsBlock
 			}
 
 			// is this the first item in the nested list?
@@ -1462,7 +1504,7 @@ func (p *Markdown) paragraph(data []byte) int {
 
 				id := ""
 				if p.extensions&AutoHeadingIDs != 0 {
-					id = sanitized_anchor_name.Create(string(data[prev:eol]))
+					id = SanitizedAnchorName(string(data[prev:eol]))
 				}
 
 				block := p.addBlock(Heading, data[prev:eol])
@@ -1546,4 +1588,25 @@ func skipUntilChar(text []byte, start int, char byte) int {
 		i++
 	}
 	return i
+}
+
+// SanitizedAnchorName returns a sanitized anchor name for the given text.
+//
+// It implements the algorithm specified in the package comment.
+func SanitizedAnchorName(text string) string {
+	var anchorName []rune
+	futureDash := false
+	for _, r := range text {
+		switch {
+		case unicode.IsLetter(r) || unicode.IsNumber(r):
+			if futureDash && len(anchorName) > 0 {
+				anchorName = append(anchorName, '-')
+			}
+			futureDash = false
+			anchorName = append(anchorName, unicode.ToLower(r))
+		default:
+			futureDash = true
+		}
+	}
+	return string(anchorName)
 }

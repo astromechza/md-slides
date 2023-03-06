@@ -3,7 +3,7 @@ package slides
 import (
 	"html/template"
 
-	"github.com/russross/blackfriday"
+	"github.com/russross/blackfriday/v2"
 )
 
 type Settings struct {

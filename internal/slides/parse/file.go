@@ -6,7 +6,7 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/russross/blackfriday"
+	"github.com/russross/blackfriday/v2"
 
 	"github.com/astromechza/md-slides/internal/slides"
 )
