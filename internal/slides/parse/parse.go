@@ -44,6 +44,11 @@ func SlidesFromDom(node *blackfriday.Node, previousSettings *slides.Settings) ([
 		currentSlide := &slides.Slide{Node: *currentDoc, Settings: newSettings}
 		currentSlides = append(currentSlides, currentSlide)
 	}
+	if len(currentSlides) == 0 {
+		currentDoc = &blackfriday.Node{Type: blackfriday.Document}
+		newSettings := calculateSettings(*currentDoc, previousSettings)
+		currentSlides = append(currentSlides, &slides.Slide{Node: *currentDoc, Settings: newSettings})
+	}
 	return currentSlides, nil
 }
 
