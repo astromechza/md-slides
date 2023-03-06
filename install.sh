@@ -80,6 +80,7 @@ initArch() {
         amd64) ARCH="amd64";;
         x86_64) ARCH="amd64";;
         i386) ARCH="386";;
+        arm64) ARCH="arm64";;
         *) echo "Architecture ${ARCH} is not supported by this installation script"; exit 1;;
     esac
     echo "ARCH = $ARCH"

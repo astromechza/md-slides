@@ -8,10 +8,10 @@ ARTIFACT_DIR ?= artifacts
 BINARIES ?=
 
 # The platform specific binaries to build. Add more here if you need to support windows or other architectures.
-ARTIFACT_BINARIES := $(addprefix $(ARTIFACT_DIR)/,$(BINARIES:=.linux.amd64) $(BINARIES:=.darwin.amd64) $(BINARIES:=.windows.amd64))
+ARTIFACT_BINARIES := $(addprefix $(ARTIFACT_DIR)/,$(BINARIES:=.linux.amd64) $(BINARIES:=.linux.arm64) $(BINARIES:=.darwin.arm64) $(BINARIES:=.darwin.amd64) $(BINARIES:=.windows.amd64) $(BINARIES:=.windows.arm64))
 
 GOFLAGS := -mod=vendor
-GO_BINARY = $(if $(USE_DOCKER),docker run --rm -t -e GOOS=$(GOOS) -e GOARCH=$(GOARCH) -e GOFLAGS=$(GOFLAGS) -v $(PWD):/__ -w /__ golang:1.11 go,GOOS=$(GOOS) GOARCH=$(GOARCH) GOFLAGS=$(GOFLAGS) go)
+GO_BINARY = $(if $(USE_DOCKER),docker run --rm -t -e GOOS=$(GOOS) -e GOARCH=$(GOARCH) -e GOFLAGS=$(GOFLAGS) -v $(PWD):/__ -w /__ golang:1.20 go,GOOS=$(GOOS) GOARCH=$(GOARCH) GOFLAGS=$(GOFLAGS) go)
 GO_FILES = $(shell find $(subst /__/,$(PWD)/,$(shell $(GO_BINARY) list -f '{{ .Dir }}' ./...) -type f -name *.go))
 GO_DEPENDENCIES = $(GO_FILES) go.sum go.mod
 
