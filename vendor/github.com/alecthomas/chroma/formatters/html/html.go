@@ -25,6 +25,9 @@ func WithClasses() Option { return func(f *Formatter) { f.Classes = true } }
 // TabWidth sets the number of characters for a tab. Defaults to 8.
 func TabWidth(width int) Option { return func(f *Formatter) { f.tabWidth = width } }
 
+// PreventSurroundingPre prevents the surrounding pre tags around the generated code
+func PreventSurroundingPre() Option { return func(f *Formatter) { f.preventSurroundingPre = true } }
+
 // WithLineNumbers formats output with line numbers.
 func WithLineNumbers() Option {
 	return func(f *Formatter) {
@@ -70,14 +73,15 @@ func New(options ...Option) *Formatter {
 
 // Formatter that generates HTML.
 type Formatter struct {
-	standalone         bool
-	prefix             string
-	Classes            bool // Exported field to detect when classes are being used
-	tabWidth           int
-	lineNumbers        bool
-	lineNumbersInTable bool
-	highlightRanges    highlightRanges
-	baseLineNumber     int
+	standalone            bool
+	prefix                string
+	Classes               bool // Exported field to detect when classes are being used
+	preventSurroundingPre bool
+	tabWidth              int
+	lineNumbers           bool
+	lineNumbersInTable    bool
+	highlightRanges       highlightRanges
+	baseLineNumber        int
 }
 
 type highlightRanges [][2]int
@@ -87,49 +91,13 @@ func (h highlightRanges) Swap(i, j int)      { h[i], h[j] = h[j], h[i] }
 func (h highlightRanges) Less(i, j int) bool { return h[i][0] < h[j][0] }
 
 func (f *Formatter) Format(w io.Writer, style *chroma.Style, iterator chroma.Iterator) (err error) {
-	defer func() {
-		if perr := recover(); perr != nil {
-			err = perr.(error)
-		}
-	}()
 	return f.writeHTML(w, style, iterator.Tokens())
-}
-
-func brightenOrDarken(colour chroma.Colour, factor float64) chroma.Colour {
-	if colour.Brightness() < 0.5 {
-		return colour.Brighten(factor)
-	}
-	return colour.Brighten(-factor)
-}
-
-// Ensure that style entries exist for highlighting, etc.
-func (f *Formatter) restyle(style *chroma.Style) (*chroma.Style, error) {
-	builder := style.Builder()
-	bg := builder.Get(chroma.Background)
-	// If we don't have a line highlight colour, make one that is 10% brighter/darker than the background.
-	if !style.Has(chroma.LineHighlight) {
-		highlight := chroma.StyleEntry{Background: bg.Background}
-		highlight.Background = brightenOrDarken(highlight.Background, 0.1)
-		builder.AddEntry(chroma.LineHighlight, highlight)
-	}
-	// If we don't have line numbers, use the text colour but 20% brighter/darker
-	if !style.Has(chroma.LineNumbers) {
-		text := chroma.StyleEntry{Colour: bg.Colour}
-		text.Colour = brightenOrDarken(text.Colour, 0.5)
-		builder.AddEntry(chroma.LineNumbers, text)
-		builder.AddEntry(chroma.LineNumbersTable, text)
-	}
-	return builder.Build()
 }
 
 // We deliberately don't use html/template here because it is two orders of magnitude slower (benchmarked).
 //
 // OTOH we need to be super careful about correct escaping...
-func (f *Formatter) writeHTML(w io.Writer, style *chroma.Style, tokens []*chroma.Token) (err error) { // nolint: gocyclo
-	style, err = f.restyle(style)
-	if err != nil {
-		return err
-	}
+func (f *Formatter) writeHTML(w io.Writer, style *chroma.Style, tokens []chroma.Token) (err error) { // nolint: gocyclo
 	css := f.styleToCSS(style)
 	if !f.Classes {
 		for t, style := range css {
@@ -140,7 +108,10 @@ func (f *Formatter) writeHTML(w io.Writer, style *chroma.Style, tokens []*chroma
 		fmt.Fprint(w, "<html>\n")
 		if f.Classes {
 			fmt.Fprint(w, "<style type=\"text/css\">\n")
-			f.WriteCSS(w, style)
+			err = f.WriteCSS(w, style)
+			if err != nil {
+				return err
+			}
 			fmt.Fprintf(w, "body { %s; }\n", css[chroma.Background])
 			fmt.Fprint(w, "</style>")
 		}
@@ -149,7 +120,7 @@ func (f *Formatter) writeHTML(w io.Writer, style *chroma.Style, tokens []*chroma
 
 	wrapInTable := f.lineNumbers && f.lineNumbersInTable
 
-	lines := splitTokensIntoLines(tokens)
+	lines := chroma.SplitTokensIntoLines(tokens)
 	lineDigits := len(fmt.Sprintf("%d", len(lines)))
 	highlightIndex := 0
 
@@ -158,7 +129,9 @@ func (f *Formatter) writeHTML(w io.Writer, style *chroma.Style, tokens []*chroma
 		fmt.Fprintf(w, "<div%s>\n", f.styleAttr(css, chroma.Background))
 		fmt.Fprintf(w, "<table%s><tr>", f.styleAttr(css, chroma.LineTable))
 		fmt.Fprintf(w, "<td%s>\n", f.styleAttr(css, chroma.LineTableTD))
-		fmt.Fprintf(w, "<pre%s>", f.styleAttr(css, chroma.Background))
+		if !f.preventSurroundingPre {
+			fmt.Fprintf(w, "<pre%s>", f.styleAttr(css, chroma.Background))
+		}
 		for index := range lines {
 			line := f.baseLineNumber + index
 			highlight, next := f.shouldHighlight(highlightIndex, line)
@@ -169,17 +142,22 @@ func (f *Formatter) writeHTML(w io.Writer, style *chroma.Style, tokens []*chroma
 				fmt.Fprintf(w, "<span%s>", f.styleAttr(css, chroma.LineHighlight))
 			}
 
-			fmt.Fprintf(w, "<span%s>%*d</span>", f.styleAttr(css, chroma.LineNumbersTable), lineDigits, line)
+			fmt.Fprintf(w, "<span%s>%*d\n</span>", f.styleAttr(css, chroma.LineNumbersTable), lineDigits, line)
 
 			if highlight {
 				fmt.Fprintf(w, "</span>")
 			}
 		}
-		fmt.Fprint(w, "</pre></td>\n")
-		fmt.Fprintf(w, "<td%s>\n", f.styleAttr(css, chroma.LineTableTD))
+		if !f.preventSurroundingPre {
+			fmt.Fprint(w, "</pre>")
+		}
+		fmt.Fprint(w, "</td>\n")
+		fmt.Fprintf(w, "<td%s>\n", f.styleAttr(css, chroma.LineTableTD, "width:100%"))
 	}
 
-	fmt.Fprintf(w, "<pre%s>", f.styleAttr(css, chroma.Background))
+	if !f.preventSurroundingPre {
+		fmt.Fprintf(w, "<pre%s>", f.styleAttr(css, chroma.Background))
+	}
 	highlightIndex = 0
 	for index, tokens := range lines {
 		// 1-based line number.
@@ -209,7 +187,9 @@ func (f *Formatter) writeHTML(w io.Writer, style *chroma.Style, tokens []*chroma
 		}
 	}
 
-	fmt.Fprint(w, "</pre>")
+	if !f.preventSurroundingPre {
+		fmt.Fprint(w, "</pre>")
+	}
 
 	if wrapInTable {
 		fmt.Fprint(w, "</td></tr></table>\n")
@@ -241,22 +221,27 @@ func (f *Formatter) shouldHighlight(highlightIndex, line int) (bool, bool) {
 
 func (f *Formatter) class(t chroma.TokenType) string {
 	for t != 0 {
-		cls, ok := chroma.StandardTypes[t]
-		if ok {
-			return cls
+		if cls, ok := chroma.StandardTypes[t]; ok {
+			if cls != "" {
+				return f.prefix + cls
+			}
+			return ""
 		}
 		t = t.Parent()
 	}
-	return chroma.StandardTypes[t]
+	if cls := chroma.StandardTypes[t]; cls != "" {
+		return f.prefix + cls
+	}
+	return ""
 }
 
-func (f *Formatter) styleAttr(styles map[chroma.TokenType]string, tt chroma.TokenType) string {
+func (f *Formatter) styleAttr(styles map[chroma.TokenType]string, tt chroma.TokenType, extraCSS ...string) string {
 	if f.Classes {
 		cls := f.class(tt)
 		if cls == "" {
 			return ""
 		}
-		return string(fmt.Sprintf(` class="%s"`, cls))
+		return fmt.Sprintf(` class="%s"`, cls)
 	}
 	if _, ok := styles[tt]; !ok {
 		tt = tt.SubCategory()
@@ -267,7 +252,9 @@ func (f *Formatter) styleAttr(styles map[chroma.TokenType]string, tt chroma.Toke
 			}
 		}
 	}
-	return fmt.Sprintf(` style="%s"`, styles[tt])
+	css := []string{styles[tt]}
+	css = append(css, extraCSS...)
+	return fmt.Sprintf(` style="%s"`, strings.Join(css, ";"))
 }
 
 func (f *Formatter) tabWidthStyle() string {
@@ -281,13 +268,13 @@ func (f *Formatter) tabWidthStyle() string {
 func (f *Formatter) WriteCSS(w io.Writer, style *chroma.Style) error {
 	css := f.styleToCSS(style)
 	// Special-case background as it is mapped to the outer ".chroma" class.
-	if _, err := fmt.Fprintf(w, "/* %s */ .chroma { %s }\n", chroma.Background, css[chroma.Background]); err != nil {
+	if _, err := fmt.Fprintf(w, "/* %s */ .%schroma { %s }\n", chroma.Background, f.prefix, css[chroma.Background]); err != nil {
 		return err
 	}
 	// Special-case code column of table to expand width.
 	if f.lineNumbers && f.lineNumbersInTable {
-		if _, err := fmt.Fprintf(w, "/* %s */ .chroma .%s:last-child { width: 100%%; }",
-			chroma.LineTableTD, f.class(chroma.LineTableTD)); err != nil {
+		if _, err := fmt.Fprintf(w, "/* %s */ .%schroma .%s:last-child { width: 100%%; }",
+			chroma.LineTableTD, f.prefix, f.class(chroma.LineTableTD)); err != nil {
 			return err
 		}
 	}
@@ -302,7 +289,7 @@ func (f *Formatter) WriteCSS(w io.Writer, style *chroma.Style) error {
 			continue
 		}
 		styles := css[tt]
-		if _, err := fmt.Fprintf(w, "/* %s */ .chroma .%s { %s }\n", tt, f.class(tt), styles); err != nil {
+		if _, err := fmt.Fprintf(w, "/* %s */ .%schroma .%s { %s }\n", tt, f.prefix, f.class(tt), styles); err != nil {
 			return err
 		}
 	}
@@ -327,7 +314,7 @@ func (f *Formatter) styleToCSS(style *chroma.Style) map[chroma.TokenType]string 
 	lineNumbersStyle := "margin-right: 0.4em; padding: 0 0.4em 0 0.4em;"
 	// All rules begin with default rules followed by user provided rules
 	classes[chroma.LineNumbers] = lineNumbersStyle + classes[chroma.LineNumbers]
-	classes[chroma.LineNumbersTable] = lineNumbersStyle + " display: block;" + classes[chroma.LineNumbersTable]
+	classes[chroma.LineNumbersTable] = lineNumbersStyle + classes[chroma.LineNumbersTable]
 	classes[chroma.LineHighlight] = "display: block; width: 100%;" + classes[chroma.LineHighlight]
 	classes[chroma.LineTable] = "border-spacing: 0; padding: 0; margin: 0; border: 0; width: auto; overflow: auto; display: block;" + classes[chroma.LineTable]
 	classes[chroma.LineTableTD] = "vertical-align: top; padding: 0; margin: 0; border: 0;" + classes[chroma.LineTableTD]
@@ -349,6 +336,9 @@ func StyleEntryToCSS(e chroma.StyleEntry) string {
 	if e.Italic == chroma.Yes {
 		styles = append(styles, "font-style: italic")
 	}
+	if e.Underline == chroma.Yes {
+		styles = append(styles, "text-decoration: underline")
+	}
 	return strings.Join(styles, "; ")
 }
 
@@ -368,27 +358,4 @@ func compressStyle(s string) string {
 		out = append(out, p)
 	}
 	return strings.Join(out, ";")
-}
-
-func splitTokensIntoLines(tokens []*chroma.Token) (out [][]*chroma.Token) {
-	line := []*chroma.Token{}
-	for _, token := range tokens {
-		for strings.Contains(token.Value, "\n") {
-			parts := strings.SplitAfterN(token.Value, "\n", 2)
-			// Token becomes the tail.
-			token.Value = parts[1]
-
-			// Append the head to the line and flush the line.
-			clone := token.Clone()
-			clone.Value = parts[0]
-			line = append(line, clone)
-			out = append(out, line)
-			line = nil
-		}
-		line = append(line, token)
-	}
-	if len(line) > 0 {
-		out = append(out, line)
-	}
-	return
 }

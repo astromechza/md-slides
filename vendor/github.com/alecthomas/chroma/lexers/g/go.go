@@ -4,6 +4,7 @@ import (
 	"strings"
 
 	. "github.com/alecthomas/chroma" // nolint
+	"github.com/alecthomas/chroma/lexers/h"
 	"github.com/alecthomas/chroma/lexers/internal"
 )
 
@@ -38,9 +39,10 @@ var Go = internal.Register(MustNewLexer(
 			{`0[xX][0-9a-fA-F]+`, LiteralNumberHex, nil},
 			{`(0|[1-9][0-9]*)`, LiteralNumberInteger, nil},
 			{`'(\\['"\\abfnrtv]|\\x[0-9a-fA-F]{2}|\\[0-7]{1,3}|\\u[0-9a-fA-F]{4}|\\U[0-9a-fA-F]{8}|[^\\])'`, LiteralStringChar, nil},
-			{"`[^`]*`", LiteralString, nil},
+			{"(`)([^`]*)(`)", ByGroups(LiteralString, Using(TypeRemappingLexer(GoTextTemplate, TypeMapping{{Other, LiteralString, nil}})), LiteralString), nil},
 			{`"(\\\\|\\"|[^"])*"`, LiteralString, nil},
 			{`(<<=|>>=|<<|>>|<=|>=|&\^=|&\^|\+=|-=|\*=|/=|%=|&=|\|=|&&|\|\||<-|\+\+|--|==|!=|:=|\.\.\.|[+\-*/%&])`, Operator, nil},
+			{`([a-zA-Z_]\w*)(\s*)(\()`, ByGroups(NameFunction, UsingSelf("root"), Punctuation), nil},
 			{`[|^<>=!()\[\]{}.,;:]`, Punctuation, nil},
 			{`[^\W\d]\w*`, NameOther, nil},
 		},
@@ -54,3 +56,59 @@ var Go = internal.Register(MustNewLexer(
 	}
 	return 0.0
 }))
+
+var goTemplateRules = Rules{
+	"root": {
+		{`{{[-]?`, CommentPreproc, Push("template")},
+		{`[^{]+`, Other, nil},
+		{`{`, Other, nil},
+	},
+	"template": {
+		{`[-]?}}`, CommentPreproc, Pop(1)},
+		{`/\*.*?\*/`, Comment, nil},
+		{`(?=}})`, CommentPreproc, Pop(1)}, // Terminate the pipeline
+		{`\(`, Operator, Push("subexpression")},
+		{`"(\\\\|\\"|[^"])*"`, LiteralString, nil},
+		Include("expression"),
+	},
+	"subexpression": {
+		{`\)`, Operator, Pop(1)},
+		Include("expression"),
+	},
+	"expression": {
+		{`\s+`, Whitespace, nil},
+		{`\(`, Operator, Push("subexpression")},
+		{`(range|if|else|while|with|template|end|true|false|nil|and|call|html|index|js|len|not|or|print|printf|println|urlquery|eq|ne|lt|le|gt|ge)\b`, Keyword, nil},
+		{`\||:=`, Operator, nil},
+		{`[$]?[^\W\d]\w*`, NameOther, nil},
+		{`[$]?\.(?:[^\W\d]\w*)?`, NameAttribute, nil},
+		{`"(\\\\|\\"|[^"])*"`, LiteralString, nil},
+		{`\d+i`, LiteralNumber, nil},
+		{`\d+\.\d*([Ee][-+]\d+)?i`, LiteralNumber, nil},
+		{`\.\d+([Ee][-+]\d+)?i`, LiteralNumber, nil},
+		{`\d+[Ee][-+]\d+i`, LiteralNumber, nil},
+		{`\d+(\.\d+[eE][+\-]?\d+|\.\d*|[eE][+\-]?\d+)`, LiteralNumberFloat, nil},
+		{`\.\d+([eE][+\-]?\d+)?`, LiteralNumberFloat, nil},
+		{`0[0-7]+`, LiteralNumberOct, nil},
+		{`0[xX][0-9a-fA-F]+`, LiteralNumberHex, nil},
+		{`(0|[1-9][0-9]*)`, LiteralNumberInteger, nil},
+		{`'(\\['"\\abfnrtv]|\\x[0-9a-fA-F]{2}|\\[0-7]{1,3}|\\u[0-9a-fA-F]{4}|\\U[0-9a-fA-F]{8}|[^\\])'`, LiteralStringChar, nil},
+		{"`[^`]*`", LiteralString, nil},
+	},
+}
+
+var GoHTMLTemplate = internal.Register(DelegatingLexer(h.HTML, MustNewLexer(
+	&Config{
+		Name:    "Go HTML Template",
+		Aliases: []string{"go-html-template"},
+	},
+	goTemplateRules,
+)))
+
+var GoTextTemplate = internal.Register(MustNewLexer(
+	&Config{
+		Name:    "Go Text Template",
+		Aliases: []string{"go-text-template"},
+	},
+	goTemplateRules,
+))
