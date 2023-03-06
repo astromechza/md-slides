@@ -75,7 +75,7 @@ func SubcommandServe(args []string) error {
 		http.Handle("/", handler)
 	}
 
-	log.Printf("Ready to serve on %s", *listenAddressFlag)
+	log.Printf("Ready to serve on http://%s", *listenAddressFlag)
 	if err := http.ListenAndServe(*listenAddressFlag, http.DefaultServeMux); err != nil {
 		return err
 	}
