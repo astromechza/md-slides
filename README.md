@@ -30,7 +30,7 @@ Binaries are available for macOS, Linux, and Windows.
 
 ### Development
 
-Built with Golang 1.11+ (with modules).
+Built with Golang 1.20+ (with modules).
 
 Run `make` to see the development targets.
 

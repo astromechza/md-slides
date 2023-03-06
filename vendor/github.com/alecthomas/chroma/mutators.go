@@ -21,7 +21,7 @@ type LexerMutator interface {
 // A MutatorFunc is a Mutator that mutates the lexer state machine as it is processing.
 type MutatorFunc func(state *LexerState) error
 
-func (m MutatorFunc) Mutate(state *LexerState) error { return m(state) }
+func (m MutatorFunc) Mutate(state *LexerState) error { return m(state) } // nolint
 
 // Mutators applies a set of Mutators in order.
 func Mutators(modifiers ...Mutator) MutatorFunc {
@@ -119,4 +119,13 @@ func Pop(n int) MutatorFunc {
 // Default returns a Rule that applies a set of Mutators.
 func Default(mutators ...Mutator) Rule {
 	return Rule{Mutator: Mutators(mutators...)}
+}
+
+// Stringify returns the raw string for a set of tokens.
+func Stringify(tokens ...Token) string {
+	out := []string{}
+	for _, t := range tokens {
+		out = append(out, t.Value)
+	}
+	return strings.Join(out, "")
 }
