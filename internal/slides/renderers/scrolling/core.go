@@ -9,7 +9,7 @@ import (
 
 	"github.com/astromechza/md-slides/internal/slides"
 
-	"github.com/russross/blackfriday"
+	"github.com/russross/blackfriday/v2"
 
 	"github.com/astromechza/md-slides/internal/css"
 	"github.com/astromechza/md-slides/internal/customhtml"

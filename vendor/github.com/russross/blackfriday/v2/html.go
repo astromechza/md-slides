@@ -35,6 +35,7 @@ const (
 	Safelink                                      // Only link to trusted protocols
 	NofollowLinks                                 // Only link with rel="nofollow"
 	NoreferrerLinks                               // Only link with rel="noreferrer"
+	NoopenerLinks                                 // Only link with rel="noopener"
 	HrefTargetBlank                               // Add a blank target
 	CompletePage                                  // Generate a complete HTML page
 	UseXHTML                                      // Generate XHTML output instead of HTML
@@ -87,6 +88,10 @@ type HTMLRendererParameters struct {
 	HeadingIDPrefix string
 	// If set, add this text to the back of each Heading ID, to ensure uniqueness.
 	HeadingIDSuffix string
+	// Increase heading levels: if the offset is 1, <h1> becomes <h2> etc.
+	// Negative offset is also valid.
+	// Resulting levels are clipped between 1 and 6.
+	HeadingLevelOffset int
 
 	Title string // Document title (used if CompletePage is set)
 	CSS   string // Optional CSS file URL (used if CompletePage is set)
@@ -127,7 +132,10 @@ func NewHTMLRenderer(params HTMLRendererParameters) *HTMLRenderer {
 	}
 
 	if params.FootnoteReturnLinkContents == "" {
-		params.FootnoteReturnLinkContents = `<sup>[return]</sup>`
+		// U+FE0E is VARIATION SELECTOR-15.
+		// It suppresses automatic emoji presentation of the preceding
+		// U+21A9 LEFTWARDS ARROW WITH HOOK on iOS and iPadOS.
+		params.FootnoteReturnLinkContents = "<span aria-label='Return'>↩\ufe0e</span>"
 	}
 
 	return &HTMLRenderer{
@@ -282,6 +290,9 @@ func appendLinkAttrs(attrs []string, flags HTMLFlags, link []byte) []string {
 	if flags&NoreferrerLinks != 0 {
 		val = append(val, "noreferrer")
 	}
+	if flags&NoopenerLinks != 0 {
+		val = append(val, "noopener")
+	}
 	if flags&HrefTargetBlank != 0 {
 		attrs = append(attrs, "target=\"_blank\"")
 	}
@@ -331,7 +342,7 @@ func (r *HTMLRenderer) tag(w io.Writer, name []byte, attrs []string) {
 
 func footnoteRef(prefix string, node *Node) []byte {
 	urlFrag := prefix + string(slugify(node.Destination))
-	anchor := fmt.Sprintf(`<a rel="footnote" href="#fn:%s">%d</a>`, urlFrag, node.NoteID)
+	anchor := fmt.Sprintf(`<a href="#fn:%s">%d</a>`, urlFrag, node.NoteID)
 	return []byte(fmt.Sprintf(`<sup class="footnote-ref" id="fnref:%s">%s</sup>`, urlFrag, anchor))
 }
 
@@ -460,9 +471,10 @@ var (
 )
 
 func headingTagsFromLevel(level int) ([]byte, []byte) {
-	switch level {
-	case 1:
+	if level <= 1 {
 		return h1Tag, h1CloseTag
+	}
+	switch level {
 	case 2:
 		return h2Tag, h2CloseTag
 	case 3:
@@ -471,9 +483,8 @@ func headingTagsFromLevel(level int) ([]byte, []byte) {
 		return h4Tag, h4CloseTag
 	case 5:
 		return h5Tag, h5CloseTag
-	default:
-		return h6Tag, h6CloseTag
 	}
+	return h6Tag, h6CloseTag
 }
 
 func (r *HTMLRenderer) outHRTag(w io.Writer) {
@@ -608,7 +619,7 @@ func (r *HTMLRenderer) RenderNode(w io.Writer, node *Node, entering bool) WalkSt
 		}
 	case Code:
 		r.out(w, codeTag)
-		escapeHTML(w, node.Literal)
+		escapeAllHTML(w, node.Literal)
 		r.out(w, codeCloseTag)
 	case Document:
 		break
@@ -651,7 +662,8 @@ func (r *HTMLRenderer) RenderNode(w io.Writer, node *Node, entering bool) WalkSt
 		r.out(w, node.Literal)
 		r.cr(w)
 	case Heading:
-		openTag, closeTag := headingTagsFromLevel(node.Level)
+		headingLevel := r.HTMLRendererParameters.HeadingLevelOffset + node.Level
+		openTag, closeTag := headingTagsFromLevel(headingLevel)
 		if entering {
 			if node.IsTitleblock {
 				attrs = append(attrs, `class="title"`)
@@ -753,7 +765,7 @@ func (r *HTMLRenderer) RenderNode(w io.Writer, node *Node, entering bool) WalkSt
 		r.cr(w)
 		r.out(w, preTag)
 		r.tag(w, codeTag[:len(codeTag)-1], attrs)
-		escapeHTML(w, node.Literal)
+		escapeAllHTML(w, node.Literal)
 		r.out(w, codeCloseTag)
 		r.out(w, preCloseTag)
 		if node.Parent.Type != Item {

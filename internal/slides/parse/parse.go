@@ -5,7 +5,7 @@ import (
 	"html/template"
 	"log"
 
-	"github.com/russross/blackfriday"
+	"github.com/russross/blackfriday/v2"
 	"golang.org/x/net/html"
 	"golang.org/x/net/html/atom"
 
