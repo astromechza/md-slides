@@ -8,7 +8,7 @@ import (
 func AddCommonStyleTemplate(root *template.Template) {
 	if _, err := root.New("style.common").Parse(`
 html {
-	font-size: 18px;
+	font-size: 21px;
 }
 
 body {

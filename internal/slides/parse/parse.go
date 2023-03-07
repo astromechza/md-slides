@@ -106,8 +106,8 @@ func calculateSettings(dom blackfriday.Node, previous *slides.Settings) slides.S
 		output.TAlign = "left"
 	}
 	if output.XResPX == 0 || output.YResPX == 0 {
-		output.XResPX = 1366
-		output.YResPX = 768
+		output.XResPX = 1600
+		output.YResPX = 900
 	}
 	if output.FontColor == "" {
 		output.FontColor = "#111111"
