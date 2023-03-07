@@ -5,13 +5,13 @@ import (
 	"html/template"
 	"log"
 
-	"github.com/alecthomas/chroma/formatters/html"
-	"github.com/alecthomas/chroma/styles"
+	"github.com/alecthomas/chroma/v2/formatters/html"
+	"github.com/alecthomas/chroma/v2/styles"
 )
 
 func AddChromaStyleTemplate(root *template.Template) {
 	var b bytes.Buffer
-	err := html.New(html.WithClasses()).WriteCSS(&b, styles.BlackWhite)
+	err := html.New(html.WithClasses(true)).WriteCSS(&b, styles.Get("bw"))
 	if err != nil {
 		log.Fatal("failed to generate code highlighter")
 	}

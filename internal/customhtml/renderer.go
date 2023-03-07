@@ -9,10 +9,10 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/alecthomas/chroma"
-	"github.com/alecthomas/chroma/formatters/html"
-	"github.com/alecthomas/chroma/lexers"
-	"github.com/alecthomas/chroma/styles"
+	"github.com/alecthomas/chroma/v2"
+	"github.com/alecthomas/chroma/v2/formatters/html"
+	"github.com/alecthomas/chroma/v2/lexers"
+	"github.com/alecthomas/chroma/v2/styles"
 	"github.com/russross/blackfriday/v2"
 )
 
@@ -99,7 +99,7 @@ func (r *CustomRenderer) RenderNode(w io.Writer, node *blackfriday.Node, enterin
 		// Tokenize the code
 		iterator, err := lexer.Tokenise(nil, string(node.Literal))
 		if err == nil {
-			if html.New(html.WithClasses()).Format(w, styles.BlackWhite, iterator) == nil {
+			if html.New(html.WithClasses(true)).Format(w, styles.Get("bw"), iterator) == nil {
 				return blackfriday.SkipChildren
 			}
 		}
