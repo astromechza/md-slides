@@ -227,7 +227,7 @@ The value will persist between pages until overriden by a new value or empty str
 ```
 
 ---
-<meta res="1366x1366">
+<meta res="900x900">
 
 ## Metadata: `res`
 
@@ -237,11 +237,11 @@ This can be used to tweak the size and shape of one or more slides. This is usef
 - extra wide slides
 - zoom in or out to effectively change the font size
 
-By default the resolution is 1366x768 but this can be changed by slides. Note that the resolution of the first slide is
+By default the resolution is 1600x900 but this can be changed by slides. Note that the resolution of the first slide is
 used to inform the primary size and shape of the slide deck.
 
 ```html
-<meta res="1366x1366">
+<meta res="1600x900">
 ```
 
 ---
