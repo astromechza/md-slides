@@ -34,6 +34,21 @@ Built with Golang 1.20+ (with modules).
 
 Run `make` to see the development targets.
 
+`md-slides` is built and tested by Github Actions. Releases are done manually every now and then as needed:
+
+1. Push a new tag like `vX.Y.Z`
+2. [Draft a new release](https://github.com/astromechza/md-slides/releases/new) for the tag
+3. On your local machine, run `make build` and update the artifacts to the release
+4. Add the git diff for good measure as release notes
+5. Publish it
+
+To update the Github pages site, do the following after a release:
+
+1. Run `temp=$(mktemp -d); md-slides html -source SLIDES.md -target-dir ${temp}; echo ${temp}` to generate the content
+2. Open a new branch/PR against the `gh-pages` branch
+3. Copy the content back to the branch from `${temp}`
+4. Check and merge the PR
+
 ### Who uses md-slides?
 
 Mostly just me!
