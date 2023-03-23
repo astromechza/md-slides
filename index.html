@@ -357,13 +357,16 @@ table tr th :last-child, table tr td :last-child {
   margin-bottom: 0;
 }
 
-        .chroma { background-color: #ffffff }
+        .bg { background-color: #ffffff; }
+  .chroma { background-color: #ffffff; }
   .chroma .err {  }
+  .chroma .lnlinks { outline: none; text-decoration: none; color: inherit }
   .chroma .lntd { vertical-align: top; padding: 0; margin: 0; border: 0; }
-  .chroma .lntable { border-spacing: 0; padding: 0; margin: 0; border: 0; width: auto; overflow: auto; display: block; }
-  .chroma .hl { display: block; width: 100%; }
-  .chroma .lnt { margin-right: 0.4em; padding: 0 0.4em 0 0.4em; display: block; }
-  .chroma .ln { margin-right: 0.4em; padding: 0 0.4em 0 0.4em; }
+  .chroma .lntable { border-spacing: 0; padding: 0; margin: 0; border: 0; }
+  .chroma .hl { background-color: #e5e5e5 }
+  .chroma .lnt { white-space: pre; -webkit-user-select: none; user-select: none; margin-right: 0.4em; padding: 0 0.4em 0 0.4em;color: #7f7f7f }
+  .chroma .ln { white-space: pre; -webkit-user-select: none; user-select: none; margin-right: 0.4em; padding: 0 0.4em 0 0.4em;color: #7f7f7f }
+  .chroma .line { display: flex; }
   .chroma .k { font-weight: bold }
   .chroma .kc { font-weight: bold }
   .chroma .kd { font-weight: bold }
@@ -406,7 +409,7 @@ table tr th :last-child, table tr td :last-child {
 
       
 html {
-	font-size: 18px;
+	font-size: 21px;
 }
 
 body {
@@ -478,19 +481,19 @@ pre.chroma {
 		  align-items: center;
       }
       .page-wrap {
-          width: 1406px;
-          height: 807px;
+          width: 1640px;
+          height: 939px;
       }
       .slide-wrap {
           position: relative;
       }
       @page {
-	      size: 1406px 808px;
+	      size: 1640px 940px;
       }
     </style>
 	
     <div class="page-wrap">
-    <div class="slide-wrap slide-wrap-halign-center slide-wrap-valign-center slide-wrap-talign-center" style="width: 1366px; left: 20px; top: 20px; height: 768px; color: #111111; background: #fffff8; transform: scale(1)">
+    <div class="slide-wrap slide-wrap-halign-center slide-wrap-valign-center slide-wrap-talign-center" style="width: 1600px; left: 20px; top: 20px; height: 900px; color: #111111; background: #fffff8; transform: scale(1)">
       <div class="markdown-body">
         <p><meta valign="center" halign="center" talign="center">
 <meta footer="github.com/astromechza/md-slides 2019"></p>
@@ -504,7 +507,7 @@ pre.chroma {
     </div>
     
     <div class="page-wrap">
-    <div class="slide-wrap slide-wrap-halign-left slide-wrap-valign-top slide-wrap-talign-left" style="width: 1366px; left: 20px; top: 20px; height: 768px; color: #111111; background: #fffff8; transform: scale(1)">
+    <div class="slide-wrap slide-wrap-halign-left slide-wrap-valign-top slide-wrap-talign-left" style="width: 1600px; left: 20px; top: 20px; height: 900px; color: #111111; background: #fffff8; transform: scale(1)">
       <div class="markdown-body">
         <p><meta valign="" halign="" talign="" footer=""></p>
 
@@ -535,7 +538,7 @@ pre.chroma {
     </div>
     
     <div class="page-wrap">
-    <div class="slide-wrap slide-wrap-halign-left slide-wrap-valign-top slide-wrap-talign-left" style="width: 1366px; left: 20px; top: 20px; height: 768px; color: #111111; background: #fffff8; transform: scale(1)">
+    <div class="slide-wrap slide-wrap-halign-left slide-wrap-valign-top slide-wrap-talign-left" style="width: 1600px; left: 20px; top: 20px; height: 900px; color: #111111; background: #fffff8; transform: scale(1)">
       <div class="markdown-body">
         
 <h2>Prior art</h2>
@@ -562,7 +565,7 @@ pre.chroma {
     </div>
     
     <div class="page-wrap">
-    <div class="slide-wrap slide-wrap-halign-left slide-wrap-valign-top slide-wrap-talign-left" style="width: 1366px; left: 20px; top: 20px; height: 768px; color: #111111; background: #fffff8; transform: scale(1)">
+    <div class="slide-wrap slide-wrap-halign-left slide-wrap-valign-top slide-wrap-talign-left" style="width: 1600px; left: 20px; top: 20px; height: 900px; color: #111111; background: #fffff8; transform: scale(1)">
       <div class="markdown-body">
         
 <h2>Installation</h2>
@@ -571,22 +574,22 @@ pre.chroma {
 the appropriate binary for your system from the project releases page <a href="https://github.com/astromechza/md-slides/releases" target="_blank">here</a>.</p>
 
 <p>Or use the installation script to be quick:</p>
-<pre class="chroma">$ curl https://raw.githubusercontent.com/astromechza/md-slides/master/install.sh | INSTALL_DIRECTORY=~/bin sh
-</pre>
+<pre class="chroma"><code><span class="line"><span class="cl">$ curl https://raw.githubusercontent.com/astromechza/md-slides/master/install.sh | INSTALL_DIRECTORY=~/bin sh
+</span></span></code></pre>
 <p>Eg:</p>
-<pre class="chroma">$ curl https://raw.githubusercontent.com/astromechza/md-slides/master/install.sh | INSTALL_DIRECTORY=~/bin sh
-  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
-                                 Dload  Upload   Total   Spent    Left  Speed
-100  4390  100  4390    0     0  16473      0 --:--:-- --:--:-- --:--:-- 16819
-ARCH = amd64
-OS = darwin
-Fetching https://github.com/astromechza/md-slides/releases/latest..
-Release Tag = v0.1
-Fetching https://github.com/astromechza/md-slides/releases/tag/v0.1..
-Fetching https://github.com/astromechza/md-slides/releases/download/v0.1/md-slides.darwin.amd64..
-Setting executable permissions.
-Moving executable to /Users/benmeier/bin/md-slides
-</pre>
+<pre class="chroma"><code><span class="line"><span class="cl">$ curl https://raw.githubusercontent.com/astromechza/md-slides/master/install.sh | INSTALL_DIRECTORY=~/bin sh
+</span></span><span class="line"><span class="cl">  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+</span></span><span class="line"><span class="cl">                                 Dload  Upload   Total   Spent    Left  Speed
+</span></span><span class="line"><span class="cl">100  4390  100  4390    0     0  16473      0 --:--:-- --:--:-- --:--:-- 16819
+</span></span><span class="line"><span class="cl">ARCH = amd64
+</span></span><span class="line"><span class="cl">OS = darwin
+</span></span><span class="line"><span class="cl">Fetching https://github.com/astromechza/md-slides/releases/latest..
+</span></span><span class="line"><span class="cl">Release Tag = v0.1
+</span></span><span class="line"><span class="cl">Fetching https://github.com/astromechza/md-slides/releases/tag/v0.1..
+</span></span><span class="line"><span class="cl">Fetching https://github.com/astromechza/md-slides/releases/download/v0.1/md-slides.darwin.amd64..
+</span></span><span class="line"><span class="cl">Setting executable permissions.
+</span></span><span class="line"><span class="cl">Moving executable to /Users/benmeier/bin/md-slides
+</span></span></code></pre>
       </div>
       
       <div class="page-number">4/27</div>
@@ -594,25 +597,14 @@ Moving executable to /Users/benmeier/bin/md-slides
     </div>
     
     <div class="page-wrap">
-    <div class="slide-wrap slide-wrap-halign-left slide-wrap-valign-top slide-wrap-talign-left" style="width: 1366px; left: 20px; top: 20px; height: 768px; color: #111111; background: #fffff8; transform: scale(1)">
+    <div class="slide-wrap slide-wrap-halign-left slide-wrap-valign-top slide-wrap-talign-left" style="width: 1600px; left: 20px; top: 20px; height: 900px; color: #111111; background: #fffff8; transform: scale(1)">
       <div class="markdown-body">
         
 <h2>Embedded commands</h2>
 
 <p><code>{embedcommand</code><code>: [&quot;bash&quot;, &quot;-c&quot;, &quot;./md-slides --help || true&quot;]}</code></p>
-<pre class="chroma">md-slides is an html slide server based on slides defined in a markdown formatted file.
-
-Usage:
-  md-slides [subcommand] [options...]
-
-Subcommands:
-  serve     serve the slides as html
-  html      render slide html to a directory
-
-Options:
-  -version
-    	Show version information
-</pre>
+<pre class="chroma"><code><span class="line"><span class="cl">bash: line 1: ./md-slides: No such file or directory
+</span></span></code></pre>
       </div>
       
       <div class="page-number">5/27</div>
@@ -620,26 +612,12 @@ Options:
     </div>
     
     <div class="page-wrap">
-    <div class="slide-wrap slide-wrap-halign-left slide-wrap-valign-top slide-wrap-talign-left" style="width: 1366px; left: 20px; top: 20px; height: 768px; color: #111111; background: #fffff8; transform: scale(1)">
+    <div class="slide-wrap slide-wrap-halign-left slide-wrap-valign-top slide-wrap-talign-left" style="width: 1600px; left: 20px; top: 20px; height: 900px; color: #111111; background: #fffff8; transform: scale(1)">
       <div class="markdown-body">
         
 <h2><code>serve</code> subcommand</h2>
-<pre class="chroma">serve the slides
-
-Usage:
-  md-slides serve [options...] --source &lt;file&gt;
-
-  -hot
-    	Reload slides from disk on each request
-  -listen string
-    	Address to listen on (default &#34;127.0.0.1:8080&#34;)
-  -mode string
-    	Mode to serve slides in (choose from paged, scrolling) (default &#34;paged&#34;)
-  -no-statics
-    	Don&#39;t serve static files
-  -source string
-    	Path to the source markdown file
-</pre>
+<pre class="chroma"><code><span class="line"><span class="cl">bash: line 1: ./md-slides: No such file or directory
+</span></span></code></pre>
       </div>
       
       <div class="page-number">6/27</div>
@@ -647,22 +625,12 @@ Usage:
     </div>
     
     <div class="page-wrap">
-    <div class="slide-wrap slide-wrap-halign-left slide-wrap-valign-top slide-wrap-talign-left" style="width: 1366px; left: 20px; top: 20px; height: 768px; color: #111111; background: #fffff8; transform: scale(1)">
+    <div class="slide-wrap slide-wrap-halign-left slide-wrap-valign-top slide-wrap-talign-left" style="width: 1600px; left: 20px; top: 20px; height: 900px; color: #111111; background: #fffff8; transform: scale(1)">
       <div class="markdown-body">
         
 <h2><code>html</code> subcommand</h2>
-<pre class="chroma">Render the slides to html as an index.html file in the target directory.
-
-Usage:
-  md-slides html [options...] --source &lt;file&gt; --target-dir &lt;directory&gt;
-
-  -no-statics
-    	Don&#39;t serve static files
-  -source string
-    	Path to the source markdown file
-  -target-dir string
-    	Path to the directory to write output files to
-</pre>
+<pre class="chroma"><code><span class="line"><span class="cl">bash: line 1: ./md-slides: No such file or directory
+</span></span></code></pre>
       </div>
       
       <div class="page-number">7/27</div>
@@ -670,28 +638,28 @@ Usage:
     </div>
     
     <div class="page-wrap">
-    <div class="slide-wrap slide-wrap-halign-left slide-wrap-valign-top slide-wrap-talign-left" style="width: 1366px; left: 20px; top: 20px; height: 768px; color: #111111; background: #fffff8; transform: scale(1)">
+    <div class="slide-wrap slide-wrap-halign-left slide-wrap-valign-top slide-wrap-talign-left" style="width: 1600px; left: 20px; top: 20px; height: 900px; color: #111111; background: #fffff8; transform: scale(1)">
       <div class="markdown-body">
         
 <h2>Input format</h2>
 
 <p>A single markdown document represents the multiple slides separated by a horizantal rule:</p>
-<pre class="chroma"><span class="gh">#</span> this is slide one
-<span class="err">
-</span><span class="err"></span>stuff<span class="err">
-</span><span class="err">
-</span><span class="err"></span>---<span class="err">
-</span><span class="err">
-</span><span class="err"></span><span class="gh">#</span> this is slide two
-<span class="err">
-</span><span class="err"></span>stuff<span class="err">
-</span><span class="err">
-</span><span class="err"></span>---<span class="err">
-</span><span class="err">
-</span><span class="err"></span><span class="gh">#</span> this is slide three
-<span class="err">
-</span><span class="err"></span>stuff<span class="err">
-</span><span class="err"></span></pre>
+<pre class="chroma"><code><span class="line"><span class="cl"><span class="gh"># this is slide one
+</span></span></span><span class="line"><span class="cl"><span class="gh"></span>
+</span></span><span class="line"><span class="cl">stuff
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">---
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="gh"># this is slide two
+</span></span></span><span class="line"><span class="cl"><span class="gh"></span>
+</span></span><span class="line"><span class="cl">stuff
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">---
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="gh"># this is slide three
+</span></span></span><span class="line"><span class="cl"><span class="gh"></span>
+</span></span><span class="line"><span class="cl">stuff
+</span></span></code></pre>
       </div>
       
       <div class="page-number">8/27</div>
@@ -699,7 +667,7 @@ Usage:
     </div>
     
     <div class="page-wrap">
-    <div class="slide-wrap slide-wrap-halign-left slide-wrap-valign-top slide-wrap-talign-left" style="width: 1366px; left: 20px; top: 20px; height: 768px; color: #111111; background: #fffff8; transform: scale(1)">
+    <div class="slide-wrap slide-wrap-halign-left slide-wrap-valign-top slide-wrap-talign-left" style="width: 1600px; left: 20px; top: 20px; height: 900px; color: #111111; background: #fffff8; transform: scale(1)">
       <div class="markdown-body">
         
 <h2>Paged vs Scrolling mode</h2>
@@ -719,7 +687,7 @@ Usage:
     </div>
     
     <div class="page-wrap">
-    <div class="slide-wrap slide-wrap-halign-left slide-wrap-valign-top slide-wrap-talign-left" style="width: 1366px; left: 20px; top: 20px; height: 768px; color: #111111; background: #fffff8; transform: scale(1)">
+    <div class="slide-wrap slide-wrap-halign-left slide-wrap-valign-top slide-wrap-talign-left" style="width: 1600px; left: 20px; top: 20px; height: 900px; color: #111111; background: #fffff8; transform: scale(1)">
       <div class="markdown-body">
         
 <h2>Extension: <code>{embedcommand: ...}</code></h2>
@@ -727,8 +695,8 @@ Usage:
 <p>Embed command embeds the combined stdout/stdin output of executing a given subcommand. The subcommand should be embeded as a json array like <code>[&quot;ls&quot;, &quot;-al&quot;, &quot;blah&quot;]</code>.</p>
 
 <p>For example a slide containing <code>{embed</code><code>command: [&quot;date&quot;]}</code> could output:</p>
-<pre class="chroma">Sun Nov 10 11:19:45 UTC 2019
-</pre>
+<pre class="chroma"><code><span class="line"><span class="cl">Thu 23 Mar 2023 16:12:23 GMT
+</span></span></code></pre>
 <p>This makes it easy to present live content or to embed dynamic data into the slides based on the output of scripts.</p>
 
       </div>
@@ -738,16 +706,16 @@ Usage:
     </div>
     
     <div class="page-wrap">
-    <div class="slide-wrap slide-wrap-halign-left slide-wrap-valign-top slide-wrap-talign-left" style="width: 1366px; left: 20px; top: 20px; height: 768px; color: #111111; background: #fffff8; transform: scale(1)">
+    <div class="slide-wrap slide-wrap-halign-left slide-wrap-valign-top slide-wrap-talign-left" style="width: 1600px; left: 20px; top: 20px; height: 900px; color: #111111; background: #fffff8; transform: scale(1)">
       <div class="markdown-body">
         
 <h2>Extension: image dimensions in url fragment</h2>
 
 <p>To improve the sizing of images embedded into your slides, you can specify the width and height as url fragment parameters.</p>
-<pre class="chroma">![<span class="nt">alt text</span>](<span class="na">/my/relative/path#height=500px</span>)<span class="err">
-</span><span class="err">
-</span><span class="err"></span>![<span class="nt">alt text</span>](<span class="na">/my/relative/path#width=500px</span>)<span class="err">
-</span><span class="err"></span></pre>
+<pre class="chroma"><code><span class="line"><span class="cl">![<span class="nt">alt text</span>](<span class="na">/my/relative/path#height=500px</span>)
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">![<span class="nt">alt text</span>](<span class="na">/my/relative/path#width=500px</span>)
+</span></span></code></pre>
       </div>
       
       <div class="page-number">11/27</div>
@@ -755,7 +723,7 @@ Usage:
     </div>
     
     <div class="page-wrap">
-    <div class="slide-wrap slide-wrap-halign-left slide-wrap-valign-top slide-wrap-talign-left" style="width: 1366px; left: 20px; top: 20px; height: 768px; color: #111111; background: #fffff8; transform: scale(1)">
+    <div class="slide-wrap slide-wrap-halign-left slide-wrap-valign-top slide-wrap-talign-left" style="width: 1600px; left: 20px; top: 20px; height: 900px; color: #111111; background: #fffff8; transform: scale(1)">
       <div class="markdown-body">
         
 <h2>Metadata tags</h2>
@@ -773,14 +741,14 @@ Usage:
     </div>
     
     <div class="page-wrap">
-    <div class="slide-wrap slide-wrap-halign-left slide-wrap-valign-top slide-wrap-talign-left" style="width: 1366px; left: 20px; top: 20px; height: 768px; color: #111111; background: #fffff8; transform: scale(1)">
+    <div class="slide-wrap slide-wrap-halign-left slide-wrap-valign-top slide-wrap-talign-left" style="width: 1600px; left: 20px; top: 20px; height: 900px; color: #111111; background: #fffff8; transform: scale(1)">
       <div class="markdown-body">
         
 <h2>Metadata: <code>halign</code> and <code>valign</code></h2>
 
 <p>These meta tags control where in the slide the content is positioned. They are most effective when used to position content to the bottom or corners of a slide.</p>
-<pre class="chroma"><span class="p">&lt;</span><span class="nt">meta</span> <span class="na">valign</span><span class="o">=</span><span class="s">&#34;bottom&#34;</span> <span class="na">halign</span><span class="o">=</span><span class="s">&#34;left&#34;</span><span class="p"></span><span class="p">&gt;</span>
-</pre>
+<pre class="chroma"><code><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">meta</span> <span class="na">valign</span><span class="o">=</span><span class="s">&#34;bottom&#34;</span> <span class="na">halign</span><span class="o">=</span><span class="s">&#34;left&#34;</span><span class="p">&gt;</span>
+</span></span></code></pre>
 <p>Allowed values for <code>valign</code> are <code>top</code>, <code>center</code>, <code>bottom</code></p>
 
 <p>Allowed values for <code>halign</code> are <code>left</code>, <code>center</code>, <code>right</code></p>
@@ -800,7 +768,7 @@ Usage:
     </div>
     
     <div class="page-wrap">
-    <div class="slide-wrap slide-wrap-halign-right slide-wrap-valign-bottom slide-wrap-talign-left" style="width: 1366px; left: 20px; top: 20px; height: 768px; color: #111111; background: #fffff8; transform: scale(1)">
+    <div class="slide-wrap slide-wrap-halign-right slide-wrap-valign-bottom slide-wrap-talign-left" style="width: 1600px; left: 20px; top: 20px; height: 900px; color: #111111; background: #fffff8; transform: scale(1)">
       <div class="markdown-body">
         <p><meta valign="bottom" halign="right"></p>
 
@@ -815,15 +783,15 @@ Usage:
     </div>
     
     <div class="page-wrap">
-    <div class="slide-wrap slide-wrap-halign-left slide-wrap-valign-top slide-wrap-talign-left" style="width: 1366px; left: 20px; top: 20px; height: 768px; color: #111111; background: #fffff8; transform: scale(1)">
+    <div class="slide-wrap slide-wrap-halign-left slide-wrap-valign-top slide-wrap-talign-left" style="width: 1600px; left: 20px; top: 20px; height: 900px; color: #111111; background: #fffff8; transform: scale(1)">
       <div class="markdown-body">
         <p><meta valign="" halign="" talign=""></p>
 
 <h2>Metadata: <code>talign</code></h2>
 
 <p>The <code>talign</code> metadata should be used with <code>halign</code> and <code>valign</code> to direct the text-alignment of the slide.</p>
-<pre class="chroma"><span class="p">&lt;</span><span class="nt">meta</span> <span class="na">talign</span><span class="o">=</span><span class="s">&#34;left&#34;</span><span class="p"></span><span class="p">&gt;</span>
-</pre>
+<pre class="chroma"><code><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">meta</span> <span class="na">talign</span><span class="o">=</span><span class="s">&#34;left&#34;</span><span class="p">&gt;</span>
+</span></span></code></pre>
 <p>Allowed values for <code>talign</code> are <code>left</code>, <code>center</code>, <code>right</code></p>
 
       </div>
@@ -833,7 +801,7 @@ Usage:
     </div>
     
     <div class="page-wrap">
-    <div class="slide-wrap slide-wrap-halign-left slide-wrap-valign-top slide-wrap-talign-right" style="width: 1366px; left: 20px; top: 20px; height: 768px; color: #111111; background: #fffff8; transform: scale(1)">
+    <div class="slide-wrap slide-wrap-halign-left slide-wrap-valign-top slide-wrap-talign-right" style="width: 1600px; left: 20px; top: 20px; height: 900px; color: #111111; background: #fffff8; transform: scale(1)">
       <div class="markdown-body">
         <p><meta talign="right"></p>
 
@@ -848,7 +816,7 @@ Usage:
     </div>
     
     <div class="page-wrap">
-    <div class="slide-wrap slide-wrap-halign-left slide-wrap-valign-top slide-wrap-talign-left" style="width: 1366px; left: 20px; top: 20px; height: 768px; color: #111111; background: #fffff8; transform: scale(1)">
+    <div class="slide-wrap slide-wrap-halign-left slide-wrap-valign-top slide-wrap-talign-left" style="width: 1600px; left: 20px; top: 20px; height: 900px; color: #111111; background: #fffff8; transform: scale(1)">
       <div class="markdown-body">
         <p><meta valign="" halign="" talign="">
 <meta footer="January 1970 &vert; Some Conference"></p>
@@ -858,8 +826,8 @@ Usage:
 <p>Add some footer text to the bottom left of each slide using the <code>footer</code> metadata key.</p>
 
 <p>The value will persist between pages until overriden by a new value or empty string.</p>
-<pre class="chroma"><span class="p">&lt;</span><span class="nt">meta</span> <span class="na">footer</span><span class="o">=</span><span class="s">&#34;January 1970 &amp;vert; Some Conference&#34;</span><span class="p"></span><span class="p">&gt;</span>
-</pre>
+<pre class="chroma"><code><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">meta</span> <span class="na">footer</span><span class="o">=</span><span class="s">&#34;January 1970 &amp;vert; Some Conference&#34;</span><span class="p">&gt;</span>
+</span></span></code></pre>
       </div>
       <div class="page-footer">January 1970 | Some Conference</div>
       <div class="page-number">17/27</div>
@@ -867,9 +835,9 @@ Usage:
     </div>
     
     <div class="page-wrap">
-    <div class="slide-wrap slide-wrap-halign-left slide-wrap-valign-top slide-wrap-talign-left" style="width: 1366px; left: 20px; top: -279px; height: 1366px; color: #111111; background: #fffff8; transform: scale(0.56222546)">
+    <div class="slide-wrap slide-wrap-halign-left slide-wrap-valign-top slide-wrap-talign-left" style="width: 900px; left: 370px; top: 20px; height: 900px; color: #111111; background: #fffff8; transform: scale(1)">
       <div class="markdown-body">
-        <p><meta res="1366x1366"></p>
+        <p><meta res="900x900"></p>
 
 <h2>Metadata: <code>res</code></h2>
 
@@ -881,10 +849,10 @@ Usage:
 <li>zoom in or out to effectively change the font size</li>
 </ul>
 
-<p>By default the resolution is 1366x768 but this can be changed by slides. Note that the resolution of the first slide is
+<p>By default the resolution is 1600x900 but this can be changed by slides. Note that the resolution of the first slide is
 used to inform the primary size and shape of the slide deck.</p>
-<pre class="chroma"><span class="p">&lt;</span><span class="nt">meta</span> <span class="na">res</span><span class="o">=</span><span class="s">&#34;1366x1366&#34;</span><span class="p"></span><span class="p">&gt;</span>
-</pre>
+<pre class="chroma"><code><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">meta</span> <span class="na">res</span><span class="o">=</span><span class="s">&#34;1600x900&#34;</span><span class="p">&gt;</span>
+</span></span></code></pre>
       </div>
       <div class="page-footer">January 1970 | Some Conference</div>
       <div class="page-number">18/27</div>
@@ -892,15 +860,15 @@ used to inform the primary size and shape of the slide deck.</p>
     </div>
     
     <div class="page-wrap">
-    <div class="slide-wrap slide-wrap-halign-left slide-wrap-valign-top slide-wrap-talign-left" style="width: 1366px; left: 20px; top: 20px; height: 768px; color: #0000ff; background: #fffff8; transform: scale(1)">
+    <div class="slide-wrap slide-wrap-halign-left slide-wrap-valign-top slide-wrap-talign-left" style="width: 1600px; left: 20px; top: 20px; height: 900px; color: #0000ff; background: #fffff8; transform: scale(1)">
       <div class="markdown-body">
         <p><meta res="" fontcolor="#0000ff"></p>
 
 <h2>Metadata: <code>fontcolor</code></h2>
 
 <p>Change the font color.</p>
-<pre class="chroma"><span class="p">&lt;</span><span class="nt">meta</span> <span class="na">fontcolor</span><span class="o">=</span><span class="s">&#34;#111&#34;</span><span class="p"></span><span class="p">&gt;</span>
-</pre>
+<pre class="chroma"><code><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">meta</span> <span class="na">fontcolor</span><span class="o">=</span><span class="s">&#34;#111&#34;</span><span class="p">&gt;</span>
+</span></span></code></pre>
       </div>
       <div class="page-footer">January 1970 | Some Conference</div>
       <div class="page-number">19/27</div>
@@ -908,15 +876,15 @@ used to inform the primary size and shape of the slide deck.</p>
     </div>
     
     <div class="page-wrap">
-    <div class="slide-wrap slide-wrap-halign-left slide-wrap-valign-top slide-wrap-talign-left" style="width: 1366px; left: 20px; top: 20px; height: 768px; color: #fffff8; background: #111; transform: scale(1)">
+    <div class="slide-wrap slide-wrap-halign-left slide-wrap-valign-top slide-wrap-talign-left" style="width: 1600px; left: 20px; top: 20px; height: 900px; color: #fffff8; background: #111; transform: scale(1)">
       <div class="markdown-body">
         <p><meta res="" fontcolor="#fffff8" background="#111"></p>
 
 <h2>Metadata: <code>background</code></h2>
 
 <p>Change the background. Accepts colors, gradients, images, etc.</p>
-<pre class="chroma"><span class="p">&lt;</span><span class="nt">meta</span> <span class="na">background</span><span class="o">=</span><span class="s">&#34;#111&#34;</span><span class="p"></span><span class="p">&gt;</span>
-</pre>
+<pre class="chroma"><code><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">meta</span> <span class="na">background</span><span class="o">=</span><span class="s">&#34;#111&#34;</span><span class="p">&gt;</span>
+</span></span></code></pre>
       </div>
       <div class="page-footer">January 1970 | Some Conference</div>
       <div class="page-number">20/27</div>
@@ -924,7 +892,7 @@ used to inform the primary size and shape of the slide deck.</p>
     </div>
     
     <div class="page-wrap">
-    <div class="slide-wrap slide-wrap-halign-center slide-wrap-valign-center slide-wrap-talign-left" style="width: 1366px; left: 20px; top: 20px; height: 768px; color: #fffff8; background: url(windmill.jpeg); transform: scale(1)">
+    <div class="slide-wrap slide-wrap-halign-center slide-wrap-valign-center slide-wrap-talign-left" style="width: 1600px; left: 20px; top: 20px; height: 900px; color: #fffff8; background: url(windmill.jpeg); transform: scale(1)">
       <div class="markdown-body">
         <p><meta valign="center" halign="center" res="" fontcolor="#fffff8" background="url(windmill.jpeg)"></p>
 
@@ -937,7 +905,7 @@ used to inform the primary size and shape of the slide deck.</p>
     </div>
     
     <div class="page-wrap">
-    <div class="slide-wrap slide-wrap-halign-left slide-wrap-valign-top slide-wrap-talign-left" style="width: 1366px; left: 20px; top: 20px; height: 768px; color: #111111; background: #fffff8; transform: scale(1)">
+    <div class="slide-wrap slide-wrap-halign-left slide-wrap-valign-top slide-wrap-talign-left" style="width: 1600px; left: 20px; top: 20px; height: 900px; color: #111111; background: #fffff8; transform: scale(1)">
       <div class="markdown-body">
         <p><meta valign="" halign="" talign="" fontcolor="" background=""></p>
 
@@ -971,27 +939,27 @@ used to inform the primary size and shape of the slide deck.</p>
     </div>
     
     <div class="page-wrap">
-    <div class="slide-wrap slide-wrap-halign-left slide-wrap-valign-top slide-wrap-talign-left" style="width: 1366px; left: 20px; top: 20px; height: 768px; color: #111111; background: #fffff8; transform: scale(1)">
+    <div class="slide-wrap slide-wrap-halign-left slide-wrap-valign-top slide-wrap-talign-left" style="width: 1600px; left: 20px; top: 20px; height: 900px; color: #111111; background: #fffff8; transform: scale(1)">
       <div class="markdown-body">
         
 <h2>Code highlighting</h2>
-<pre class="chroma"><span class="kn">package</span> <span class="nx">main</span>
-
-<span class="kn">import</span> <span class="s">&#34;fmt&#34;</span>
-
-<span class="kd">func</span> <span class="nx">main</span><span class="p">()</span> <span class="p">{</span>
-	<span class="k">for</span> <span class="nx">i</span> <span class="o">:=</span> <span class="mi">1</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;=</span> <span class="mi">100</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span> <span class="p">{</span>
-		<span class="nx">result</span> <span class="o">:=</span> <span class="s">&#34;&#34;</span>
-		<span class="k">if</span> <span class="nx">i</span><span class="o">%</span><span class="mi">3</span> <span class="o">==</span> <span class="mi">0</span> <span class="p">{</span> <span class="nx">result</span> <span class="o">+=</span> <span class="s">&#34;Fizz&#34;</span> <span class="p">}</span>
-		<span class="k">if</span> <span class="nx">i</span><span class="o">%</span><span class="mi">5</span> <span class="o">==</span> <span class="mi">0</span> <span class="p">{</span> <span class="nx">result</span> <span class="o">+=</span> <span class="s">&#34;Buzz&#34;</span> <span class="p">}</span>
-		<span class="k">if</span> <span class="nx">result</span> <span class="o">!=</span> <span class="s">&#34;&#34;</span> <span class="p">{</span>
-			<span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="nx">result</span><span class="p">)</span>
-			<span class="k">continue</span>
-		<span class="p">}</span>
-		<span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="nx">i</span><span class="p">)</span>
-	<span class="p">}</span>
-<span class="p">}</span>
-</pre>
+<pre class="chroma"><code><span class="line"><span class="cl"><span class="kn">package</span> <span class="nx">main</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="s">&#34;fmt&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="k">for</span> <span class="nx">i</span> <span class="o">:=</span> <span class="mi">1</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;=</span> <span class="mi">100</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="nx">result</span> <span class="o">:=</span> <span class="s">&#34;&#34;</span>
+</span></span><span class="line"><span class="cl">		<span class="k">if</span> <span class="nx">i</span><span class="o">%</span><span class="mi">3</span> <span class="o">==</span> <span class="mi">0</span> <span class="p">{</span> <span class="nx">result</span> <span class="o">+=</span> <span class="s">&#34;Fizz&#34;</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl">		<span class="k">if</span> <span class="nx">i</span><span class="o">%</span><span class="mi">5</span> <span class="o">==</span> <span class="mi">0</span> <span class="p">{</span> <span class="nx">result</span> <span class="o">+=</span> <span class="s">&#34;Buzz&#34;</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl">		<span class="k">if</span> <span class="nx">result</span> <span class="o">!=</span> <span class="s">&#34;&#34;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">			<span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">result</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">			<span class="k">continue</span>
+</span></span><span class="line"><span class="cl">		<span class="p">}</span>
+</span></span><span class="line"><span class="cl">		<span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">i</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre>
       </div>
       <div class="page-footer">January 1970 | Some Conference</div>
       <div class="page-number">23/27</div>
@@ -999,7 +967,7 @@ used to inform the primary size and shape of the slide deck.</p>
     </div>
     
     <div class="page-wrap">
-    <div class="slide-wrap slide-wrap-halign-center slide-wrap-valign-center slide-wrap-talign-left" style="width: 1366px; left: 20px; top: 20px; height: 768px; color: #111111; background: #fffff8; transform: scale(1)">
+    <div class="slide-wrap slide-wrap-halign-center slide-wrap-valign-center slide-wrap-talign-left" style="width: 1600px; left: 20px; top: 20px; height: 900px; color: #111111; background: #fffff8; transform: scale(1)">
       <div class="markdown-body">
         
 <h2>Tables?</h2>
@@ -1043,7 +1011,7 @@ used to inform the primary size and shape of the slide deck.</p>
     </div>
     
     <div class="page-wrap">
-    <div class="slide-wrap slide-wrap-halign-center slide-wrap-valign-center slide-wrap-talign-center" style="width: 1366px; left: 20px; top: 20px; height: 768px; color: #111111; background: #fffff8; transform: scale(1)">
+    <div class="slide-wrap slide-wrap-halign-center slide-wrap-valign-center slide-wrap-talign-center" style="width: 1600px; left: 20px; top: 20px; height: 900px; color: #111111; background: #fffff8; transform: scale(1)">
       <div class="markdown-body">
         <p><meta valign="center" halign="center" talign="center"></p>
 
@@ -1060,7 +1028,7 @@ used to inform the primary size and shape of the slide deck.</p>
     </div>
     
     <div class="page-wrap">
-    <div class="slide-wrap slide-wrap-halign-left slide-wrap-valign-top slide-wrap-talign-left" style="width: 1366px; left: 20px; top: 20px; height: 768px; color: #111111; background: #fffff8; transform: scale(1)">
+    <div class="slide-wrap slide-wrap-halign-left slide-wrap-valign-top slide-wrap-talign-left" style="width: 1600px; left: 20px; top: 20px; height: 900px; color: #111111; background: #fffff8; transform: scale(1)">
       <div class="markdown-body">
         <p><meta valign="" halign="" talign="" fontcolor="" background=""></p>
 
@@ -1083,7 +1051,7 @@ used to inform the primary size and shape of the slide deck.</p>
     </div>
     
     <div class="page-wrap">
-    <div class="slide-wrap slide-wrap-halign-center slide-wrap-valign-center slide-wrap-talign-center" style="width: 1366px; left: 20px; top: 20px; height: 768px; color: #111111; background: #fffff8; transform: scale(1)">
+    <div class="slide-wrap slide-wrap-halign-center slide-wrap-valign-center slide-wrap-talign-center" style="width: 1600px; left: 20px; top: 20px; height: 900px; color: #111111; background: #fffff8; transform: scale(1)">
       <div class="markdown-body">
         <p><meta valign="center" halign="center" talign="center"></p>
 
